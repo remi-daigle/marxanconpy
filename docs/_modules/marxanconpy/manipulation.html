@@ -1,0 +1,838 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>marxanconpy.manipulation &mdash; marxanconpy v0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> marxanconpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">marxanconpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../marxanconpy.html">marxanconpy</a> &raquo;</li>
+        
+      <li>marxanconpy.manipulation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for marxanconpy.manipulation</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">igraph</span>
+<span class="kn">import</span> <span class="nn">wx</span>
+<span class="kn">import</span> <span class="nn">marxanconpy</span>
+
+<div class="viewcode-block" id="convert_matrix_type"><a class="viewcode-back" href="../../reference.html#marxanconpy.manipulation.convert_matrix_type">[docs]</a><span class="k">def</span> <span class="nf">convert_matrix_type</span><span class="p">(</span><span class="n">current</span><span class="p">,</span><span class="n">desired</span><span class="p">,</span><span class="n">matrix</span><span class="p">,</span><span class="n">localProd</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert Matrix Types</span>
+
+<span class="sd">    :param current:</span>
+<span class="sd">    :param desired:</span>
+<span class="sd">    :param matrix:</span>
+<span class="sd">    :param localProd:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;converting &quot;</span><span class="p">,</span><span class="n">current</span><span class="p">,</span><span class="s2">&quot; to &quot;</span><span class="p">,</span><span class="n">desired</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current</span> <span class="o">==</span> <span class="n">desired</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">matrix</span>
+    <span class="k">elif</span> <span class="n">current</span> <span class="o">==</span> <span class="s2">&quot;Probability&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">desired</span> <span class="o">==</span> <span class="s2">&quot;Migration&quot;</span><span class="p">:</span>
+            <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span> <span class="o">*</span> <span class="n">localProd</span><span class="p">[</span><span class="s1">&#39;production&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+            <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span> <span class="o">/</span> <span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">desired</span> <span class="o">==</span> <span class="s2">&quot;Flow&quot;</span><span class="p">:</span>
+            <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span> <span class="o">*</span> <span class="n">localProd</span><span class="p">[</span><span class="s1">&#39;production&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: &quot;</span> <span class="o">+</span> <span class="n">desired</span> <span class="o">+</span> <span class="s2">&quot; not a recognized matrix type.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">current</span> <span class="o">==</span> <span class="s2">&quot;Migration&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Migration Matrices cannot be converted without knowing local recruitment&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">current</span> <span class="o">==</span> <span class="s2">&quot;Flow&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">desired</span> <span class="o">==</span> <span class="s2">&quot;Migration&quot;</span><span class="p">:</span>
+            <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span> <span class="o">/</span> <span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">desired</span> <span class="o">==</span> <span class="s2">&quot;Probability&quot;</span><span class="p">:</span>
+            <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;rows&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: &quot;</span> <span class="o">+</span> <span class="n">desired</span> <span class="o">+</span> <span class="s2">&quot; not a recognized matrix type.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: &quot;</span> <span class="o">+</span> <span class="n">current</span> <span class="o">+</span> <span class="s2">&quot; not a recognized matrix type.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">matrix</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">convert_graph_type</span><span class="p">(</span><span class="n">current</span><span class="p">,</span><span class="n">desired</span><span class="p">,</span><span class="n">graph</span><span class="p">,</span><span class="n">localProd</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;converting &quot;</span><span class="p">,</span><span class="n">current</span><span class="p">,</span><span class="s2">&quot; to &quot;</span><span class="p">,</span><span class="n">desired</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current</span> <span class="o">==</span> <span class="n">desired</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">graph</span>
+    <span class="k">elif</span> <span class="n">current</span> <span class="o">==</span> <span class="s2">&quot;Probability&quot;</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">from_list</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">get_edgelist</span><span class="p">()])</span>
+        <span class="n">to_list</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">get_edgelist</span><span class="p">()])</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">es</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">])</span>
+        <span class="n">IDs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">([</span><span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">from_list</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">to_list</span><span class="p">)])</span>
+        <span class="k">if</span> <span class="n">desired</span> <span class="o">==</span> <span class="s2">&quot;Migration&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">IDs</span><span class="p">)):</span>
+                <span class="n">new</span><span class="p">[</span><span class="n">from_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span><span class="p">[</span><span class="n">from_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">localProd</span><span class="p">[</span><span class="s2">&quot;production&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">IDs</span><span class="p">)):</span>
+                <span class="n">new</span><span class="p">[</span><span class="n">to_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span><span class="p">[</span><span class="n">to_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">new</span><span class="p">[</span><span class="n">to_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">desired</span> <span class="o">==</span> <span class="s2">&quot;Flow&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">IDs</span><span class="p">)):</span>
+                <span class="n">new</span><span class="p">[</span><span class="n">from_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span><span class="p">[</span><span class="n">from_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">localProd</span><span class="p">[</span><span class="s2">&quot;production&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: &quot;</span> <span class="o">+</span> <span class="n">desired</span> <span class="o">+</span> <span class="s2">&quot; not a recognized matrix type.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">current</span> <span class="o">==</span> <span class="s2">&quot;Migration&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Migration Matrices cannot be converted without knowing local recruitment&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">current</span> <span class="o">==</span> <span class="s2">&quot;Flow&quot;</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">from_list</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">get_edgelist</span><span class="p">()])</span>
+        <span class="n">to_list</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">get_edgelist</span><span class="p">()])</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">es</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">])</span>
+        <span class="n">IDs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">([</span><span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">from_list</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">to_list</span><span class="p">)])</span>
+
+        <span class="k">if</span> <span class="n">desired</span> <span class="o">==</span> <span class="s2">&quot;Migration&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">IDs</span><span class="p">)):</span>
+                <span class="n">new</span><span class="p">[</span><span class="n">to_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span><span class="p">[</span><span class="n">to_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">new</span><span class="p">[</span><span class="n">to_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">desired</span> <span class="o">==</span> <span class="s2">&quot;Probability&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">IDs</span><span class="p">)):</span>
+                <span class="n">new</span><span class="p">[</span><span class="n">from_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span><span class="p">[</span><span class="n">from_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">new</span><span class="p">[</span><span class="n">from_list</span> <span class="o">==</span> <span class="n">i</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: &quot;</span> <span class="o">+</span> <span class="n">desired</span> <span class="o">+</span> <span class="s2">&quot; not a recognized matrix type.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: &quot;</span> <span class="o">+</span> <span class="n">current</span> <span class="o">+</span> <span class="s2">&quot; not a recognized matrix type.&quot;</span><span class="p">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">es</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span>
+    <span class="k">return</span> <span class="n">g</span>
+
+<span class="k">def</span> <span class="nf">calc_metrics</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="n">progressbar</span><span class="p">,</span><span class="n">calc_metrics_pu</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">calc_metrics_cu</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># create dict entry for connectivityMetrics</span>
+        <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">all_types</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">calc_metrics_pu</span> <span class="ow">and</span> <span class="n">calc_metrics_cu</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;demo_pu_cm_filepath&#39;</span><span class="p">]):</span>
+                <span class="n">all_types</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;demo_pu&#39;</span><span class="p">,</span> <span class="s1">&#39;demo_cu&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;land_pu_cm_filepath&#39;</span><span class="p">]):</span>
+                <span class="n">all_types</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;land_pu&#39;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">calc_metrics_pu</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;demo_pu_cm_filepath&#39;</span><span class="p">]):</span>
+                <span class="n">all_types</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;demo_pu&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;land_pu_cm_filepath&#39;</span><span class="p">]):</span>
+                <span class="n">all_types</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;land_pu&#39;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">calc_metrics_cu</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;demo_cu_cm_filepath&#39;</span><span class="p">]):</span>
+                <span class="n">all_types</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;demo_cu&#39;</span><span class="p">]</span>
+
+        <span class="c1"># create dict entries for boundary</span>
+        <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;boundary&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">bd_demo_conn_boundary_done</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">bd_land_conn_boundary_done</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># load local production</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;lp_filepath&#39;</span><span class="p">]):</span>
+            <span class="n">localProd</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;lp_filepath&#39;</span><span class="p">],</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">localProd</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">progressbar</span><span class="p">:</span>
+                <span class="c1"># start progressbar</span>
+                <span class="nb">max</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_types</span><span class="p">)</span>
+                <span class="n">dlg</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">ProgressDialog</span><span class="p">(</span><span class="s2">&quot;Calculating Connectivity Metrics&quot;</span><span class="p">,</span>
+                                        <span class="s2">&quot;Please wait while the connectivity metrics are being calculated.&quot;</span><span class="p">,</span>
+                                        <span class="n">maximum</span><span class="o">=</span><span class="nb">max</span><span class="p">,</span>
+                                        <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                        <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">PD_APP_MODAL</span>
+                                              <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_CAN_ABORT</span>
+                                              <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_AUTO_HIDE</span>
+                                              <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_ELAPSED_TIME</span>
+                                              <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_ESTIMATED_TIME</span>
+                                              <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_REMAINING_TIME</span>
+                                        <span class="p">)</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">keepGoing</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="nb">type</span> <span class="ow">in</span> <span class="n">all_types</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">keepGoing</span><span class="p">:</span> <span class="k">break</span>
+
+                <span class="c1"># check format</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;pu&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;demo_pu&#39;</span><span class="p">:</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_conmat_format&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;land_pu&#39;</span><span class="p">:</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Edge List with Habitat&quot;</span>
+
+                <span class="c1"># load correct matrix and transform if necessary</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_cm_filepath&#39;</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="s1">&#39;default_type_replace&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_cm_filepath&#39;</span><span class="p">],</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Edge List&quot;</span><span class="p">:</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="s1">&#39;default_type_replace&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_cm_filepath&#39;</span><span class="p">])</span>
+                    <span class="k">elif</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Edge List with Time&quot;</span><span class="p">:</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_cm_filepath&#39;</span><span class="p">])</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="s1">&#39;default_type_replace&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat_time&#39;</span><span class="p">][</span>
+                            <span class="p">[</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">warn_dialog</span><span class="p">(</span>
+                            <span class="n">message</span><span class="o">=</span><span class="s2">&quot;A connectivity &#39;Edge List with Time&#39; was provided; however, all metrics except &quot;</span>
+                                    <span class="s2">&quot;&#39;Temporal Connectivity Correlation&#39; will be calculated from the temporal&quot;</span>
+                                    <span class="s2">&quot;mean of connectivity&quot;</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Edge List with Type&quot;</span><span class="p">:</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_cm_filepath&#39;</span><span class="p">])</span>
+
+                        <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+                            <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">][</span>
+                                <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">t</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="k">del</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">]</span>
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">warn_dialog</span><span class="p">(</span><span class="s2">&quot;All connectivity values for type &#39;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
+                                    <span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39; are below or equal to zero, excluding from further analyses&quot;</span><span class="p">)</span>
+
+                    <span class="k">elif</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Edge List with Habitat&quot;</span><span class="p">:</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_cm_filepath&#39;</span><span class="p">])</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nb">float</span><span class="p">(</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;land_hab_thresh&#39;</span><span class="p">]),</span> <span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+                        <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">][</span><span class="s1">&#39;habitat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+                            <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="n">h</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">][</span>
+                                <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">][</span><span class="s1">&#39;habitat&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">h</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="n">h</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="k">del</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="n">h</span><span class="p">]</span>
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">warn_dialog</span><span class="p">(</span><span class="s2">&quot;All connectivity values for type &#39;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
+                                    <span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39; are below or equal to zero, excluding from further analyses&quot;</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">marxanconpy</span><span class="o">.</span><span class="n">warn_dialog</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;File not found: &quot;</span> <span class="o">+</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_cm_filepath&#39;</span><span class="p">])</span>
+
+                <span class="c1"># load correct shapefile path</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;pu&#39;</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_filepath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;pu_filepath&#39;</span><span class="p">]</span>
+                    <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_file_pu_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;pu_file_pu_id&#39;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_filepath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_filepath&#39;</span><span class="p">]</span>
+                    <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_file_pu_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_file_pu_id&#39;</span><span class="p">]</span>
+
+                <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_filepath&#39;</span><span class="p">])</span>
+
+                <span class="c1"># create dict entries for spec</span>
+                <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+                <span class="c1"># warn if files not the same length</span>
+                <span class="c1"># if temp[&#39;format&#39;] == &quot;Edge List with Habitat&quot; or &quot;Edge List with Type&quot;:</span>
+                <span class="c1">#     temp[&#39;conmat_len&#39;] = str(len(next(iter(temp[type + &#39;_connectivity&#39;].values()))))</span>
+                <span class="c1"># else:</span>
+                <span class="c1">#     temp[&#39;conmat_len&#39;] = str(len(temp[type + &#39;_connectivity&#39;]))</span>
+                <span class="c1"># temp[&#39;conmat_len&#39;] = str(len(next(iter(temp[type + &#39;_connectivity&#39;].values()))))</span>
+                <span class="c1"># temp[&#39;shp_len&#39;] = str(gpd.GeoDataFrame.from_file(temp[&#39;shp_filepath&#39;]).shape[0])</span>
+                <span class="c1"># if temp[&#39;conmat_len&#39;] != temp[&#39;shp_len&#39;]:</span>
+                <span class="c1">#     warn_dialog(</span>
+                <span class="c1">#         message=&quot;The selected shapefile and connectivity matrix do not have the expected number of rows. &quot;</span>
+                <span class="c1">#                 &quot;There are &quot; + temp[&#39;conmat_len&#39;] + &quot; rows in the selected connectivity matrix and &quot; +</span>
+                <span class="c1">#                 temp[&#39;shp_len&#39;] + &quot; rows in the shapefile&quot;)</span>
+
+                <span class="c1"># warn and end if pu_id not in shapefile</span>
+                <span class="c1"># temp[&#39;shp_file_pu_id&#39;]</span>
+                <span class="c1"># temp[&#39;shp_filepath&#39;]</span>
+
+                <span class="c1"># calculate demographic metrics</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;demo&#39;</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">keepGoing</span><span class="p">:</span> <span class="k">break</span>
+                        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s1">&#39;default_type_replace&#39;</span><span class="p">:</span>
+                            <span class="n">typesuffix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">typesuffix</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">t</span>
+
+                        <span class="n">graph</span> <span class="o">=</span> <span class="n">connectivity2graph</span><span class="p">(</span><span class="n">connectivity</span><span class="o">=</span><span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="n">t</span><span class="p">],</span>
+                                                   <span class="nb">format</span><span class="o">=</span><span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">],</span>
+                                                   <span class="n">IDs</span><span class="o">=</span><span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp&#39;</span><span class="p">][</span><span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_file_pu_id&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+                        <span class="n">n</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">100</span> <span class="o">/</span> <span class="mi">15</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+                        <span class="c1"># if not os.path.isfile(project[&#39;filepaths&#39;][&#39;lp_filepath&#39;]):</span>
+                        <span class="c1"># warn_dialog(&quot;No Local Production input. Marxan Connect will assume equal production in each planning unit.&quot;)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;in_degree&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;in_degree_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2vertexdegree</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;IN&#39;</span><span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;out_degree&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;out_degree_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2vertexdegree</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;OUT&#39;</span><span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;between_cent&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;between_cent_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2betweencent</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;eig_vect_cent&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;eig_vect_cent_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2eigvectcent</span><span class="p">(</span>
+                                    <span class="n">marxanconpy</span><span class="o">.</span><span class="n">manipulation</span><span class="o">.</span><span class="n">convert_graph_type</span><span class="p">(</span>
+                                        <span class="n">project</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;demo_conmat_type&#39;</span><span class="p">],</span>
+                                        <span class="s1">&#39;Migration&#39;</span><span class="p">,</span>
+                                        <span class="n">graph</span><span class="p">,</span>
+                                        <span class="n">localProd</span><span class="p">))</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;google&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span><span class="s1">&#39;google_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2google</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;self_recruit&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;self_recruit_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2diagonal</span><span class="p">(</span><span class="n">marxanconpy</span><span class="o">.</span><span class="n">manipulation</span><span class="o">.</span><span class="n">convert_graph_type</span><span class="p">(</span>
+                                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;demo_conmat_type&#39;</span><span class="p">],</span>
+                                    <span class="s1">&#39;Migration&#39;</span><span class="p">,</span>
+                                    <span class="n">graph</span><span class="p">,</span>
+                                    <span class="n">localProd</span><span class="p">))</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;local_retention&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;local_retention_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2diagonal</span><span class="p">(</span><span class="n">marxanconpy</span><span class="o">.</span><span class="n">manipulation</span><span class="o">.</span><span class="n">convert_graph_type</span><span class="p">(</span>
+                                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;demo_conmat_type&#39;</span><span class="p">],</span>
+                                    <span class="s1">&#39;Probability&#39;</span><span class="p">,</span>
+                                    <span class="n">graph</span><span class="p">,</span>
+                                    <span class="n">localProd</span><span class="p">))</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;outflow&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span><span class="s1">&#39;outflow_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2outflow</span><span class="p">(</span><span class="n">marxanconpy</span><span class="o">.</span><span class="n">manipulation</span><span class="o">.</span><span class="n">convert_graph_type</span><span class="p">(</span>
+                                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;demo_conmat_type&#39;</span><span class="p">],</span>
+                                    <span class="s1">&#39;Flow&#39;</span><span class="p">,</span>
+                                    <span class="n">graph</span><span class="p">,</span>
+                                    <span class="n">localProd</span><span class="p">))</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;inflow&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span><span class="s1">&#39;inflow_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2inflow</span><span class="p">(</span><span class="n">marxanconpy</span><span class="o">.</span><span class="n">manipulation</span><span class="o">.</span><span class="n">convert_graph_type</span><span class="p">(</span>
+                                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;demo_conmat_type&#39;</span><span class="p">],</span>
+                                    <span class="s1">&#39;Flow&#39;</span><span class="p">,</span>
+                                    <span class="n">graph</span><span class="p">,</span>
+                                    <span class="n">localProd</span><span class="p">))</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;fa_recipients&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;fa_recipients_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2recipients</span><span class="p">(</span><span class="n">marxanconpy</span><span class="o">.</span><span class="n">manipulation</span><span class="o">.</span><span class="n">convert_graph_type</span><span class="p">(</span>
+                                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;demo_conmat_type&#39;</span><span class="p">],</span>
+                                    <span class="s1">&#39;Flow&#39;</span><span class="p">,</span>
+                                    <span class="n">graph</span><span class="p">,</span>
+                                    <span class="n">localProd</span><span class="p">),</span>
+                                                                      <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;fa_filepath&#39;</span><span class="p">],</span>
+                                                                      <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_filepath&#39;</span><span class="p">],</span>
+                                                                      <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_file_pu_id&#39;</span><span class="p">]</span>
+                                                                      <span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;fa_donors&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;fa_donors_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2donors</span><span class="p">(</span><span class="n">marxanconpy</span><span class="o">.</span><span class="n">manipulation</span><span class="o">.</span><span class="n">convert_graph_type</span><span class="p">(</span>
+                                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;demo_conmat_type&#39;</span><span class="p">],</span>
+                                    <span class="s1">&#39;Flow&#39;</span><span class="p">,</span>
+                                    <span class="n">graph</span><span class="p">,</span>
+                                    <span class="n">localProd</span><span class="p">),</span>
+                                                          <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;fa_filepath&#39;</span><span class="p">],</span>
+                                                          <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_filepath&#39;</span><span class="p">],</span>
+                                                          <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_file_pu_id&#39;</span><span class="p">]</span>
+                                                          <span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;aa_recipients&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;aa_recipients_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2recipients</span><span class="p">(</span><span class="n">marxanconpy</span><span class="o">.</span><span class="n">manipulation</span><span class="o">.</span><span class="n">convert_graph_type</span><span class="p">(</span>
+                                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;demo_conmat_type&#39;</span><span class="p">],</span>
+                                    <span class="s1">&#39;Flow&#39;</span><span class="p">,</span>
+                                    <span class="n">graph</span><span class="p">,</span>
+                                    <span class="n">localProd</span><span class="p">),</span>
+                                                                      <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;aa_filepath&#39;</span><span class="p">],</span>
+                                                                      <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_filepath&#39;</span><span class="p">],</span>
+                                                                      <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_file_pu_id&#39;</span><span class="p">],</span>
+                                                                      <span class="kc">True</span>
+                                                                      <span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;aa_donors&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;aa_donors_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2donors</span><span class="p">(</span><span class="n">marxanconpy</span><span class="o">.</span><span class="n">manipulation</span><span class="o">.</span><span class="n">convert_graph_type</span><span class="p">(</span>
+                                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;demo_conmat_type&#39;</span><span class="p">],</span>
+                                    <span class="s1">&#39;Flow&#39;</span><span class="p">,</span>
+                                    <span class="n">graph</span><span class="p">,</span>
+                                    <span class="n">localProd</span><span class="p">),</span>
+                                                                  <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;aa_filepath&#39;</span><span class="p">],</span>
+                                                                  <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_filepath&#39;</span><span class="p">],</span>
+                                                                  <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_file_pu_id&#39;</span><span class="p">],</span>
+                                                                  <span class="kc">True</span>
+                                                                  <span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;stochasticity&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="s1">&#39;fa_filepath&#39;</span> <span class="ow">in</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">]:</span>
+                                <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                    <span class="s1">&#39;temp_conn_cov_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="n">typesuffix</span><span class="p">]</span> <span class="o">=</span> \
+                                    <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graphtime2temp_conn_cov</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat_time&#39;</span><span class="p">],</span>
+                                                                                 <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;fa_filepath&#39;</span><span class="p">],</span>
+                                                                                 <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_filepath&#39;</span><span class="p">]</span>
+                                                                                 <span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">warn_dialog</span><span class="p">(</span>
+                                    <span class="n">message</span><span class="o">=</span><span class="s2">&quot;No &#39;Focus Area&#39; has been specified. Please load a focus area file in &quot;</span>
+                                            <span class="s2">&quot;the Spatial Input tab&quot;</span><span class="p">)</span>
+                                <span class="k">return</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;demo_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;conn_boundary&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">bd_demo_conn_boundary_done</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s1">&#39;default_type_replace&#39;</span><span class="p">:</span>
+                                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;boundary&#39;</span><span class="p">][</span><span class="s1">&#39;conn_boundary_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">]</span> <span class="o">=</span> \
+                                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2connboundary</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat_mean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">][</span>
+                                        <span class="p">[</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+                                    <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat_mean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span>
+                                        <span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat_mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+                                        <span class="n">values</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                                        <span class="n">index</span><span class="o">=</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span>
+                                        <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;id2&#39;</span><span class="p">,</span>
+                                        <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;boundary&#39;</span><span class="p">][</span><span class="s1">&#39;conn_boundary_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">]</span> <span class="o">=</span> \
+                                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2connboundary</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+                                    <span class="n">marxanconpy</span><span class="o">.</span><span class="n">warn_dialog</span><span class="p">(</span>
+                                        <span class="n">message</span><span class="o">=</span><span class="s2">&quot;A connectivity &quot;</span> <span class="o">+</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; was provided. The Ecological &quot;</span>
+                                                                                          <span class="s2">&quot;Distance to be used as the Boundary Definitions will be calculated from the &quot;</span>
+                                                                                          <span class="s2">&quot;mean of connectivity matrices supplied&quot;</span><span class="p">)</span>
+                                <span class="n">bd_demo_conn_boundary_done</span> <span class="o">=</span> <span class="kc">True</span>
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                <span class="c1"># calculate landscape metrics ############################################################################</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">[</span><span class="o">-</span><span class="mi">7</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;land_pu&#39;</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+
+                        <span class="n">graph</span> <span class="o">=</span> <span class="n">connectivity2graph</span><span class="p">(</span><span class="n">connectivity</span><span class="o">=</span><span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="n">h</span><span class="p">],</span>
+                                                   <span class="nb">format</span><span class="o">=</span><span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">],</span>
+                                                   <span class="n">IDs</span><span class="o">=</span><span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp&#39;</span><span class="p">][</span><span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_file_pu_id&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">keepGoing</span><span class="p">:</span> <span class="k">break</span>
+                        <span class="n">n</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;land_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;in_degree&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;in_degree_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">h</span><span class="p">)]</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2vertexdegree</span><span class="p">(</span>
+                                <span class="n">graph</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;IN&#39;</span><span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;land_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;out_degree&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;out_degree_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">h</span><span class="p">)]</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2vertexdegree</span><span class="p">(</span>
+                                <span class="n">graph</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;OUT&#39;</span><span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;land_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;between_cent&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;between_cent_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">h</span><span class="p">)]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2betweencent</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;land_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;eig_vect_cent&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;eig_vect_cent_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">h</span><span class="p">)]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2eigvectcent</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;land_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;google&quot;</span><span class="p">]:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span><span class="s1">&#39;google_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">h</span><span class="p">)]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2google</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;land_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;fa_recipients&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;fa_recipients_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">h</span><span class="p">)]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2recipients</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span>
+                                                                      <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;fa_filepath&#39;</span><span class="p">],</span>
+                                                                      <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_filepath&#39;</span><span class="p">],</span>
+                                                                      <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_file_pu_id&#39;</span><span class="p">]</span>
+                                                                      <span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;land_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;fa_donors&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;fa_donors_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">h</span><span class="p">)]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2donors</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span>
+                                                                  <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;fa_filepath&#39;</span><span class="p">],</span>
+                                                                  <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_filepath&#39;</span><span class="p">],</span>
+                                                                  <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_file_pu_id&#39;</span><span class="p">]</span>
+                                                                  <span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;land_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;aa_recipients&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;aa_recipients_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">h</span><span class="p">)]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2recipients</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span>
+                                                                      <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;aa_filepath&#39;</span><span class="p">],</span>
+                                                                      <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_filepath&#39;</span><span class="p">],</span>
+                                                                      <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_file_pu_id&#39;</span><span class="p">],</span>
+                                                                      <span class="kc">True</span>
+                                                                      <span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;land_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;aa_donors&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;spec_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">][</span>
+                                <span class="s1">&#39;aa_donors_&#39;</span> <span class="o">+</span> <span class="nb">type</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">h</span><span class="p">)]</span> <span class="o">=</span> \
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2donors</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span>
+                                                                  <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;aa_filepath&#39;</span><span class="p">],</span>
+                                                                  <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_filepath&#39;</span><span class="p">],</span>
+                                                                  <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;shp_file_pu_id&#39;</span><span class="p">],</span>
+                                                                  <span class="kc">True</span>
+                                                                  <span class="p">)</span>
+                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;land_metrics&quot;</span><span class="p">][</span><span class="s2">&quot;conn_boundary&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">keepGoing</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">bd_land_conn_boundary_done</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">h</span> <span class="o">==</span> <span class="s1">&#39;default_type_replace&#39;</span><span class="p">:</span>
+                                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;boundary&#39;</span><span class="p">][</span><span class="s1">&#39;conn_boundary_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">]</span> <span class="o">=</span> \
+                                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2connboundary</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat_mean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat&#39;</span><span class="p">][</span>
+                                        <span class="p">[</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+                                    <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat_mean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span>
+                                        <span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_conmat_mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+                                        <span class="n">values</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
+                                        <span class="n">index</span><span class="o">=</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span>
+                                        <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;id2&#39;</span><span class="p">,</span>
+                                        <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">][</span><span class="s1">&#39;boundary&#39;</span><span class="p">][</span><span class="s1">&#39;conn_boundary_&#39;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">]</span> <span class="o">=</span> \
+                                        <span class="n">marxanconpy</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">graph2connboundary</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+                                    <span class="n">marxanconpy</span><span class="o">.</span><span class="n">warn_dialog</span><span class="p">(</span>
+                                        <span class="n">message</span><span class="o">=</span><span class="s2">&quot;A connectivity &quot;</span> <span class="o">+</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; was provided. The Ecological &quot;</span>
+                                                                                          <span class="s2">&quot;Distance to be used as the Boundary Definitions will be calculated from the &quot;</span>
+                                                                                          <span class="s2">&quot;mean of connectivity matrices supplied&quot;</span><span class="p">)</span>
+                                <span class="n">bd_land_conn_boundary_done</span> <span class="o">=</span> <span class="kc">True</span>
+                                <span class="n">marxanconpy</span><span class="o">.</span><span class="n">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="p">)</span>
+        <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+        <span class="k">raise</span>
+
+<span class="k">def</span> <span class="nf">check_matrix_list_format</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+    <span class="c1"># warn if matrix is wrong format</span>
+    <span class="n">warn</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;See the Glossary for &#39;Data Formats&#39; under &#39;Connectivity&#39;.&quot;</span>
+    <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
+        <span class="n">conmat</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">conmat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">conmat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="n">message</span> <span class="o">+</span> <span class="s2">&quot;See the Glossary for &#39;Data Formats&#39; under &#39;Connectivity&#39;. Matrices should have an &quot;</span> \
+                                <span class="s2">&quot;equal number of rows and columns&quot;</span>
+            <span class="n">warn</span><span class="o">-</span><span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Edge List&quot;</span><span class="p">:</span>
+            <span class="n">ncol</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="n">expected</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Edge List with Type&quot;</span><span class="p">:</span>
+            <span class="n">ncol</span> <span class="o">=</span> <span class="mi">4</span>
+            <span class="n">expected</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Edge List with Time&quot;</span><span class="p">:</span>
+            <span class="n">ncol</span> <span class="o">=</span> <span class="mi">4</span>
+            <span class="n">expected</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">])</span>
+
+        <span class="n">conmat</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">conmat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">ncol</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="n">message</span> <span class="o">+</span> <span class="s2">&quot; The &quot;</span> <span class="o">+</span> <span class="nb">format</span> <span class="o">+</span> <span class="s2">&quot; Data Format expects exactly &quot;</span> <span class="o">+</span> <span class="n">ncol</span> <span class="o">+</span> <span class="s2">&quot; columns, not &quot;</span> <span class="o">+</span> \
+                           <span class="nb">str</span><span class="p">(</span><span class="n">conmat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; in the file.&quot;</span>
+            <span class="n">warn</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">conmat</span><span class="o">.</span><span class="n">columns</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="n">message</span> <span class="o">+</span> <span class="s2">&quot; The &quot;</span> <span class="o">+</span> <span class="nb">format</span> <span class="o">+</span> <span class="s2">&quot; Data Format expects column header(s) &#39;&quot;</span> <span class="o">+</span> \
+                           <span class="nb">str</span><span class="p">(</span><span class="n">expected</span><span class="p">[</span><span class="n">missing</span><span class="p">])</span> <span class="o">+</span> \
+                           <span class="s2">&quot;&#39; which may be missing in the file.&quot;</span>
+            <span class="n">warn</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">warn</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">message</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span>
+
+<span class="k">def</span> <span class="nf">connectivity2graph</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span><span class="nb">format</span><span class="p">,</span><span class="n">IDs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">igraph</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">Weighted_Adjacency</span><span class="p">(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">vs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">IDs</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">igraph</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">add_vertices</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">IDs</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">connectivity</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span><span class="s1">&#39;id2&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">id1</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">id2</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">g</span>
+
+
+<span class="k">def</span> <span class="nf">calc_postHoc</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="nb">format</span><span class="p">,</span><span class="n">IDs</span><span class="p">,</span><span class="n">selectionIDs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
+            <span class="n">connectivity</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Edge List with Time&quot;</span><span class="p">:</span>
+            <span class="n">connectivity</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)[[</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">connectivity</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">connectivity</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">3</span> <span class="ow">or</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
+            <span class="n">all_type</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;default_type_replace&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_type</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">postHoc</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="nb">type</span> <span class="ow">in</span> <span class="n">all_type</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="o">==</span><span class="s2">&quot;default_type_replace&quot;</span><span class="p">:</span>
+                <span class="n">graph</span> <span class="o">=</span> <span class="n">connectivity2graph</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span><span class="nb">format</span><span class="p">,</span><span class="n">IDs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">graph</span> <span class="o">=</span> <span class="n">connectivity2graph</span><span class="p">(</span><span class="n">connectivity</span><span class="p">[(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="nb">type</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">],</span> <span class="nb">format</span><span class="p">,</span> <span class="n">IDs</span><span class="p">)</span>
+
+            <span class="n">sub</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">selectionIDs</span><span class="p">)</span>
+
+            <span class="n">postHoc</span> <span class="o">=</span> <span class="n">postHoc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Metric&quot;</span><span class="p">:(</span><span class="s2">&quot;Planning Units&quot;</span><span class="p">,</span>
+                                                                 <span class="s2">&quot;Connections&quot;</span><span class="p">,</span>
+                                                                 <span class="s2">&quot;Graph Density&quot;</span><span class="p">,</span>
+                                                                 <span class="s2">&quot;Eigenvalue&quot;</span><span class="p">),</span>
+                                                       <span class="s2">&quot;Type&quot;</span><span class="p">:(</span><span class="nb">type</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="nb">type</span><span class="p">),</span>
+                                                       <span class="s2">&quot;Planning Area&quot;</span><span class="p">:(</span><span class="n">graph</span><span class="o">.</span><span class="n">vcount</span><span class="p">(),</span>
+                                                             <span class="n">graph</span><span class="o">.</span><span class="n">ecount</span><span class="p">(),</span>
+                                                             <span class="n">graph</span><span class="o">.</span><span class="n">density</span><span class="p">(),</span>
+                                                             <span class="n">graph</span><span class="o">.</span><span class="n">evcent</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">graph</span><span class="o">.</span><span class="n">es</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">],</span>
+                                                                          <span class="n">return_eigenvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">]),</span>
+                                                       <span class="s2">&quot;Solution&quot;</span><span class="p">:(</span>
+                                                           <span class="n">sub</span><span class="o">.</span><span class="n">vcount</span><span class="p">(),</span>
+                                                           <span class="n">sub</span><span class="o">.</span><span class="n">ecount</span><span class="p">(),</span>
+                                                           <span class="n">sub</span><span class="o">.</span><span class="n">density</span><span class="p">(),</span>
+                                                           <span class="n">sub</span><span class="o">.</span><span class="n">evcent</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">sub</span><span class="o">.</span><span class="n">es</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">],</span>
+                                                                      <span class="n">return_eigenvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">])}),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Percent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Solution&quot;</span><span class="p">]</span><span class="o">/</span><span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Planning Area&quot;</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span>
+        <span class="n">postHoc</span> <span class="o">=</span> <span class="n">postHoc</span><span class="p">[[</span><span class="s1">&#39;Metric&#39;</span><span class="p">,</span><span class="s1">&#39;Type&#39;</span><span class="p">,</span><span class="s1">&#39;Planning Area&#39;</span><span class="p">,</span><span class="s1">&#39;Solution&#39;</span><span class="p">,</span><span class="s1">&#39;Percent&#39;</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="s2">&quot;default_type_replace&quot;</span> <span class="ow">in</span> <span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="k">del</span><span class="p">(</span><span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Type&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">postHoc</span>
+
+<span class="k">def</span> <span class="nf">get_marxan_output</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_file</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;SCENNAME&#39;</span><span class="p">):</span>
+            <span class="n">SCENNAME</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;SCENNAME &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;NUMREPS&#39;</span><span class="p">):</span>
+            <span class="n">NUMREPS</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;NUMREPS &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;OUTPUTDIR&#39;</span><span class="p">):</span>
+            <span class="n">OUTPUTDIR</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;OUTPUTDIR &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Best Solution&#39;</span><span class="p">:</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">OUTPUTDIR</span><span class="p">,</span> <span class="n">SCENNAME</span> <span class="o">+</span> <span class="s2">&quot;_best&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;Selection Frequency&#39;</span><span class="p">:</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">OUTPUTDIR</span><span class="p">,</span> <span class="n">SCENNAME</span> <span class="o">+</span> <span class="s2">&quot;_ssoln&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">OUTPUTDIR</span><span class="p">,</span> <span class="n">SCENNAME</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">type</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fn</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">):</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">read_csv_tsv</span><span class="p">(</span><span class="n">fn</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fn</span> <span class="o">+</span> <span class="s1">&#39;.txt&#39;</span><span class="p">):</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">read_csv_tsv</span><span class="p">(</span><span class="n">fn</span> <span class="o">+</span> <span class="s1">&#39;.txt&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: &#39;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s1">&#39; not found&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">file</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Remi Daigle
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
