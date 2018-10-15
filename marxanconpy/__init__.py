@@ -8,6 +8,7 @@ import marxanconpy.spatial
 import wx
 import pandas
 
+name = "marxanconpy"
 MarxanConnectVersion = "v0.1.2"
 
 def progress_bar_update(count, dlg, keepGoing, n, progressbar=True):

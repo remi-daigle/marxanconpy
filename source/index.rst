@@ -3,10 +3,41 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-marxanconpy
+Getting Started
 ===========
 
-The python package 'marxanconpy'
+marxanconpy
+-----------
+
+The python package **marxanconpy** is the workhorse behind the Graphical User Interface `Marxan Connect <http://marxanconnect.ca/>`_ but it can also be used like a traditional python package via the command line.
+
+Installation
+____________
+
+::
+
+   pip install marxanconpy
+
+Example Usage
+=============
+
+#TODO
+
+Reference Guide
+===============
+
+`Reference to all functions <reference.html>`_
+
+Contributing
+============
+
+`Guide to contributing <CONTRIBUTING.html>`_
+
+Code of Conduct
+===============
+
+`Code of Conduct <CODE_OF_CONDUCT.html>`_
+
 
 Indices and tables
 ==================
@@ -14,30 +45,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-   
-.. automodule:: marxanconpy
-   :members:
-
-.. automodule:: marxanconpy.manipulation
-   :members:
-   
-.. automodule:: marxanconpy.marcon
-   :members:
-   
-.. automodule:: marxanconpy.metrics
-   :members:
-   
-.. automodule:: marxanconpy.posthoc
-   :members:
-   
-.. automodule:: marxanconpy.spatial
-   :members:
-
-
-
-
-
