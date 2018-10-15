@@ -1,0 +1,392 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>marxanconpy.spatial &#8212; marxanconpy v0.1.2 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for marxanconpy.spatial</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">shapely</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">igraph</span>
+<span class="kn">import</span> <span class="nn">wx</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="rescale_matrix"><a class="viewcode-back" href="../../index.html#marxanconpy.spatial.rescale_matrix">[docs]</a><span class="k">def</span> <span class="nf">rescale_matrix</span><span class="p">(</span><span class="n">pu_filepath</span><span class="p">,</span><span class="n">pu_id</span><span class="p">,</span><span class="n">cu_filepath</span><span class="p">,</span><span class="n">cu_id</span><span class="p">,</span><span class="n">cm_filepath</span><span class="p">,</span><span class="n">matrixformat</span><span class="p">,</span><span class="n">edge</span><span class="p">,</span><span class="n">progressbar</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    rescale the connectivity matrix to match the scale of the planning units</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># load shapefiles</span>
+        <span class="n">pu</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">pu_filepath</span><span class="p">)</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="s1">&#39;+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs&#39;</span><span class="p">)</span>
+        <span class="n">cu</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">cu_filepath</span><span class="p">)</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="s1">&#39;+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs&#39;</span><span class="p">)</span>
+
+        <span class="n">proj</span> <span class="o">=</span> <span class="n">get_appropriate_projection</span><span class="p">(</span><span class="n">pu</span><span class="p">,</span> <span class="s1">&#39;area&#39;</span><span class="p">)</span>
+        <span class="n">pu</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">proj</span><span class="p">)</span>
+        <span class="n">cu</span> <span class="o">=</span> <span class="n">cu</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">proj</span><span class="p">)</span>
+
+        <span class="c1"># load cu connectivity matrix</span>
+        <span class="c1"># load correct demographic matrix and transform if necessary</span>
+        <span class="n">time</span><span class="o">=</span><span class="kc">False</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">cm_filepath</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">matrixformat</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
+                <span class="n">grid_conmat</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">cm_filepath</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">matrixformat</span> <span class="o">==</span> <span class="s2">&quot;List&quot;</span><span class="p">:</span>
+                <span class="n">grid_conmat</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">cm_filepath</span><span class="p">)</span>
+                <span class="n">grid_conmat</span> <span class="o">=</span> <span class="n">grid_conmat</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;id2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">matrixformat</span> <span class="o">==</span> <span class="s2">&quot;List with Time&quot;</span><span class="p">:</span>
+                <span class="n">grid_conmat_time</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">cm_filepath</span><span class="p">)</span>
+                <span class="n">grid_conmat</span> <span class="o">=</span> <span class="n">grid_conmat_time</span><span class="p">[[</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+                <span class="n">grid_conmat</span> <span class="o">=</span> <span class="n">grid_conmat</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;id2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+                <span class="n">time</span><span class="o">=</span><span class="kc">True</span>
+
+
+        <span class="c1"># quantify intersectional area</span>
+        <span class="k">if</span> <span class="n">progressbar</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">time</span><span class="p">:</span>
+                <span class="nb">max</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span> <span class="n">grid_conmat_time</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">max</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span>
+            <span class="n">dlg</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">ProgressDialog</span><span class="p">(</span><span class="s2">&quot;Rescale Connectivity Matrix&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;Please wait while the rescaled connectivity matrix is being generated.&quot;</span><span class="p">,</span>
+                                    <span class="n">maximum</span> <span class="o">=</span> <span class="nb">max</span><span class="p">,</span>
+                                    <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                    <span class="n">style</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_APP_MODAL</span>
+                                            <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_CAN_ABORT</span>
+                                            <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_AUTO_HIDE</span>
+                                            <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_ELAPSED_TIME</span>
+                                            <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_ESTIMATED_TIME</span>
+                                            <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_REMAINING_TIME</span>
+                                    <span class="p">)</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">keepGoing</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">while</span> <span class="n">keepGoing</span><span class="p">:</span>
+            <span class="n">con_mat_pu</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">puID</span> <span class="ow">in</span> <span class="n">pu</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">progressbar</span><span class="p">:</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="p">(</span><span class="n">keepGoing</span><span class="p">,</span> <span class="n">skip</span><span class="p">)</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">index2</span><span class="p">,</span> <span class="n">connID</span> <span class="ow">in</span> <span class="n">cu</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">keepGoing</span><span class="p">:</span> <span class="k">break</span>
+                    <span class="k">if</span> <span class="n">puID</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">connID</span><span class="o">.</span><span class="n">geometry</span><span class="p">):</span>
+                       <span class="n">con_mat_pu</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;geometry&#39;</span><span class="p">:</span> <span class="n">puID</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">connID</span><span class="o">.</span><span class="n">geometry</span><span class="p">),</span> <span class="s1">&#39;puID&#39;</span><span class="p">:</span><span class="n">puID</span><span class="p">[</span><span class="n">pu_id</span><span class="p">],</span> <span class="s1">&#39;connID&#39;</span><span class="p">:</span> <span class="n">connID</span><span class="p">[</span><span class="n">cu_id</span><span class="p">],</span> <span class="s1">&#39;puIndex&#39;</span><span class="p">:</span> <span class="n">index</span><span class="p">,</span> <span class="s1">&#39;connIndex&#39;</span><span class="p">:</span> <span class="n">index2</span><span class="p">,</span><span class="s1">&#39;int_area&#39;</span><span class="p">:</span> <span class="n">puID</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">connID</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="s1">&#39;conn_area&#39;</span><span class="p">:</span> <span class="n">connID</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="s1">&#39;pu_area&#39;</span><span class="p">:</span> <span class="n">puID</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">area</span><span class="p">})</span>
+
+
+            <span class="c1"># make intersection GeoDataFrame</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">con_mat_pu</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="s1">&#39;puID&#39;</span><span class="p">,</span> <span class="s1">&#39;connID&#39;</span><span class="p">,</span> <span class="s1">&#39;puIndex&#39;</span><span class="p">,</span> <span class="s1">&#39;connIndex&#39;</span><span class="p">,</span> <span class="s1">&#39;int_area&#39;</span><span class="p">,</span> <span class="s1">&#39;conn_area&#39;</span><span class="p">,</span> <span class="s1">&#39;pu_area&#39;</span><span class="p">])</span>
+
+
+            <span class="c1"># populate rescaled pu connectivity matrix</span>
+            <span class="n">pu_conmat</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">pu</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">pu</span><span class="p">)))</span>
+            <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">progressbar</span><span class="p">:</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">9</span>
+                    <span class="p">(</span><span class="n">keepGoing</span><span class="p">,</span> <span class="n">skip</span><span class="p">)</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">sink</span> <span class="ow">in</span> <span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">keepGoing</span><span class="p">:</span> <span class="k">break</span>
+                    <span class="n">sources</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">puID</span><span class="o">==</span><span class="n">source</span>
+                    <span class="n">sinks</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">puID</span><span class="o">==</span><span class="n">sink</span>
+                    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">sinks</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="n">sources</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">edge</span> <span class="o">==</span> <span class="s2">&quot;Proportional to overlap&quot;</span><span class="p">:</span>
+                            <span class="n">temp_conn</span><span class="o">=</span><span class="n">grid_conmat</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">connIndex</span><span class="p">[</span><span class="n">sources</span><span class="p">],:][:,</span><span class="n">df</span><span class="o">.</span><span class="n">connIndex</span><span class="p">[</span><span class="n">sinks</span><span class="p">]]</span>
+                            <span class="n">cov_source</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">int_area</span><span class="p">[</span><span class="n">sources</span><span class="p">]</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">int_area</span><span class="p">[</span><span class="n">sources</span><span class="p">])</span>
+                            <span class="n">cov_sink</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">int_area</span><span class="p">[</span><span class="n">sinks</span><span class="p">]</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">int_area</span><span class="p">[</span><span class="n">sinks</span><span class="p">])</span>
+                            <span class="n">pu_conmat</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">source</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">sink</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+                                <span class="nb">sum</span><span class="p">(((</span><span class="n">temp_conn</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cov_sink</span><span class="p">))</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cov_source</span><span class="p">))))</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">temp_conn</span> <span class="o">=</span> <span class="n">grid_conmat</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">connIndex</span><span class="p">[</span><span class="n">sources</span><span class="p">],</span> <span class="p">:][:,</span> <span class="n">df</span><span class="o">.</span><span class="n">connIndex</span><span class="p">[</span><span class="n">sinks</span><span class="p">]]</span>
+                            <span class="n">cov_source</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">int_area</span><span class="p">[</span><span class="n">sources</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">pu_area</span><span class="p">[</span><span class="n">sources</span><span class="p">]</span>
+                            <span class="n">cov_sink</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">int_area</span><span class="p">[</span><span class="n">sinks</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">pu_area</span><span class="p">[</span><span class="n">sinks</span><span class="p">]</span>
+                            <span class="n">pu_conmat</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">source</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">sink</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+                                <span class="nb">sum</span><span class="p">(((</span><span class="n">temp_conn</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cov_sink</span><span class="p">))</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cov_source</span><span class="p">))))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">pu_conmat</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]</span><span class="o">==</span><span class="n">source</span><span class="p">),</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]</span><span class="o">==</span><span class="n">sink</span><span class="p">)]</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">pu_conmat</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pu_conmat</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">])</span>
+            <span class="n">pu_conmat</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;puID&quot;</span>
+
+            <span class="k">if</span> <span class="n">time</span><span class="p">:</span>
+                <span class="c1"># populate rescaled pu connectivity matrix</span>
+                <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">grid_conmat_time</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">keepGoing</span><span class="p">:</span> <span class="k">break</span>
+                    <span class="n">pu_conmat_t</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">pu</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">pu</span><span class="p">)))</span>
+                    <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="n">progressbar</span><span class="p">:</span>
+                            <span class="n">count</span> <span class="o">+=</span> <span class="mi">9</span>
+                            <span class="p">(</span><span class="n">keepGoing</span><span class="p">,</span> <span class="n">skip</span><span class="p">)</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">sink</span> <span class="ow">in</span> <span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]:</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">keepGoing</span><span class="p">:</span> <span class="k">break</span>
+                            <span class="n">sources</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">puID</span> <span class="o">==</span> <span class="n">source</span>
+                            <span class="n">sinks</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">puID</span> <span class="o">==</span> <span class="n">sink</span>
+                            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">sinks</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
+                                <span class="k">if</span> <span class="n">edge</span> <span class="o">==</span> <span class="s2">&quot;Proportional to overlap&quot;</span><span class="p">:</span>
+                                    <span class="n">temp_conn</span> <span class="o">=</span> <span class="n">grid_conmat</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">connIndex</span><span class="p">[</span><span class="n">sources</span><span class="p">],</span> <span class="p">:][:,</span> <span class="n">df</span><span class="o">.</span><span class="n">connIndex</span><span class="p">[</span><span class="n">sinks</span><span class="p">]]</span>
+                                    <span class="n">cov_source</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">int_area</span><span class="p">[</span><span class="n">sources</span><span class="p">]</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">int_area</span><span class="p">[</span><span class="n">sources</span><span class="p">])</span>
+                                    <span class="n">cov_sink</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">int_area</span><span class="p">[</span><span class="n">sinks</span><span class="p">]</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">int_area</span><span class="p">[</span><span class="n">sinks</span><span class="p">])</span>
+                                    <span class="n">pu_conmat_t</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">source</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">sink</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+                                        <span class="nb">sum</span><span class="p">(((</span><span class="n">temp_conn</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cov_sink</span><span class="p">))</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cov_source</span><span class="p">))))</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">temp_conn</span> <span class="o">=</span> <span class="n">grid_conmat</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">connIndex</span><span class="p">[</span><span class="n">sources</span><span class="p">],</span> <span class="p">:][:,</span> <span class="n">df</span><span class="o">.</span><span class="n">connIndex</span><span class="p">[</span><span class="n">sinks</span><span class="p">]]</span>
+                                    <span class="n">cov_source</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">int_area</span><span class="p">[</span><span class="n">sources</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">pu_area</span><span class="p">[</span><span class="n">sources</span><span class="p">]</span>
+                                    <span class="n">cov_sink</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">int_area</span><span class="p">[</span><span class="n">sinks</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">pu_area</span><span class="p">[</span><span class="n">sinks</span><span class="p">]</span>
+                                    <span class="n">pu_conmat_t</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">source</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">sink</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+                                        <span class="nb">sum</span><span class="p">(((</span><span class="n">temp_conn</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cov_sink</span><span class="p">))</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cov_source</span><span class="p">))))</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">pu_conmat_t</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">source</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]</span> <span class="o">==</span> <span class="n">sink</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+
+                    <span class="n">pu_conmat_t</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pu_conmat_t</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">])</span>
+                    <span class="n">pu_conmat_t</span><span class="p">[</span><span class="s1">&#39;id1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pu_conmat_t</span><span class="o">.</span><span class="n">index</span>
+                    <span class="n">pu_conmat_t</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
+                    <span class="k">if</span> <span class="n">t</span><span class="o">==</span><span class="n">grid_conmat_time</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()[</span><span class="mi">0</span><span class="p">]:</span>
+                        <span class="n">pu_conmat</span><span class="p">[</span><span class="s1">&#39;id1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pu_conmat</span><span class="o">.</span><span class="n">index</span>
+                        <span class="n">pu_conmat</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span>
+                    <span class="n">pu_conmat</span> <span class="o">=</span> <span class="n">pu_conmat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pu_conmat_t</span><span class="p">)</span>
+                <span class="c1"># pu_conmat_time = pu_conmat.melt(id_vars=[&#39;time&#39;,&#39;id1&#39;], var_name=&#39;id2&#39;, value_name=&#39;value&#39;)</span>
+
+            <span class="k">if</span> <span class="n">progressbar</span><span class="p">:</span>
+                <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">pu_conmat</span>
+            <span class="n">keepgoing</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Error in matrix rescaling&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">Show</span><span class="p">()</span>
+        <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+        <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="buffer_shp_corners"><a class="viewcode-back" href="../../index.html#marxanconpy.spatial.buffer_shp_corners">[docs]</a><span class="k">def</span> <span class="nf">buffer_shp_corners</span><span class="p">(</span><span class="n">gdf_list</span><span class="p">,</span> <span class="n">bufferwidth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finds the lower left and upper right corners of a list of geopandas.GeoDataFrame objects. Optionally define a buffer (in degrees) around the list GeoDataFrames</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lonmin</span> <span class="o">=</span> <span class="mi">181</span>
+    <span class="n">lonmax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">181</span>
+    <span class="n">latmin</span> <span class="o">=</span> <span class="mi">91</span>
+    <span class="n">latmax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">91</span>
+    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">gdf_list</span><span class="p">:</span>
+        <span class="n">lonmintemp</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">bufferwidth</span>
+        <span class="n">lonmaxtemp</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">bufferwidth</span>
+        <span class="n">latmintemp</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bufferwidth</span>
+        <span class="n">latmaxtemp</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">total_bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">bufferwidth</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">lonmintemp</span><span class="o">&lt;</span><span class="n">lonmin</span><span class="p">):</span> <span class="n">lonmin</span> <span class="o">=</span> <span class="n">lonmintemp</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">lonmaxtemp</span><span class="o">&gt;</span><span class="n">lonmax</span><span class="p">):</span> <span class="n">lonmax</span> <span class="o">=</span> <span class="n">lonmaxtemp</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">latmintemp</span><span class="o">&lt;</span><span class="n">latmin</span><span class="p">):</span> <span class="n">latmin</span> <span class="o">=</span> <span class="n">latmintemp</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">latmaxtemp</span><span class="o">&gt;</span><span class="n">latmax</span><span class="p">):</span> <span class="n">latmax</span> <span class="o">=</span> <span class="n">latmaxtemp</span>
+    <span class="k">return</span> <span class="n">lonmin</span><span class="p">,</span> <span class="n">lonmax</span><span class="p">,</span> <span class="n">latmin</span><span class="p">,</span> <span class="n">latmax</span></div>
+
+<span class="k">def</span> <span class="nf">get_appropriate_projection</span><span class="p">(</span><span class="n">shapefile</span><span class="p">,</span><span class="n">equal</span><span class="o">=</span><span class="s1">&#39;area&#39;</span><span class="p">):</span>
+    <span class="n">lonmin</span><span class="p">,</span> <span class="n">lonmax</span><span class="p">,</span> <span class="n">latmin</span><span class="p">,</span> <span class="n">latmax</span> <span class="o">=</span> <span class="n">buffer_shp_corners</span><span class="p">([</span><span class="n">shapefile</span><span class="p">])</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="p">(</span><span class="n">lonmin</span> <span class="o">+</span> <span class="n">lonmax</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="p">(</span><span class="n">latmin</span><span class="o">+</span><span class="n">latmax</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+    <span class="k">if</span> <span class="n">equal</span> <span class="o">==</span> <span class="s1">&#39;area&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">lat</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">:</span>
+            <span class="n">proj</span> <span class="o">=</span> <span class="s1">&#39;+proj=laea +lat_0=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; +lon_0=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">proj</span> <span class="o">=</span> <span class="s1">&#39;+proj=laea +lon_0=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">equal</span> <span class="o">==</span> <span class="s1">&#39;distance&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">lat</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">:</span>
+            <span class="n">proj</span> <span class="o">=</span> <span class="s1">&#39;+proj=eqdc +lat_1=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">latmin</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; +lat_2=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">latmax</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; +lon_0=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">proj</span> <span class="o">=</span> <span class="s1">&#39;+proj=eqc +lon_0=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">proj</span>
+
+<span class="k">def</span> <span class="nf">habitatresistance2conmats</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">hab_filepath</span><span class="p">,</span> <span class="n">hab_id</span><span class="p">,</span> <span class="n">res_mat_filepath</span><span class="p">,</span> <span class="n">pu_filepath</span><span class="p">,</span> <span class="n">pu_id</span><span class="p">,</span> <span class="n">res_type</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">pu</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">pu_filepath</span><span class="p">)</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="s1">&#39;+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs&#39;</span><span class="p">)</span>
+        <span class="n">pu</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">pu_id</span><span class="p">)</span>
+        <span class="n">pu</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># progressbar</span>
+        <span class="k">if</span> <span class="n">progressbar</span><span class="p">:</span>
+            <span class="nb">max</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">12</span>
+            <span class="n">dlg</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">ProgressDialog</span><span class="p">(</span><span class="s2">&quot;Assessing Least-Cost Path&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;Please wait while the least-cost path based connectivity matrices are being generated.&quot;</span><span class="p">,</span>
+                                    <span class="n">maximum</span><span class="o">=</span><span class="nb">max</span><span class="p">,</span>
+                                    <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                    <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">PD_APP_MODAL</span>
+                                          <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_CAN_ABORT</span>
+                                          <span class="o">|</span><span class="n">wx</span><span class="o">.</span><span class="n">PD_AUTO_HIDE</span>
+                                          <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_ELAPSED_TIME</span>
+                                          <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_ESTIMATED_TIME</span>
+                                          <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">PD_REMAINING_TIME</span>
+                                    <span class="p">)</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">keepGoing</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">while</span> <span class="n">keepGoing</span><span class="p">:</span>
+
+            <span class="n">area_proj</span> <span class="o">=</span> <span class="n">get_appropriate_projection</span><span class="p">(</span><span class="n">pu</span><span class="p">,</span> <span class="s1">&#39;area&#39;</span><span class="p">)</span>
+            <span class="n">dist_proj</span> <span class="o">=</span> <span class="n">get_appropriate_projection</span><span class="p">(</span><span class="n">pu</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+
+            <span class="n">pu_area</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">area_proj</span><span class="p">)</span>
+            <span class="n">pu_dist</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">dist_proj</span><span class="p">)</span>
+            <span class="n">pu_dist</span><span class="p">[</span><span class="s1">&#39;buff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pu_dist</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span><span class="n">buff</span><span class="p">)</span>
+
+            <span class="n">hab</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">hab_filepath</span><span class="p">)</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="s1">&#39;+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs&#39;</span><span class="p">)</span>
+            <span class="n">hab</span><span class="p">[</span><span class="s1">&#39;diss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hab</span><span class="p">[</span><span class="n">hab_id</span><span class="p">]</span>
+            <span class="n">hab</span> <span class="o">=</span> <span class="n">hab</span><span class="o">.</span><span class="n">dissolve</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;diss&#39;</span><span class="p">)</span>
+            <span class="n">hab</span> <span class="o">=</span> <span class="n">hab</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">hab</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="s1">&#39;+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs&#39;</span>
+            <span class="n">hab</span> <span class="o">=</span> <span class="n">hab</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">hab_id</span><span class="p">)</span>
+
+            <span class="n">hab_area</span> <span class="o">=</span> <span class="n">hab</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">area_proj</span><span class="p">)</span>
+            <span class="n">hab_dist</span> <span class="o">=</span> <span class="n">hab</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">dist_proj</span><span class="p">)</span>
+
+
+            <span class="n">habtypes</span> <span class="o">=</span> <span class="n">hab_dist</span><span class="p">[</span><span class="n">hab_id</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+            <span class="c1"># habitat resistance</span>
+            <span class="k">if</span> <span class="n">res_type</span> <span class="o">==</span> <span class="s2">&quot;Least-Cost Path&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">res_mat_filepath</span><span class="p">):</span>
+                    <span class="n">habres</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">res_mat_filepath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">())</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Resistance file not found&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">habres</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">habtypes</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">habtypes</span><span class="p">)])</span>
+
+            <span class="n">G</span> <span class="o">=</span> <span class="n">igraph</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+            <span class="n">G</span><span class="o">.</span><span class="n">add_vertices</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pu</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]])</span>
+
+            <span class="n">area</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">pu</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">habtypes</span><span class="p">))),</span><span class="n">index</span><span class="o">=</span><span class="n">pu_area</span><span class="p">[</span><span class="n">pu_id</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">habtypes</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">index1</span><span class="p">,</span> <span class="n">pu1row</span> <span class="ow">in</span> <span class="n">pu_area</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">progressbar</span><span class="p">:</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="p">(</span><span class="n">keepGoing</span><span class="p">,</span> <span class="n">skip</span><span class="p">)</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">indexhab</span><span class="p">,</span> <span class="n">habrow</span> <span class="ow">in</span> <span class="n">hab_area</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">keepGoing</span><span class="p">:</span> <span class="k">break</span>
+                    <span class="n">area</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index1</span><span class="p">,</span><span class="n">indexhab</span><span class="p">]</span> <span class="o">=</span> <span class="n">pu1row</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">habrow</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span><span class="o">.</span><span class="n">area</span>
+            <span class="k">for</span> <span class="n">index1</span><span class="p">,</span> <span class="n">pu1row</span> <span class="ow">in</span> <span class="n">pu_dist</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">keepGoing</span><span class="p">:</span> <span class="k">break</span>
+                <span class="k">if</span> <span class="n">progressbar</span><span class="p">:</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">10</span>
+                    <span class="p">(</span><span class="n">keepGoing</span><span class="p">,</span> <span class="n">skip</span><span class="p">)</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">index2</span><span class="p">,</span> <span class="n">pu2row</span> <span class="ow">in</span> <span class="n">pu_dist</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">keepGoing</span><span class="p">:</span> <span class="k">break</span>
+                    <span class="k">if</span> <span class="n">index1</span> <span class="o">!=</span> <span class="n">index2</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">pu1row</span><span class="o">.</span><span class="n">buff</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">pu2row</span><span class="o">.</span><span class="n">buff</span><span class="p">):</span>
+                            <span class="n">line</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">LineString</span><span class="p">([(</span><span class="n">pu1row</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pu1row</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">y</span><span class="p">),</span>
+                                                                <span class="p">(</span><span class="n">pu2row</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">pu2row</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">y</span><span class="p">)])</span>
+                            <span class="n">lineinter</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hab_dist</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">lineinter</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">length</span><span class="o">*</span><span class="mf">0.5</span><span class="p">):</span>
+                                <span class="n">lineinter</span> <span class="o">=</span> <span class="n">lineinter</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">lineinter</span><span class="p">)</span><span class="o">*</span><span class="n">line</span><span class="o">.</span><span class="n">length</span>
+                                <span class="n">weights</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">habtypes</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">lineinter</span><span class="p">,</span> <span class="n">habres</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+                                <span class="n">dist</span> <span class="o">=</span> <span class="n">pu1row</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">pu2row</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span><span class="p">)</span>
+                                <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pu1row</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">pu2row</span><span class="p">[</span><span class="n">pu_id</span><span class="p">]),</span> <span class="o">**</span><span class="n">weights</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="n">dist</span><span class="p">)</span>
+
+
+            <span class="n">conmat</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;habitat&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;id1&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;id2&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">[]})</span>
+            <span class="n">area</span> <span class="o">=</span> <span class="n">area</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">area</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">area</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># remove nan&#39;s</span>
+            <span class="n">area</span><span class="p">[</span><span class="n">area</span><span class="o">&lt;</span><span class="mf">0.00001</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+            <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">habtypes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">progressbar</span><span class="p">:</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pu</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">habtypes</span><span class="p">))</span>
+                    <span class="p">(</span><span class="n">keepGoing</span><span class="p">,</span> <span class="n">skip</span><span class="p">)</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">keepGoing</span><span class="p">:</span> <span class="k">break</span>
+                <span class="k">if</span> <span class="n">G</span><span class="o">.</span><span class="n">ecount</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">conmat_temp</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">shortest_paths_dijkstra</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">h</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;OUT&#39;</span><span class="p">))</span>
+                    <span class="n">conmat_temp</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">conmat_temp</span> <span class="o">*</span> <span class="n">conmat_temp</span><span class="p">))</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="n">conmat_temp</span> <span class="o">=</span> <span class="n">conmat_temp</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">conmat_temp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+                    <span class="n">conmat_temp</span> <span class="o">=</span> <span class="n">conmat_temp</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">area</span><span class="p">[</span><span class="n">h</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="n">conmat_temp</span> <span class="o">=</span> <span class="n">conmat_temp</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">area</span><span class="p">[</span><span class="n">h</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">conmat_temp</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">vs</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">conmat_temp</span><span class="p">[</span><span class="s1">&#39;id1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">vs</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">conmat_temp</span><span class="p">[</span><span class="s1">&#39;habitat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span>
+                    <span class="n">conmat</span> <span class="o">=</span> <span class="n">conmat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conmat_temp</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;habitat&#39;</span><span class="p">,</span> <span class="s1">&#39;id1&#39;</span><span class="p">),</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Habitat &#39;&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">h</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;&#39; has no connectivity between planning units, excluding from further analyses&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">progressbar</span><span class="p">:</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="nb">max</span>
+                <span class="p">(</span><span class="n">keepGoing</span><span class="p">,</span> <span class="n">skip</span><span class="p">)</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">conmat</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;split&#39;</span><span class="p">)</span>
+            <span class="n">keepGoing</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Error in habitatresistance2conmats&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">Show</span><span class="p">()</span>
+        <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+        <span class="k">raise</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">marxanconpy</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  <li><a href="../marxanconpy.html">marxanconpy</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Remi Daigle.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
