@@ -14,6 +14,16 @@ setuptools.setup(
     long_description_content_type="markdown",
     url="https://remi-daigle.github.io/marxanconpy/",
     packages=setuptools.find_packages(),
+    package_data={'marxanconpy': ['data/*','data/*/*','data/*/*/*']},
+    include_package_data=True,
+    zip_safe=False,
+    install_requires=[
+        'wxpython',
+        'pandas',
+        'numpy',
+        'geopandas',
+        'python-igraph',
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

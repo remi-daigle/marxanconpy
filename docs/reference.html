@@ -79,6 +79,11 @@
               <!-- Local TOC -->
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">marxanconpy</a></li>
+<li><a class="reference internal" href="#marxanconpy-manipulation">marxanconpy.manipulation</a></li>
+<li><a class="reference internal" href="#marxanconpy-marcon">marxanconpy.marcon</a></li>
+<li><a class="reference internal" href="#marxanconpy-metrics">marxanconpy.metrics</a></li>
+<li><a class="reference internal" href="#marxanconpy-posthoc">marxanconpy.posthoc</a></li>
+<li><a class="reference internal" href="#marxanconpy-spatial">marxanconpy.spatial</a></li>
 </ul>
 </div>
             
@@ -143,10 +148,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="marxanconpy">
-<h1>marxanconpy<a class="headerlink" href="#marxanconpy" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+  <div class="toctree-wrapper compound">
 </div>
+<div class="section" id="marxanconpy">
+<h1>marxanconpy<a class="headerlink" href="#marxanconpy" title="Permalink to this headline">¶</a></h1>
+<p>The base module, marxanconpy, contains only the most basic utility functions.</p>
 <span class="target" id="module-marxanconpy"></span><dl class="function">
 <dt id="marxanconpy.progress_bar_update">
 <code class="descclassname">marxanconpy.</code><code class="descname">progress_bar_update</code><span class="sig-paren">(</span><em>count</em>, <em>dlg</em>, <em>keepGoing</em>, <em>n</em>, <em>progressbar=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy.html#progress_bar_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.progress_bar_update" title="Permalink to this definition">¶</a></dt>
@@ -212,6 +218,10 @@ delimiters), then the file is read as a tsv.</p>
 </table>
 </dd></dl>
 
+</div>
+<div class="section" id="marxanconpy-manipulation">
+<h1>marxanconpy.manipulation<a class="headerlink" href="#marxanconpy-manipulation" title="Permalink to this headline">¶</a></h1>
+<p>This module contains all the functions which manipulate data.</p>
 <span class="target" id="module-marxanconpy.manipulation"></span><dl class="function">
 <dt id="marxanconpy.manipulation.calc_metrics">
 <code class="descclassname">marxanconpy.manipulation.</code><code class="descname">calc_metrics</code><span class="sig-paren">(</span><em>project</em>, <em>progressbar</em>, <em>calc_metrics_pu=True</em>, <em>calc_metrics_cu=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#calc_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.calc_metrics" title="Permalink to this definition">¶</a></dt>
@@ -347,6 +357,10 @@ supplied. For exploration purposes only as these will not be used in any Marxan 
 </table>
 </dd></dl>
 
+</div>
+<div class="section" id="marxanconpy-marcon">
+<h1>marxanconpy.marcon<a class="headerlink" href="#marxanconpy-marcon" title="Permalink to this headline">¶</a></h1>
+<p>This module contains all the functions that deal with the project dictionary and .MarCon files.</p>
 <span class="target" id="module-marxanconpy.marcon"></span><dl class="function">
 <dt id="marxanconpy.marcon.edit_working_directory">
 <code class="descclassname">marxanconpy.marcon.</code><code class="descname">edit_working_directory</code><span class="sig-paren">(</span><em>project</em>, <em>wd</em>, <em>type='relative'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/marcon.html#edit_working_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.marcon.edit_working_directory" title="Permalink to this definition">¶</a></dt>
@@ -397,6 +411,10 @@ Different versions of marxanconpy may require slightly different fields.
 :return: dict</p>
 </dd></dl>
 
+</div>
+<div class="section" id="marxanconpy-metrics">
+<h1>marxanconpy.metrics<a class="headerlink" href="#marxanconpy-metrics" title="Permalink to this headline">¶</a></h1>
+<p>This module provides all the functions required to calculate the connectivity metrics.</p>
 <span class="target" id="module-marxanconpy.metrics"></span><dl class="function">
 <dt id="marxanconpy.metrics.get_intersect_id">
 <code class="descclassname">marxanconpy.metrics.</code><code class="descname">get_intersect_id</code><span class="sig-paren">(</span><em>area_filepath</em>, <em>pu_filepath</em>, <em>pu_id='ID'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#get_intersect_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.get_intersect_id" title="Permalink to this definition">¶</a></dt>
@@ -621,6 +639,10 @@ Different versions of marxanconpy may require slightly different fields.
 </table>
 </dd></dl>
 
+</div>
+<div class="section" id="marxanconpy-posthoc">
+<h1>marxanconpy.posthoc<a class="headerlink" href="#marxanconpy-posthoc" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the functions that relate to the post-hoc analysis of Marxan results.</p>
 <span class="target" id="module-marxanconpy.posthoc"></span><dl class="function">
 <dt id="marxanconpy.posthoc.calc_postHoc">
 <code class="descclassname">marxanconpy.posthoc.</code><code class="descname">calc_postHoc</code><span class="sig-paren">(</span><em>filename</em>, <em>format</em>, <em>IDs</em>, <em>selectionIDs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/posthoc.html#calc_postHoc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.posthoc.calc_postHoc" title="Permalink to this definition">¶</a></dt>
@@ -644,6 +666,10 @@ Different versions of marxanconpy may require slightly different fields.
 :return:</p>
 </dd></dl>
 
+</div>
+<div class="section" id="marxanconpy-spatial">
+<h1>marxanconpy.spatial<a class="headerlink" href="#marxanconpy-spatial" title="Permalink to this headline">¶</a></h1>
+<p>This module contains spatially intensive functions.</p>
 <span class="target" id="module-marxanconpy.spatial"></span><dl class="function">
 <dt id="marxanconpy.spatial.buffer_shp_corners">
 <code class="descclassname">marxanconpy.spatial.</code><code class="descname">buffer_shp_corners</code><span class="sig-paren">(</span><em>gdf_list</em>, <em>bufferwidth=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/spatial.html#buffer_shp_corners"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.spatial.buffer_shp_corners" title="Permalink to this definition">¶</a></dt>
