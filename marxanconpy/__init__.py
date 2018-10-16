@@ -1,4 +1,3 @@
-
 import marxanconpy.marcon
 import marxanconpy.metrics
 import marxanconpy.manipulation
@@ -9,7 +8,7 @@ import wx
 import pandas
 
 name = "marxanconpy"
-MarxanConnectVersion = "v0.1.2"
+__version__ = 'v0.1.2b2'
 
 def progress_bar_update(count, dlg, keepGoing, n, progressbar=True):
     count += n
