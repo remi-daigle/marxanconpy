@@ -9,10 +9,13 @@ import marxanconpy
 def convert_matrix_type(current,desired,matrix,localProd):
     """ Convert Matrix Types
 
-    :param current:
-    :param desired:
-    :param matrix:
-    :param localProd:
+    Converts connectivity data in matrix format to/from various types (e.g. "Probability", "Migration", "Flow"). See
+    http://marxanconnect.ca/glossary.html#data_types for detailed description
+
+    :param current: Current connectivity data type (e.g. "Probability", "Migration", "Flow")
+    :param desired: Current connectivity data type (e.g. "Probability", "Migration", "Flow")
+    :param matrix: Connectivity Matrix
+    :param localProd: Local Production at each site in the connectivity matrix
     :return:
     """
 
@@ -41,6 +44,17 @@ def convert_matrix_type(current,desired,matrix,localProd):
     return matrix.fillna(0)
 
 def convert_graph_type(current,desired,graph,localProd):
+    """ Convert Graph Types
+
+    Converts connectivity data in graph (igraph) format to/from various types (e.g. "Probability", "Migration", "Flow"). See
+    http://marxanconnect.ca/glossary.html#data_types for detailed description
+
+    :param current: Current connectivity data type (e.g. "Probability", "Migration", "Flow")
+    :param desired: Current connectivity data type (e.g. "Probability", "Migration", "Flow")
+    :param graph: Connectivity Graph
+    :param localProd: Local Production at each site in the connectivity matrix
+    :return:
+    """
     print("converting ",current," to ",desired)
     if current == desired:
         return graph
@@ -83,6 +97,19 @@ def convert_graph_type(current,desired,graph,localProd):
     return g
 
 def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False):
+    """ Calculate connectivity metrics
+
+    Calculates connectivity metrics to be used as conservation features and prepares the connectivity to be used as
+     spatial dependencies
+
+    :param project: Project dictionary created by'marxanconpy.marcon.new_project()' or
+    'marxanconpy.marcon.load_file()'. The later reads the .MarCon JSON project file
+    :param progressbar: Logical. True if you want to see a progressbar
+    :param calc_metrics_pu: Logical. True if you want to calculate metrics for planning units.
+    :param calc_metrics_cu: Logical. True if you want to calculate metrics for connectivity units if such data is
+    supplied. For exploration purposes only as these will not be used in any Marxan analyses.
+    :return:
+    """
     try:
         # create dict entry for connectivityMetrics
         project['connectivityMetrics'] = {}
@@ -519,6 +546,15 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
         raise
 
 def check_matrix_list_format(format, filepath):
+    """ Check format
+
+    Quality control function to assure that the file format is 'as advertised'
+
+    :param format: The expected format of the connectivity file (i.e. "Matrix", "Edge List", "Edge List with Type",
+    "Edge List with Time"). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats
+    :param filepath: The filepath to the connectivity data
+    :return:
+    """
     # warn if matrix is wrong format
     warn = False
     message = "See the Glossary for 'Data Formats' under 'Connectivity'."
@@ -560,6 +596,14 @@ def check_matrix_list_format(format, filepath):
         return
 
 def connectivity2graph(connectivity,format,IDs):
+    """ Convert Connectivity data to graph format
+
+    :param connectivity: The connectivity data as a pandas data frame (in any format)
+    :param format: The format of the connectivity file (i.e. "Matrix", "Edge List", "Edge List with Type",
+    "Edge List with Time"). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats
+    :param IDs: Planning unit IDs
+    :return:
+    """
     if format == "Matrix":
         g = igraph.Graph.Weighted_Adjacency(connectivity.as_matrix().tolist())
         g.vs["name"] = IDs
@@ -570,54 +614,15 @@ def connectivity2graph(connectivity,format,IDs):
             g.add_edge(row.id1, row.id2, weight=float(row.value))
     return g
 
+def get_marxan_output(input_file,type='Best Solution'):
+    """ Get Marxan Output
 
-def calc_postHoc(filename,format,IDs,selectionIDs):
-    if os.path.isfile(filename):
-        if format == "Matrix":
-            connectivity = pandas.read_csv(filename, index_col=0)
-        elif format == "Edge List with Time":
-            connectivity = pandas.read_csv(filename)[['id1', 'id2', 'value']].groupby(['id1', 'id2']).mean()
-        else:
-            connectivity = pandas.read_csv(filename)
+    Extract Marxan output from a file
 
-        if connectivity.shape[1]==3 or format == "Matrix":
-            all_type=['default_type_replace']
-        else:
-            all_type=numpy.unique(connectivity.drop(['id1', 'id2', 'value'], axis=1))
-
-        postHoc = pandas.DataFrame()
-        for type in all_type:
-            if type=="default_type_replace":
-                graph = connectivity2graph(connectivity,format,IDs)
-            else:
-                graph = connectivity2graph(connectivity[(connectivity.drop(['id1', 'id2', 'value'], axis=1)==type).values], format, IDs)
-
-            sub = graph.subgraph(selectionIDs)
-
-            postHoc = postHoc.append(pandas.DataFrame({"Metric":("Planning Units",
-                                                                 "Connections",
-                                                                 "Graph Density",
-                                                                 "Eigenvalue"),
-                                                       "Type":(type,type,type,type),
-                                                       "Planning Area":(graph.vcount(),
-                                                             graph.ecount(),
-                                                             graph.density(),
-                                                             graph.evcent(weights=graph.es["weight"],
-                                                                          return_eigenvalue=True)[1]),
-                                                       "Solution":(
-                                                           sub.vcount(),
-                                                           sub.ecount(),
-                                                           sub.density(),
-                                                           sub.evcent(weights=sub.es["weight"],
-                                                                      return_eigenvalue=True)[1])}), ignore_index=True)
-
-        postHoc["Percent"] = postHoc["Solution"]/postHoc["Planning Area"]*100
-        postHoc = postHoc[['Metric','Type','Planning Area','Solution','Percent']]
-        if "default_type_replace" in postHoc["Type"].unique():
-            del(postHoc["Type"])
-        return postHoc
-
-def get_marxan_output(input_file,type='best'):
+    :param input_file: filename of Marxan file to read
+    :param type: Marxan file type (i.e. 'Best Solution', 'Selection Frequency',
+    :return:
+    """
     for line in open(input_file):
         if line.startswith('SCENNAME'):
             SCENNAME = line.replace('SCENNAME ', '').replace('\n', '')

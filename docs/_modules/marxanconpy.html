@@ -139,8 +139,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for marxanconpy</h1><div class="highlight"><pre>
-<span></span>
-<span class="kn">import</span> <span class="nn">marxanconpy.marcon</span>
+<span></span><span class="kn">import</span> <span class="nn">marxanconpy.marcon</span>
 <span class="kn">import</span> <span class="nn">marxanconpy.metrics</span>
 <span class="kn">import</span> <span class="nn">marxanconpy.manipulation</span>
 <span class="kn">import</span> <span class="nn">marxanconpy.posthoc</span>
@@ -150,23 +149,48 @@
 <span class="kn">import</span> <span class="nn">pandas</span>
 
 <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;marxanconpy&quot;</span>
-<span class="n">MarxanConnectVersion</span> <span class="o">=</span> <span class="s2">&quot;v0.1.2&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;v0.1.2b2&#39;</span>
 
-<span class="k">def</span> <span class="nf">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="n">count</span> <span class="o">+=</span> <span class="n">n</span>
-    <span class="p">(</span><span class="n">keepGoing</span><span class="p">,</span> <span class="n">skip</span><span class="p">)</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+<div class="viewcode-block" id="progress_bar_update"><a class="viewcode-back" href="../reference.html#marxanconpy.progress_bar_update">[docs]</a><span class="k">def</span> <span class="nf">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Progress Bar Update</span>
+
+<span class="sd">    Function that manages the updates for progress bar dialogs</span>
+
+<span class="sd">    :param count: The total number of steps for the progress bar</span>
+<span class="sd">    :param dlg: The progressbar dialog (wx.ProgressDialog).</span>
+<span class="sd">    :param keepGoing:</span>
+<span class="sd">    :param n: The number of steps to move forward</span>
+<span class="sd">    :param progressbar: Logical. True if you want to see a progressbar</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">progressbar</span><span class="p">:</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="n">n</span>
+        <span class="p">(</span><span class="n">keepGoing</span><span class="p">,</span> <span class="n">skip</span><span class="p">)</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">Update</span><span class="p">(</span><span class="n">count</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="warn_dialog"><a class="viewcode-back" href="../reference.html#marxanconpy.warn_dialog">[docs]</a><span class="k">def</span> <span class="nf">warn_dialog</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;Warning!&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Warning</span>
+    <span class="sd">&quot;&quot;&quot; Warning Dialog</span>
+
+<span class="sd">    Creates a warning pop-up (a wx.MessageBox)</span>
+
+<span class="sd">    :param message: A string containing the contents of the warning</span>
+<span class="sd">    :param caption: The heading caption</span>
+<span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">wx</span><span class="o">.</span><span class="n">MessageBox</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">caption</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">OK</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ICON_WARNING</span><span class="p">)</span></div>
 
-<span class="k">def</span> <span class="nf">read_csv_tsv</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+<div class="viewcode-block" id="read_csv_tsv"><a class="viewcode-back" href="../reference.html#marxanconpy.read_csv_tsv">[docs]</a><span class="k">def</span> <span class="nf">read_csv_tsv</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Marxan file reader</span>
+
+<span class="sd">    Reads comma or tab seperated Marxan input or output files. Reads as csv first, if there is only 1 column (i.e. wrong</span>
+<span class="sd">    delimiters), then the file is read as a tsv.</span>
+
+<span class="sd">    :param filepath: Filepath for file in question</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">file</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">file</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">file</span>
+    <span class="k">return</span> <span class="n">file</span></div>
 </pre></div>
 
            </div>

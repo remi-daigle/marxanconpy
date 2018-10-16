@@ -3,7 +3,7 @@ import json
 import marxanconpy
 
 def new_project():
-    """
+    """ New Project
     Create a new project dictionary
     :return: dict
     """
@@ -112,7 +112,7 @@ def new_project():
     return project
 
 def load_project(filename):
-    """
+    """ Load Project
     Loads the project dictionary from a .MarCon file.
     :param filename:
     :return: dict
@@ -123,7 +123,7 @@ def load_project(filename):
     return project
 
 def edit_working_directory(project,wd,type="relative"):
-    """
+    """ Edit the working directory
     Edits the filepath in the project dictionary. If type = 'relative', the absolute paths that contain the working
     directory are changed to relative paths and vice versa for type = 'absolute'
     :param project: the project dictionary
@@ -142,7 +142,8 @@ def edit_working_directory(project,wd,type="relative"):
     return project
 
 def save_project(project,projfile=False):
-    """
+    """ Save Project
+
     Saves the project dictionary to a .MarCon file.
     :param project: the project dictionary
     :param projfile: the (optional) filename for the project file to override the projfile entry given in the project
@@ -155,7 +156,8 @@ def save_project(project,projfile=False):
         json.dump(project, fp, indent=4, sort_keys=True)
 
 def validate_project(project):
-    """
+    """ Validate Project
+
     A function to validate project dictionaries to ensure that they contains all necessary fields (i.e. keys).
     Different versions of marxanconpy may require slightly different fields.
     :param project: the project dictionary

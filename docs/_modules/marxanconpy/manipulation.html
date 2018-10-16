@@ -152,10 +152,13 @@
 <div class="viewcode-block" id="convert_matrix_type"><a class="viewcode-back" href="../../reference.html#marxanconpy.manipulation.convert_matrix_type">[docs]</a><span class="k">def</span> <span class="nf">convert_matrix_type</span><span class="p">(</span><span class="n">current</span><span class="p">,</span><span class="n">desired</span><span class="p">,</span><span class="n">matrix</span><span class="p">,</span><span class="n">localProd</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Convert Matrix Types</span>
 
-<span class="sd">    :param current:</span>
-<span class="sd">    :param desired:</span>
-<span class="sd">    :param matrix:</span>
-<span class="sd">    :param localProd:</span>
+<span class="sd">    Converts connectivity data in matrix format to/from various types (e.g. &quot;Probability&quot;, &quot;Migration&quot;, &quot;Flow&quot;). See</span>
+<span class="sd">    http://marxanconnect.ca/glossary.html#data_types for detailed description</span>
+
+<span class="sd">    :param current: Current connectivity data type (e.g. &quot;Probability&quot;, &quot;Migration&quot;, &quot;Flow&quot;)</span>
+<span class="sd">    :param desired: Current connectivity data type (e.g. &quot;Probability&quot;, &quot;Migration&quot;, &quot;Flow&quot;)</span>
+<span class="sd">    :param matrix: Connectivity Matrix</span>
+<span class="sd">    :param localProd: Local Production at each site in the connectivity matrix</span>
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -183,7 +186,18 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: &quot;</span> <span class="o">+</span> <span class="n">current</span> <span class="o">+</span> <span class="s2">&quot; not a recognized matrix type.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">matrix</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
 
-<span class="k">def</span> <span class="nf">convert_graph_type</span><span class="p">(</span><span class="n">current</span><span class="p">,</span><span class="n">desired</span><span class="p">,</span><span class="n">graph</span><span class="p">,</span><span class="n">localProd</span><span class="p">):</span>
+<div class="viewcode-block" id="convert_graph_type"><a class="viewcode-back" href="../../reference.html#marxanconpy.manipulation.convert_graph_type">[docs]</a><span class="k">def</span> <span class="nf">convert_graph_type</span><span class="p">(</span><span class="n">current</span><span class="p">,</span><span class="n">desired</span><span class="p">,</span><span class="n">graph</span><span class="p">,</span><span class="n">localProd</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert Graph Types</span>
+
+<span class="sd">    Converts connectivity data in graph (igraph) format to/from various types (e.g. &quot;Probability&quot;, &quot;Migration&quot;, &quot;Flow&quot;). See</span>
+<span class="sd">    http://marxanconnect.ca/glossary.html#data_types for detailed description</span>
+
+<span class="sd">    :param current: Current connectivity data type (e.g. &quot;Probability&quot;, &quot;Migration&quot;, &quot;Flow&quot;)</span>
+<span class="sd">    :param desired: Current connectivity data type (e.g. &quot;Probability&quot;, &quot;Migration&quot;, &quot;Flow&quot;)</span>
+<span class="sd">    :param graph: Connectivity Graph</span>
+<span class="sd">    :param localProd: Local Production at each site in the connectivity matrix</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;converting &quot;</span><span class="p">,</span><span class="n">current</span><span class="p">,</span><span class="s2">&quot; to &quot;</span><span class="p">,</span><span class="n">desired</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">current</span> <span class="o">==</span> <span class="n">desired</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">graph</span>
@@ -223,9 +237,22 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: &quot;</span> <span class="o">+</span> <span class="n">current</span> <span class="o">+</span> <span class="s2">&quot; not a recognized matrix type.&quot;</span><span class="p">)</span>
     <span class="n">g</span><span class="o">.</span><span class="n">es</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span>
-    <span class="k">return</span> <span class="n">g</span>
+    <span class="k">return</span> <span class="n">g</span></div>
 
-<span class="k">def</span> <span class="nf">calc_metrics</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="n">progressbar</span><span class="p">,</span><span class="n">calc_metrics_pu</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">calc_metrics_cu</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="calc_metrics"><a class="viewcode-back" href="../../reference.html#marxanconpy.manipulation.calc_metrics">[docs]</a><span class="k">def</span> <span class="nf">calc_metrics</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="n">progressbar</span><span class="p">,</span><span class="n">calc_metrics_pu</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">calc_metrics_cu</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate connectivity metrics</span>
+
+<span class="sd">    Calculates connectivity metrics to be used as conservation features and prepares the connectivity to be used as</span>
+<span class="sd">     spatial dependencies</span>
+
+<span class="sd">    :param project: Project dictionary created by&#39;marxanconpy.marcon.new_project()&#39; or</span>
+<span class="sd">    &#39;marxanconpy.marcon.load_file()&#39;. The later reads the .MarCon JSON project file</span>
+<span class="sd">    :param progressbar: Logical. True if you want to see a progressbar</span>
+<span class="sd">    :param calc_metrics_pu: Logical. True if you want to calculate metrics for planning units.</span>
+<span class="sd">    :param calc_metrics_cu: Logical. True if you want to calculate metrics for connectivity units if such data is</span>
+<span class="sd">    supplied. For exploration purposes only as these will not be used in any Marxan analyses.</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># create dict entry for connectivityMetrics</span>
         <span class="n">project</span><span class="p">[</span><span class="s1">&#39;connectivityMetrics&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -659,9 +686,18 @@
         <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
-        <span class="k">raise</span>
+        <span class="k">raise</span></div>
 
-<span class="k">def</span> <span class="nf">check_matrix_list_format</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+<div class="viewcode-block" id="check_matrix_list_format"><a class="viewcode-back" href="../../reference.html#marxanconpy.manipulation.check_matrix_list_format">[docs]</a><span class="k">def</span> <span class="nf">check_matrix_list_format</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Check format</span>
+
+<span class="sd">    Quality control function to assure that the file format is &#39;as advertised&#39;</span>
+
+<span class="sd">    :param format: The expected format of the connectivity file (i.e. &quot;Matrix&quot;, &quot;Edge List&quot;, &quot;Edge List with Type&quot;,</span>
+<span class="sd">    &quot;Edge List with Time&quot;). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats</span>
+<span class="sd">    :param filepath: The filepath to the connectivity data</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># warn if matrix is wrong format</span>
     <span class="n">warn</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;See the Glossary for &#39;Data Formats&#39; under &#39;Connectivity&#39;.&quot;</span>
@@ -700,9 +736,17 @@
         <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">message</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span>
+        <span class="k">return</span></div>
 
-<span class="k">def</span> <span class="nf">connectivity2graph</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span><span class="nb">format</span><span class="p">,</span><span class="n">IDs</span><span class="p">):</span>
+<div class="viewcode-block" id="connectivity2graph"><a class="viewcode-back" href="../../reference.html#marxanconpy.manipulation.connectivity2graph">[docs]</a><span class="k">def</span> <span class="nf">connectivity2graph</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span><span class="nb">format</span><span class="p">,</span><span class="n">IDs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert Connectivity data to graph format</span>
+
+<span class="sd">    :param connectivity: The connectivity data as a pandas data frame (in any format)</span>
+<span class="sd">    :param format: The format of the connectivity file (i.e. &quot;Matrix&quot;, &quot;Edge List&quot;, &quot;Edge List with Type&quot;,</span>
+<span class="sd">    &quot;Edge List with Time&quot;). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats</span>
+<span class="sd">    :param IDs: Planning unit IDs</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
         <span class="n">g</span> <span class="o">=</span> <span class="n">igraph</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">Weighted_Adjacency</span><span class="p">(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
         <span class="n">g</span><span class="o">.</span><span class="n">vs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">IDs</span>
@@ -711,56 +755,17 @@
         <span class="n">g</span><span class="o">.</span><span class="n">add_vertices</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">IDs</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">connectivity</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span><span class="s1">&#39;id2&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
             <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">id1</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">id2</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">g</span>
+    <span class="k">return</span> <span class="n">g</span></div>
 
+<div class="viewcode-block" id="get_marxan_output"><a class="viewcode-back" href="../../reference.html#marxanconpy.manipulation.get_marxan_output">[docs]</a><span class="k">def</span> <span class="nf">get_marxan_output</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Best Solution&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Get Marxan Output</span>
 
-<span class="k">def</span> <span class="nf">calc_postHoc</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="nb">format</span><span class="p">,</span><span class="n">IDs</span><span class="p">,</span><span class="n">selectionIDs</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
-            <span class="n">connectivity</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Edge List with Time&quot;</span><span class="p">:</span>
-            <span class="n">connectivity</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)[[</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">connectivity</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="sd">    Extract Marxan output from a file</span>
 
-        <span class="k">if</span> <span class="n">connectivity</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">3</span> <span class="ow">or</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
-            <span class="n">all_type</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;default_type_replace&#39;</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">all_type</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-
-        <span class="n">postHoc</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-        <span class="k">for</span> <span class="nb">type</span> <span class="ow">in</span> <span class="n">all_type</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="o">==</span><span class="s2">&quot;default_type_replace&quot;</span><span class="p">:</span>
-                <span class="n">graph</span> <span class="o">=</span> <span class="n">connectivity2graph</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span><span class="nb">format</span><span class="p">,</span><span class="n">IDs</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">graph</span> <span class="o">=</span> <span class="n">connectivity2graph</span><span class="p">(</span><span class="n">connectivity</span><span class="p">[(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="nb">type</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">],</span> <span class="nb">format</span><span class="p">,</span> <span class="n">IDs</span><span class="p">)</span>
-
-            <span class="n">sub</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">selectionIDs</span><span class="p">)</span>
-
-            <span class="n">postHoc</span> <span class="o">=</span> <span class="n">postHoc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Metric&quot;</span><span class="p">:(</span><span class="s2">&quot;Planning Units&quot;</span><span class="p">,</span>
-                                                                 <span class="s2">&quot;Connections&quot;</span><span class="p">,</span>
-                                                                 <span class="s2">&quot;Graph Density&quot;</span><span class="p">,</span>
-                                                                 <span class="s2">&quot;Eigenvalue&quot;</span><span class="p">),</span>
-                                                       <span class="s2">&quot;Type&quot;</span><span class="p">:(</span><span class="nb">type</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="nb">type</span><span class="p">),</span>
-                                                       <span class="s2">&quot;Planning Area&quot;</span><span class="p">:(</span><span class="n">graph</span><span class="o">.</span><span class="n">vcount</span><span class="p">(),</span>
-                                                             <span class="n">graph</span><span class="o">.</span><span class="n">ecount</span><span class="p">(),</span>
-                                                             <span class="n">graph</span><span class="o">.</span><span class="n">density</span><span class="p">(),</span>
-                                                             <span class="n">graph</span><span class="o">.</span><span class="n">evcent</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">graph</span><span class="o">.</span><span class="n">es</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">],</span>
-                                                                          <span class="n">return_eigenvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">]),</span>
-                                                       <span class="s2">&quot;Solution&quot;</span><span class="p">:(</span>
-                                                           <span class="n">sub</span><span class="o">.</span><span class="n">vcount</span><span class="p">(),</span>
-                                                           <span class="n">sub</span><span class="o">.</span><span class="n">ecount</span><span class="p">(),</span>
-                                                           <span class="n">sub</span><span class="o">.</span><span class="n">density</span><span class="p">(),</span>
-                                                           <span class="n">sub</span><span class="o">.</span><span class="n">evcent</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">sub</span><span class="o">.</span><span class="n">es</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">],</span>
-                                                                      <span class="n">return_eigenvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">])}),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Percent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Solution&quot;</span><span class="p">]</span><span class="o">/</span><span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Planning Area&quot;</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span>
-        <span class="n">postHoc</span> <span class="o">=</span> <span class="n">postHoc</span><span class="p">[[</span><span class="s1">&#39;Metric&#39;</span><span class="p">,</span><span class="s1">&#39;Type&#39;</span><span class="p">,</span><span class="s1">&#39;Planning Area&#39;</span><span class="p">,</span><span class="s1">&#39;Solution&#39;</span><span class="p">,</span><span class="s1">&#39;Percent&#39;</span><span class="p">]]</span>
-        <span class="k">if</span> <span class="s2">&quot;default_type_replace&quot;</span> <span class="ow">in</span> <span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
-            <span class="k">del</span><span class="p">(</span><span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Type&quot;</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">postHoc</span>
-
-<span class="k">def</span> <span class="nf">get_marxan_output</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">):</span>
+<span class="sd">    :param input_file: filename of Marxan file to read</span>
+<span class="sd">    :param type: Marxan file type (i.e. &#39;Best Solution&#39;, &#39;Selection Frequency&#39;,</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_file</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;SCENNAME&#39;</span><span class="p">):</span>
             <span class="n">SCENNAME</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;SCENNAME &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
@@ -783,7 +788,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: &#39;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s1">&#39; not found&#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">file</span>
+    <span class="k">return</span> <span class="n">file</span></div>
 </pre></div>
 
            </div>

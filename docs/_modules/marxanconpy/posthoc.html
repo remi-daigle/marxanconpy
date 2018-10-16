@@ -1,0 +1,256 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>marxanconpy.posthoc &mdash; marxanconpy v0.1.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> marxanconpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">marxanconpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../marxanconpy.html">marxanconpy</a> &raquo;</li>
+        
+      <li>marxanconpy.posthoc</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for marxanconpy.posthoc</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">marxanconpy</span>
+
+<div class="viewcode-block" id="calc_postHoc"><a class="viewcode-back" href="../../reference.html#marxanconpy.posthoc.calc_postHoc">[docs]</a><span class="k">def</span> <span class="nf">calc_postHoc</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="nb">format</span><span class="p">,</span><span class="n">IDs</span><span class="p">,</span><span class="n">selectionIDs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate PostHoc Metrics</span>
+
+<span class="sd">    Calculate PostHoc Metrics for a given Marxan solution</span>
+
+<span class="sd">    :param filename: filename of the connectivity data</span>
+<span class="sd">    :param format: The format of the connectivity file (i.e. &quot;Matrix&quot;, &quot;Edge List&quot;, &quot;Edge List with Type&quot;,</span>
+<span class="sd">    &quot;Edge List with Time&quot;). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats</span>
+<span class="sd">    :param IDs: Planning unit IDs</span>
+<span class="sd">    :param selectionIDs: Planning unit IDs for those included in the Marxan solution</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
+            <span class="n">connectivity</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Edge List with Time&quot;</span><span class="p">:</span>
+            <span class="n">connectivity</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)[[</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">connectivity</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">connectivity</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">3</span> <span class="ow">or</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
+            <span class="n">all_type</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;default_type_replace&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_type</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">postHoc</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="nb">type</span> <span class="ow">in</span> <span class="n">all_type</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="o">==</span><span class="s2">&quot;default_type_replace&quot;</span><span class="p">:</span>
+                <span class="n">graph</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">manipulation</span><span class="o">.</span><span class="n">connectivity2graph</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span><span class="nb">format</span><span class="p">,</span><span class="n">IDs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">graph</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">manipulation</span><span class="o">.</span><span class="n">connectivity2graph</span><span class="p">(</span><span class="n">connectivity</span><span class="p">[(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;id1&#39;</span><span class="p">,</span> <span class="s1">&#39;id2&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="nb">type</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">],</span> <span class="nb">format</span><span class="p">,</span> <span class="n">IDs</span><span class="p">)</span>
+
+            <span class="n">sub</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">selectionIDs</span><span class="p">)</span>
+
+            <span class="n">postHoc</span> <span class="o">=</span> <span class="n">postHoc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Metric&quot;</span><span class="p">:(</span><span class="s2">&quot;Planning Units&quot;</span><span class="p">,</span>
+                                                                 <span class="s2">&quot;Connections&quot;</span><span class="p">,</span>
+                                                                 <span class="s2">&quot;Graph Density&quot;</span><span class="p">,</span>
+                                                                 <span class="s2">&quot;Eigenvalue&quot;</span><span class="p">),</span>
+                                                       <span class="s2">&quot;Type&quot;</span><span class="p">:(</span><span class="nb">type</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="nb">type</span><span class="p">),</span>
+                                                       <span class="s2">&quot;Planning Area&quot;</span><span class="p">:(</span><span class="n">graph</span><span class="o">.</span><span class="n">vcount</span><span class="p">(),</span>
+                                                             <span class="n">graph</span><span class="o">.</span><span class="n">ecount</span><span class="p">(),</span>
+                                                             <span class="n">graph</span><span class="o">.</span><span class="n">density</span><span class="p">(),</span>
+                                                             <span class="n">graph</span><span class="o">.</span><span class="n">evcent</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">graph</span><span class="o">.</span><span class="n">es</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">],</span>
+                                                                          <span class="n">return_eigenvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">]),</span>
+                                                       <span class="s2">&quot;Solution&quot;</span><span class="p">:(</span>
+                                                           <span class="n">sub</span><span class="o">.</span><span class="n">vcount</span><span class="p">(),</span>
+                                                           <span class="n">sub</span><span class="o">.</span><span class="n">ecount</span><span class="p">(),</span>
+                                                           <span class="n">sub</span><span class="o">.</span><span class="n">density</span><span class="p">(),</span>
+                                                           <span class="n">sub</span><span class="o">.</span><span class="n">evcent</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">sub</span><span class="o">.</span><span class="n">es</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">],</span>
+                                                                      <span class="n">return_eigenvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">])}),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Percent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Solution&quot;</span><span class="p">]</span><span class="o">/</span><span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Planning Area&quot;</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span>
+        <span class="n">postHoc</span> <span class="o">=</span> <span class="n">postHoc</span><span class="p">[[</span><span class="s1">&#39;Metric&#39;</span><span class="p">,</span><span class="s1">&#39;Type&#39;</span><span class="p">,</span><span class="s1">&#39;Planning Area&#39;</span><span class="p">,</span><span class="s1">&#39;Solution&#39;</span><span class="p">,</span><span class="s1">&#39;Percent&#39;</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="s2">&quot;default_type_replace&quot;</span> <span class="ow">in</span> <span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="k">del</span><span class="p">(</span><span class="n">postHoc</span><span class="p">[</span><span class="s2">&quot;Type&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">postHoc</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Remi Daigle
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

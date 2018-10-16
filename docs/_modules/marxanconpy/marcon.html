@@ -146,13 +146,13 @@
 <span class="kn">import</span> <span class="nn">marxanconpy</span>
 
 <div class="viewcode-block" id="new_project"><a class="viewcode-back" href="../../reference.html#marxanconpy.marcon.new_project">[docs]</a><span class="k">def</span> <span class="nf">new_project</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; New Project</span>
 <span class="sd">    Create a new project dictionary</span>
 <span class="sd">    :return: dict</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># create project list to store project specific data</span>
     <span class="n">project</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">MarxanConnectVersion</span>
+    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">__version__</span>
     <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">project</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -255,7 +255,7 @@
     <span class="k">return</span> <span class="n">project</span></div>
 
 <div class="viewcode-block" id="load_project"><a class="viewcode-back" href="../../reference.html#marxanconpy.marcon.load_project">[docs]</a><span class="k">def</span> <span class="nf">load_project</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; Load Project</span>
 <span class="sd">    Loads the project dictionary from a .MarCon file.</span>
 <span class="sd">    :param filename:</span>
 <span class="sd">    :return: dict</span>
@@ -266,7 +266,7 @@
     <span class="k">return</span> <span class="n">project</span></div>
 
 <div class="viewcode-block" id="edit_working_directory"><a class="viewcode-back" href="../../reference.html#marxanconpy.marcon.edit_working_directory">[docs]</a><span class="k">def</span> <span class="nf">edit_working_directory</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="n">wd</span><span class="p">,</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;relative&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; Edit the working directory</span>
 <span class="sd">    Edits the filepath in the project dictionary. If type = &#39;relative&#39;, the absolute paths that contain the working</span>
 <span class="sd">    directory are changed to relative paths and vice versa for type = &#39;absolute&#39;</span>
 <span class="sd">    :param project: the project dictionary</span>
@@ -285,7 +285,8 @@
     <span class="k">return</span> <span class="n">project</span></div>
 
 <div class="viewcode-block" id="save_project"><a class="viewcode-back" href="../../reference.html#marxanconpy.marcon.save_project">[docs]</a><span class="k">def</span> <span class="nf">save_project</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="n">projfile</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; Save Project</span>
+
 <span class="sd">    Saves the project dictionary to a .MarCon file.</span>
 <span class="sd">    :param project: the project dictionary</span>
 <span class="sd">    :param projfile: the (optional) filename for the project file to override the projfile entry given in the project</span>
@@ -298,16 +299,17 @@
         <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="validate_project"><a class="viewcode-back" href="../../reference.html#marxanconpy.marcon.validate_project">[docs]</a><span class="k">def</span> <span class="nf">validate_project</span><span class="p">(</span><span class="n">project</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; Validate Project</span>
+
 <span class="sd">    A function to validate project dictionaries to ensure that they contains all necessary fields (i.e. keys).</span>
 <span class="sd">    Different versions of marxanconpy may require slightly different fields.</span>
 <span class="sd">    :param project: the project dictionary</span>
 <span class="sd">    :return: dict</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span><span class="o">!=</span><span class="n">marxanconpy</span><span class="o">.</span><span class="n">MarxanConnectVersion</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span><span class="o">!=</span><span class="n">marxanconpy</span><span class="o">.</span><span class="n">__version__</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: This project file was created with a different version of Marxan Connect. Attempting to &quot;</span>
               <span class="s2">&quot;update for compatibility&quot;</span><span class="p">)</span>
-        <span class="n">project</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">MarxanConnectVersion</span>
+        <span class="n">project</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">__version__</span>
 
     <span class="n">np</span> <span class="o">=</span> <span class="n">new_project</span><span class="p">()</span>
 

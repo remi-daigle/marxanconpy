@@ -151,7 +151,17 @@
 
 <div class="viewcode-block" id="rescale_matrix"><a class="viewcode-back" href="../../reference.html#marxanconpy.spatial.rescale_matrix">[docs]</a><span class="k">def</span> <span class="nf">rescale_matrix</span><span class="p">(</span><span class="n">pu_filepath</span><span class="p">,</span><span class="n">pu_id</span><span class="p">,</span><span class="n">cu_filepath</span><span class="p">,</span><span class="n">cu_id</span><span class="p">,</span><span class="n">cm_filepath</span><span class="p">,</span><span class="n">matrixformat</span><span class="p">,</span><span class="n">edge</span><span class="p">,</span><span class="n">progressbar</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="sd">    rescale the connectivity matrix to match the scale of the planning units</span>
+<span class="sd">    :param pu_filepath:</span>
+<span class="sd">    :param pu_id:</span>
+<span class="sd">    :param cu_filepath:</span>
+<span class="sd">    :param cu_id:</span>
+<span class="sd">    :param cm_filepath:</span>
+<span class="sd">    :param matrixformat:</span>
+<span class="sd">    :param edge:</span>
+<span class="sd">    :param progressbar:</span>
+<span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># load shapefiles</span>
@@ -292,7 +302,11 @@
 
 <div class="viewcode-block" id="buffer_shp_corners"><a class="viewcode-back" href="../../reference.html#marxanconpy.spatial.buffer_shp_corners">[docs]</a><span class="k">def</span> <span class="nf">buffer_shp_corners</span><span class="p">(</span><span class="n">gdf_list</span><span class="p">,</span> <span class="n">bufferwidth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="sd">    Finds the lower left and upper right corners of a list of geopandas.GeoDataFrame objects. Optionally define a buffer (in degrees) around the list GeoDataFrames</span>
+<span class="sd">    :param gdf_list:</span>
+<span class="sd">    :param bufferwidth:</span>
+<span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lonmin</span> <span class="o">=</span> <span class="mi">181</span>
     <span class="n">lonmax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">181</span>
@@ -309,7 +323,13 @@
         <span class="k">if</span><span class="p">(</span><span class="n">latmaxtemp</span><span class="o">&gt;</span><span class="n">latmax</span><span class="p">):</span> <span class="n">latmax</span> <span class="o">=</span> <span class="n">latmaxtemp</span>
     <span class="k">return</span> <span class="n">lonmin</span><span class="p">,</span> <span class="n">lonmax</span><span class="p">,</span> <span class="n">latmin</span><span class="p">,</span> <span class="n">latmax</span></div>
 
-<span class="k">def</span> <span class="nf">get_appropriate_projection</span><span class="p">(</span><span class="n">shapefile</span><span class="p">,</span><span class="n">equal</span><span class="o">=</span><span class="s1">&#39;area&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="get_appropriate_projection"><a class="viewcode-back" href="../../reference.html#marxanconpy.spatial.get_appropriate_projection">[docs]</a><span class="k">def</span> <span class="nf">get_appropriate_projection</span><span class="p">(</span><span class="n">shapefile</span><span class="p">,</span><span class="n">equal</span><span class="o">=</span><span class="s1">&#39;area&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param shapefile:</span>
+<span class="sd">    :param equal:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lonmin</span><span class="p">,</span> <span class="n">lonmax</span><span class="p">,</span> <span class="n">latmin</span><span class="p">,</span> <span class="n">latmax</span> <span class="o">=</span> <span class="n">buffer_shp_corners</span><span class="p">([</span><span class="n">shapefile</span><span class="p">])</span>
     <span class="n">lon</span> <span class="o">=</span> <span class="p">(</span><span class="n">lonmin</span> <span class="o">+</span> <span class="n">lonmax</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">lat</span> <span class="o">=</span> <span class="p">(</span><span class="n">latmin</span><span class="o">+</span><span class="n">latmax</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
@@ -323,9 +343,21 @@
             <span class="n">proj</span> <span class="o">=</span> <span class="s1">&#39;+proj=eqdc +lat_1=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">latmin</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; +lat_2=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">latmax</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; +lon_0=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">proj</span> <span class="o">=</span> <span class="s1">&#39;+proj=eqc +lon_0=&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">proj</span>
+    <span class="k">return</span> <span class="n">proj</span></div>
 
-<span class="k">def</span> <span class="nf">habitatresistance2conmats</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">hab_filepath</span><span class="p">,</span> <span class="n">hab_id</span><span class="p">,</span> <span class="n">res_mat_filepath</span><span class="p">,</span> <span class="n">pu_filepath</span><span class="p">,</span> <span class="n">pu_id</span><span class="p">,</span> <span class="n">res_type</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="habitatresistance2conmats"><a class="viewcode-back" href="../../reference.html#marxanconpy.spatial.habitatresistance2conmats">[docs]</a><span class="k">def</span> <span class="nf">habitatresistance2conmats</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">hab_filepath</span><span class="p">,</span> <span class="n">hab_id</span><span class="p">,</span> <span class="n">res_mat_filepath</span><span class="p">,</span> <span class="n">pu_filepath</span><span class="p">,</span> <span class="n">pu_id</span><span class="p">,</span> <span class="n">res_type</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param buff:</span>
+<span class="sd">    :param hab_filepath:</span>
+<span class="sd">    :param hab_id:</span>
+<span class="sd">    :param res_mat_filepath:</span>
+<span class="sd">    :param pu_filepath:</span>
+<span class="sd">    :param pu_id:</span>
+<span class="sd">    :param res_type:</span>
+<span class="sd">    :param progressbar:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">pu</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">pu_filepath</span><span class="p">)</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="s1">&#39;+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs&#39;</span><span class="p">)</span>
         <span class="n">pu</span> <span class="o">=</span> <span class="n">pu</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">pu_id</span><span class="p">)</span>
@@ -440,7 +472,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Error in habitatresistance2conmats&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">Show</span><span class="p">()</span>
         <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
-        <span class="k">raise</span>
+        <span class="k">raise</span></div>
 </pre></div>
 
            </div>

@@ -8,7 +8,17 @@ import os
 
 def rescale_matrix(pu_filepath,pu_id,cu_filepath,cu_id,cm_filepath,matrixformat,edge,progressbar=False):
     """
+
     rescale the connectivity matrix to match the scale of the planning units
+    :param pu_filepath:
+    :param pu_id:
+    :param cu_filepath:
+    :param cu_id:
+    :param cm_filepath:
+    :param matrixformat:
+    :param edge:
+    :param progressbar:
+    :return:
     """
     try:
         # load shapefiles
@@ -149,7 +159,11 @@ def rescale_matrix(pu_filepath,pu_id,cu_filepath,cu_id,cm_filepath,matrixformat,
 
 def buffer_shp_corners(gdf_list, bufferwidth = 0):
     """
+
     Finds the lower left and upper right corners of a list of geopandas.GeoDataFrame objects. Optionally define a buffer (in degrees) around the list GeoDataFrames
+    :param gdf_list:
+    :param bufferwidth:
+    :return:
     """
     lonmin = 181
     lonmax = -181
@@ -167,6 +181,12 @@ def buffer_shp_corners(gdf_list, bufferwidth = 0):
     return lonmin, lonmax, latmin, latmax
 
 def get_appropriate_projection(shapefile,equal='area'):
+    """
+
+    :param shapefile:
+    :param equal:
+    :return:
+    """
     lonmin, lonmax, latmin, latmax = buffer_shp_corners([shapefile])
     lon = (lonmin + lonmax) / 2
     lat = (latmin+latmax)/2
@@ -183,6 +203,18 @@ def get_appropriate_projection(shapefile,equal='area'):
     return proj
 
 def habitatresistance2conmats(buff, hab_filepath, hab_id, res_mat_filepath, pu_filepath, pu_id, res_type, progressbar = False):
+    """
+
+    :param buff:
+    :param hab_filepath:
+    :param hab_id:
+    :param res_mat_filepath:
+    :param pu_filepath:
+    :param pu_id:
+    :param res_type:
+    :param progressbar:
+    :return:
+    """
     try:
         pu = gpd.GeoDataFrame.from_file(pu_filepath).to_crs('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs')
         pu = pu.sort_values(pu_id)

@@ -5,28 +5,64 @@ import igraph
 import marxanconpy
 
 def graph2vertexdegree(graph,mode='ALL'):
+    """ Connectivity graph
+    
+    :param graph: igraph formatted graph
+    :param mode: String describing mode (i.e. 'ALL', 'IN', 'OUT")
+    :return: 
+    """
     vertexdegree = graph.degree(mode=mode)
     return vertexdegree
 
 def graph2betweencent(graph):
+    """ Connectivity graph to betweeness centrality
+    
+    :param graph: igraph formatted graph 
+    :return: 
+    """
     betweencent = graph.betweenness()
     return betweencent
 
 def graph2eigvectcent(graph):
+    """ Connectivity graph to eigenvector centrality
+    
+    :param graph: igraph formatted graph 
+    :return: 
+    """
     eigvectcent = graph.evcent(weights=graph.es["weight"])
     return eigvectcent
 
 def graph2google(graph):
+    """ Connectivity graph to Google Page Rank
+    
+    :param graph: igraph formatted graph 
+    :return: 
+    """
     eigvectcent = graph.pagerank(weights=graph.es["weight"])
     return eigvectcent
 
 def graph2outflow(graph):
+    """ Connectivity graph to outflow
+    
+    :param graph: igraph formatted graph 
+    :return: 
+    """
     return graph.strength(mode="OUT", loops=False, weights=graph.es["weight"])
 
 def graph2inflow(graph):
+    """ Connectivity graph to inflow
+    
+    :param graph: igraph formatted graph 
+    :return: 
+    """
     return graph.strength(mode="IN", loops=False, weights=graph.es["weight"])
 
 def graph2diagonal(graph):
+    """ Connectivity graph to diagonal
+    
+    :param graph: igraph formatted graph 
+    :return: 
+    """
     from_list = numpy.array([x[0] for x in graph.get_edgelist()])
     to_list = numpy.array([x[1] for x in graph.get_edgelist()])
     loops = from_list == to_list
@@ -38,6 +74,13 @@ def graph2diagonal(graph):
     return diag
 
 def get_intersect_id(area_filepath, pu_filepath,pu_id='ID'):
+    """ 
+    
+    :param area_filepath: 
+    :param pu_filepath: 
+    :param pu_id: 
+    :return: 
+    """
     area = gpd.GeoDataFrame.from_file(area_filepath)
     pu = gpd.GeoDataFrame.from_file(pu_filepath)
 
@@ -55,6 +98,15 @@ def get_intersect_id(area_filepath, pu_filepath,pu_id='ID'):
     return area_id
 
 def graph2recipients(graph, area_filepath, pu_filepath, pu_id='ID',inverse=False):
+    """ Connectivity graph to recipients
+    
+    :param graph: igraph formatted graph 
+    :param area_filepath: 
+    :param pu_filepath: 
+    :param pu_id: 
+    :param inverse: 
+    :return: 
+    """
     area_id = get_intersect_id(area_filepath, pu_filepath, pu_id)
     recipients = numpy.array(graph.strength(area_id,mode="IN", loops=False, weights=graph.es["weight"]))
     if inverse:
@@ -63,6 +115,15 @@ def graph2recipients(graph, area_filepath, pu_filepath, pu_id='ID',inverse=False
         return recipients
 
 def graph2donors(graph, area_filepath, pu_filepath, pu_id='ID',inverse=False):
+    """ Connectivity graph to donors
+    
+    :param graph: igraph formatted graph 
+    :param area_filepath: 
+    :param pu_filepath: 
+    :param pu_id: 
+    :param inverse: 
+    :return: 
+    """
     area_id = get_intersect_id(area_filepath, pu_filepath, pu_id)
     donors = numpy.array(graph.strength(area_id, mode="OUT", loops=False, weights=graph.es["weight"]))
     if inverse:
@@ -71,6 +132,11 @@ def graph2donors(graph, area_filepath, pu_filepath, pu_id='ID',inverse=False):
         return donors
 
 def graph2connboundary(graph):
+    """ Connectivity graph to spatial dependency
+    
+    :param graph: igraph formatted graph 
+    :return: 
+    """
     id1 = numpy.array([x[0] for x in graph.get_edgelist()])
     id2 = numpy.array([x[1] for x in graph.get_edgelist()])
     boundary = graph.es["weight"]
@@ -79,17 +145,15 @@ def graph2connboundary(graph):
                                           "boundary": boundary}).to_json(orient='split')
     return boundary_dat
 
-# def graph2minplanarboundary(graph):
-#     mpgmat = graph.get_adjacency().data
-#     mpgmat = pandas.DataFrame(mpgmat)
-#     mpgmat.columns = graph.columns
-#     mpgmat['id1'] = graph.index
-#     boundary_dat = mpgmat.melt(id_vars=['id1'])
-#     boundary_dat.columns = ['id1', 'id2', 'boundary']
-#     boundary_dat = boundary_dat.query('boundary>0').to_json(orient='split')
-#     return boundary_dat
-
 def graphtime2temp_conn_cov(graph_time, fa_filepath, pu_filepath):
+    """ Connectivity graph with time to temporal connectivity covariance
+    
+    :param graph_time: 
+    :param fa_filepath: 
+    :param pu_filepath: 
+    :return: 
+    """
+    
     fa = gpd.GeoDataFrame.from_file(fa_filepath)
     pu = gpd.GeoDataFrame.from_file(pu_filepath)
 
