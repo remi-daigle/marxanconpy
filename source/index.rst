@@ -11,33 +11,40 @@ marxanconpy
 
 The python package **marxanconpy** is the workhorse behind the Graphical User Interface `Marxan Connect <http://marxanconnect.ca/>`_ but it can also be used like a traditional python package via the command line.
 
-Installation
-____________
+
+.. toctree::
+  :maxdepth: 1
+  :caption: Getting Started
 
 ::
 
    pip install marxanconpy
 
-Example Usage
-=============
+.. toctree::
+  :maxdepth: 1
+  :caption: User Guide
 
-#TODO
+  Examples <example>
 
-Reference Guide
-===============
 
-`Reference to all functions <reference.html>`_
+.. toctree::
+  :maxdepth: 4
+  :caption: Reference Guide
 
-Contributing
-============
+  Reference <reference>
 
-`Guide to contributing <CONTRIBUTING.html>`_
 
-Code of Conduct
-===============
+.. toctree::
+  :maxdepth: 1
+  :caption: Contributing
 
-`Code of Conduct <CODE_OF_CONDUCT.html>`_
+  Contributing <CONTRIBUTING>
 
+.. toctree::
+  :maxdepth: 1
+  :caption: Code of Conduct
+
+  Code of Conduct <CODE_OF_CONDUCT>
 
 Indices and tables
 ==================

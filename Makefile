@@ -1,4 +1,4 @@
-all: html build install pypi
+all: html install pypi
 
 html: Makefile
 	jupyter nbconvert --to rst source/example.ipynb
@@ -7,11 +7,12 @@ html: Makefile
     cp -r build/html docs;
 
 build: setup.py
-	python setup.py sdist bdist_wheel
+	rm -rf dist/*
+	python setup.py sdist
 
-pypi: setup.py
-	python setup.py bdist upload
+pypi: build setup.py
+	python setup.py sdist upload
 
-install: setup.py
-	pip uninstall marxanconpy
-	python setup.py install
+install: build setup.py
+	pip uninstall marxanconpy;\
+	pip install dist/marxanconpy-0.1.2b4.tar.gz

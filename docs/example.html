@@ -27,7 +27,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reference to all functions in marxanconpy" href="reference.html" />
+    <link rel="prev" title="Getting Started" href="index.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -76,12 +78,24 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">New Projects</a></li>
-<li><a class="reference internal" href="#load-projects">Load Projects</a></li>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">New Projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#load-projects">Load Projects</a></li>
 </ul>
-</div>
+<p class="caption"><span class="caption-text">Reference Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code of Conduct</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CODE_OF_CONDUCT.html">Code of Conduct</a></li>
+</ul>
+
             
           
         </div>
@@ -237,6 +251,7 @@ Connect</a></p>
 </div>
 <div class="section" id="load-projects">
 <h1>Load Projects<a class="headerlink" href="#load-projects" title="Permalink to this headline">¶</a></h1>
+<p>We can also load pre-existing <code class="docutils literal notranslate"><span class="pre">.Marcon</span></code> files</p>
 <div class="code ipython2 highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">marxanconpy</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
 <span class="n">project</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">marcon</span><span class="o">.</span><span class="n">load_project</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;data&#39;</span><span class="p">,</span><span class="s1">&#39;CF_demographic&#39;</span><span class="p">,</span><span class="s1">&#39;tutorial.MarCon&#39;</span><span class="p">))</span>
 <span class="n">project</span>
@@ -2294,6 +2309,15 @@ Connect</a></p>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reference.html" class="btn btn-neutral float-right" title="Reference to all functions in marxanconpy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

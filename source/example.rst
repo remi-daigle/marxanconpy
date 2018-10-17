@@ -101,6 +101,8 @@ Connect <marxanconnect.ca>`__
 Load Projects
 =============
 
+We can also load pre-existing ``.Marcon`` files
+
 .. code:: ipython2
 
     path = os.path.dirname(marxanconpy.__file__)

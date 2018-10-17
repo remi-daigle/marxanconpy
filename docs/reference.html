@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>marxanconpy &mdash; marxanconpy v0.1.2 documentation</title>
+  <title>Reference to all functions in marxanconpy &mdash; marxanconpy v0.1.2 documentation</title>
   
 
   
@@ -27,7 +27,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing" href="CONTRIBUTING.html" />
+    <link rel="prev" title="New Projects" href="example.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -76,16 +78,32 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">marxanconpy</a></li>
-<li><a class="reference internal" href="#marxanconpy-manipulation">marxanconpy.manipulation</a></li>
-<li><a class="reference internal" href="#marxanconpy-marcon">marxanconpy.marcon</a></li>
-<li><a class="reference internal" href="#marxanconpy-metrics">marxanconpy.metrics</a></li>
-<li><a class="reference internal" href="#marxanconpy-posthoc">marxanconpy.posthoc</a></li>
-<li><a class="reference internal" href="#marxanconpy-spatial">marxanconpy.spatial</a></li>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="example.html">New Projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html#load-projects">Load Projects</a></li>
 </ul>
-</div>
+<p class="caption"><span class="caption-text">Reference Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#marxanconpy">marxanconpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#marxanconpy-manipulation">marxanconpy.manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#marxanconpy-marcon">marxanconpy.marcon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#marxanconpy-metrics">marxanconpy.metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#marxanconpy-posthoc">marxanconpy.posthoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#marxanconpy-spatial">marxanconpy.spatial</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Code of Conduct</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CODE_OF_CONDUCT.html">Code of Conduct</a></li>
+</ul>
+
             
           
         </div>
@@ -129,7 +147,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>marxanconpy</li>
+      <li>Reference to all functions in marxanconpy</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -148,10 +166,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="toctree-wrapper compound">
+  <div class="section" id="reference-to-all-functions-in-marxanconpy">
+<h1>Reference to all functions in marxanconpy<a class="headerlink" href="#reference-to-all-functions-in-marxanconpy" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
 </div>
 <div class="section" id="marxanconpy">
-<h1>marxanconpy<a class="headerlink" href="#marxanconpy" title="Permalink to this headline">¶</a></h1>
+<h2>marxanconpy<a class="headerlink" href="#marxanconpy" title="Permalink to this headline">¶</a></h2>
 <p>The base module, marxanconpy, contains only the most basic utility functions.</p>
 <span class="target" id="module-marxanconpy"></span><dl class="function">
 <dt id="marxanconpy.progress_bar_update">
@@ -220,16 +240,14 @@ delimiters), then the file is read as a tsv.</p>
 
 </div>
 <div class="section" id="marxanconpy-manipulation">
-<h1>marxanconpy.manipulation<a class="headerlink" href="#marxanconpy-manipulation" title="Permalink to this headline">¶</a></h1>
+<h2>marxanconpy.manipulation<a class="headerlink" href="#marxanconpy-manipulation" title="Permalink to this headline">¶</a></h2>
 <p>This module contains all the functions which manipulate data.</p>
 <span class="target" id="module-marxanconpy.manipulation"></span><dl class="function">
 <dt id="marxanconpy.manipulation.calc_metrics">
 <code class="descclassname">marxanconpy.manipulation.</code><code class="descname">calc_metrics</code><span class="sig-paren">(</span><em>project</em>, <em>progressbar</em>, <em>calc_metrics_pu=True</em>, <em>calc_metrics_cu=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#calc_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.calc_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate connectivity metrics</p>
-<dl class="docutils">
-<dt>Calculates connectivity metrics to be used as conservation features and prepares the connectivity to be used as</dt>
-<dd>spatial dependencies</dd>
-</dl>
+<p>Calculates connectivity metrics to be used as conservation features and prepares the connectivity to be used as
+spatial dependencies</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -359,7 +377,7 @@ supplied. For exploration purposes only as these will not be used in any Marxan 
 
 </div>
 <div class="section" id="marxanconpy-marcon">
-<h1>marxanconpy.marcon<a class="headerlink" href="#marxanconpy-marcon" title="Permalink to this headline">¶</a></h1>
+<h2>marxanconpy.marcon<a class="headerlink" href="#marxanconpy-marcon" title="Permalink to this headline">¶</a></h2>
 <p>This module contains all the functions that deal with the project dictionary and .MarCon files.</p>
 <span class="target" id="module-marxanconpy.marcon"></span><dl class="function">
 <dt id="marxanconpy.marcon.edit_working_directory">
@@ -413,7 +431,7 @@ Different versions of marxanconpy may require slightly different fields.
 
 </div>
 <div class="section" id="marxanconpy-metrics">
-<h1>marxanconpy.metrics<a class="headerlink" href="#marxanconpy-metrics" title="Permalink to this headline">¶</a></h1>
+<h2>marxanconpy.metrics<a class="headerlink" href="#marxanconpy-metrics" title="Permalink to this headline">¶</a></h2>
 <p>This module provides all the functions required to calculate the connectivity metrics.</p>
 <span class="target" id="module-marxanconpy.metrics"></span><dl class="function">
 <dt id="marxanconpy.metrics.get_intersect_id">
@@ -641,7 +659,7 @@ Different versions of marxanconpy may require slightly different fields.
 
 </div>
 <div class="section" id="marxanconpy-posthoc">
-<h1>marxanconpy.posthoc<a class="headerlink" href="#marxanconpy-posthoc" title="Permalink to this headline">¶</a></h1>
+<h2>marxanconpy.posthoc<a class="headerlink" href="#marxanconpy-posthoc" title="Permalink to this headline">¶</a></h2>
 <p>This module contains the functions that relate to the post-hoc analysis of Marxan results.</p>
 <span class="target" id="module-marxanconpy.posthoc"></span><dl class="function">
 <dt id="marxanconpy.posthoc.calc_postHoc">
@@ -668,7 +686,7 @@ Different versions of marxanconpy may require slightly different fields.
 
 </div>
 <div class="section" id="marxanconpy-spatial">
-<h1>marxanconpy.spatial<a class="headerlink" href="#marxanconpy-spatial" title="Permalink to this headline">¶</a></h1>
+<h2>marxanconpy.spatial<a class="headerlink" href="#marxanconpy-spatial" title="Permalink to this headline">¶</a></h2>
 <p>This module contains spatially intensive functions.</p>
 <span class="target" id="module-marxanconpy.spatial"></span><dl class="function">
 <dt id="marxanconpy.spatial.buffer_shp_corners">
@@ -741,12 +759,22 @@ Different versions of marxanconpy may require slightly different fields.
 </dd></dl>
 
 </div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="CONTRIBUTING.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="example.html" class="btn btn-neutral" title="New Projects" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

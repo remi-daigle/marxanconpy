@@ -100,7 +100,7 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
     """ Calculate connectivity metrics
 
     Calculates connectivity metrics to be used as conservation features and prepares the connectivity to be used as
-     spatial dependencies
+    spatial dependencies
 
     :param project: Project dictionary created by'marxanconpy.marcon.new_project()' or
     'marxanconpy.marcon.load_file()'. The later reads the .MarCon JSON project file
