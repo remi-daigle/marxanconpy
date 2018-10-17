@@ -1,22 +1,18 @@
-.. marxanconpy documentation master file, created by
-   sphinx-quickstart on Mon Oct 15 13:17:12 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Getting Started
-===========
-
 marxanconpy
------------
+===========
 
 The python package **marxanconpy** is the workhorse behind the Graphical User Interface `Marxan Connect <http://marxanconnect.ca/>`_ but it can also be used like a traditional python package via the command line.
 
+Installation
+------------
+
+::
+
+ pip install marxanconpy
 
 .. toctree::
   :maxdepth: 1
   :caption: Getting Started
-
-::
 
    pip install marxanconpy
 

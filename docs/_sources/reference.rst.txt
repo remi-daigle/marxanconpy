@@ -5,6 +5,7 @@ Reference to all functions in marxanconpy
    :maxdepth: 2
    :caption: Contents:
 
+
 marxanconpy
 -----------
 
@@ -12,6 +13,7 @@ The base module, marxanconpy, contains only the most basic utility functions.
 
 .. automodule:: marxanconpy
    :members:
+
 
 marxanconpy.manipulation
 ------------------------
@@ -21,6 +23,7 @@ This module contains all the functions which manipulate data.
 .. automodule:: marxanconpy.manipulation
    :members:
 
+
 marxanconpy.marcon
 ------------------
 
@@ -28,6 +31,7 @@ This module contains all the functions that deal with the project dictionary and
 
 .. automodule:: marxanconpy.marcon
    :members:
+
 
 marxanconpy.metrics
 -------------------
@@ -37,6 +41,7 @@ This module provides all the functions required to calculate the connectivity me
 .. automodule:: marxanconpy.metrics
    :members:
 
+
 marxanconpy.posthoc
 -------------------
 
@@ -44,6 +49,7 @@ This module contains the functions that relate to the post-hoc analysis of Marxa
 
 .. automodule:: marxanconpy.posthoc
    :members:
+
 
 marxanconpy.spatial
 -------------------
