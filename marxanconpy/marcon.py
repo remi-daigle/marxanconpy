@@ -9,7 +9,9 @@ def new_project():
     """
     # create project list to store project specific data
     project = {}
-    project['version'] = marxanconpy.__version__
+    project['version'] = {}
+    project['version']['marxanconpy'] = marxanconpy.__version__
+    project['version']['MarxanConnect'] = 'NA'
     project['filepaths'] = {}
     project['options'] = {}
 
@@ -163,10 +165,18 @@ def validate_project(project):
     :param project: the project dictionary
     :return: dict
     """
-    if project['version']!=marxanconpy.__version__:
+    if 'marxanconpy' in project['version']:
+        if project['version']['marxanconpy'] != marxanconpy.__version__:
+            print("Warning: This project file was created with a different version of marxanconpy. Attempting to "
+                  "update for compatibility")
+            project['version']['marxanconpy'] = marxanconpy.__version__
+    else:
         print("Warning: This project file was created with a different version of Marxan Connect. Attempting to "
               "update for compatibility")
-        project['version'] = marxanconpy.__version__
+        project['version'] = {}
+        project['version']['marxanconpy'] = marxanconpy.__version__
+        project['version']['MarxanConnect'] = "NA"
+
 
     np = new_project()
 

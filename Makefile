@@ -14,5 +14,5 @@ pypi: build setup.py
 	python setup.py sdist upload
 
 install: build setup.py
-	pip uninstall marxanconpy;\
+	pip uninstall marxanconpy -y;\
 	pip install dist/marxanconpy-0.1.2b4.tar.gz
