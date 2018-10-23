@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Contributing &#8212; marxanconpy v0.1.2 documentation</title>
+    <title>Workflow &#8212; marxanconpy v0.1.2 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/example_gallery_styles.css" />
@@ -17,8 +17,8 @@
     <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Code of Conduct" href="CODE_OF_CONDUCT.html" />
-    <link rel="prev" title="Reference to all functions in marxanconpy" href="reference.html" /> 
+    <link rel="next" title="Reference to all functions in marxanconpy" href="reference.html" />
+    <link rel="prev" title="MarCon Projects" href="marcon.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -30,10 +30,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="CODE_OF_CONDUCT.html" title="Code of Conduct"
+          <a href="reference.html" title="Reference to all functions in marxanconpy"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="reference.html" title="Reference to all functions in marxanconpy"
+          <a href="marcon.html" title="MarCon Projects"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">marxanconpy v0.1.2 documentation</a> &#187;</li> 
       </ul>
@@ -44,26 +44,29 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="contributing">
-<h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
-<p>When contributing to this repository, please first discuss the change you wish to make via issue,
-email, or any other method with the owners of this repository before making a change.</p>
-<p>Please note we have a code of conduct, please follow it in all your interactions with the project.</p>
-<div class="section" id="issue-posting-process">
-<h2>Issue Posting Process<a class="headerlink" href="#issue-posting-process" title="Permalink to this headline">¶</a></h2>
-<ol class="arabic simple">
-<li>Check the <a class="reference external" href="https://github.com/remi-daigle/marxanconpy/issues">Issues</a> before posting to avoid duplication.</li>
-<li>Use the <a class="reference external" href="https://github.com/remi-daigle/marxanconpy/blob/master/ISSUE_TEMPLATE.md">Issue Template</a></li>
-</ol>
+  <div class="section" id="workflow">
+<h1>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h1>
+<p>In this section, it is assume you have create a <code class="docutils literal notranslate"><span class="pre">.Marcon</span></code> project
+dictionary. If you haven’t, please see the <a class="reference external" href="/docs/example_marcon.html">MarCon
+projects</a> section</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">marxanconpy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">marxanconpy</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">marcon</span><span class="o">.</span><span class="n">load_project</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;data&#39;</span><span class="p">,</span><span class="s1">&#39;CF_demographic&#39;</span><span class="p">,</span><span class="s1">&#39;tutorial.MarCon&#39;</span><span class="p">))</span>
+</pre></div>
 </div>
-<div class="section" id="pull-request-process">
-<h2>Pull Request Process<a class="headerlink" href="#pull-request-process" title="Permalink to this headline">¶</a></h2>
-<ol class="arabic simple">
-<li>Use the <a class="reference external" href="https://github.com/remi-daigle/marxanconpy/blob/master/PULL_REQUEST_TEMPLATE.md">Pull Request Template</a></li>
-</ol>
-<p>2. Increase the version numbers in <a class="reference external" href="https://github.com/remi-daigle/marxanconpy/blob/master/marxanconpy/__init__.py">__init__.py</a> to the new version that this Pull Request would represent. The versioning scheme we use is <a class="reference external" href="http://semver.org/">SemVer</a>.
-2. Increase the version numbers in <a class="reference external" href="https://github.com/remi-daigle/marxanconpy/blob/master/marxanconpy/__init__.py">__init__.py</a> to the new version that this Pull Request would represent. The versioning scheme we use is <a class="reference external" href="http://semver.org/">SemVer</a>.
-3. You may merge the Pull Request in once you have the sign-off of two other developers, or if you do not have permission to do that, you may request the second reviewer to merge it for you.</p>
+<div class="section" id="preparing-connectivity-data">
+<h2>Preparing Connectivity Data<a class="headerlink" href="#preparing-connectivity-data" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="calculating-metrics">
+<h2>Calculating Metrics<a class="headerlink" href="#calculating-metrics" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="running-marxan">
+<h2>Running Marxan<a class="headerlink" href="#running-marxan" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="posthoc">
+<h2>Posthoc<a class="headerlink" href="#posthoc" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -75,23 +78,25 @@ email, or any other method with the owners of this repository before making a ch
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Contributing</a><ul>
-<li><a class="reference internal" href="#issue-posting-process">Issue Posting Process</a></li>
-<li><a class="reference internal" href="#pull-request-process">Pull Request Process</a></li>
+<li><a class="reference internal" href="#">Workflow</a><ul>
+<li><a class="reference internal" href="#preparing-connectivity-data">Preparing Connectivity Data</a></li>
+<li><a class="reference internal" href="#calculating-metrics">Calculating Metrics</a></li>
+<li><a class="reference internal" href="#running-marxan">Running Marxan</a></li>
+<li><a class="reference internal" href="#posthoc">Posthoc</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="reference.html"
-                        title="previous chapter">Reference to all functions in marxanconpy</a></p>
+  <p class="topless"><a href="marcon.html"
+                        title="previous chapter">MarCon Projects</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="CODE_OF_CONDUCT.html"
-                        title="next chapter">Code of Conduct</a></p>
+  <p class="topless"><a href="reference.html"
+                        title="next chapter">Reference to all functions in marxanconpy</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/CONTRIBUTING.rst.txt"
+      <li><a href="_sources/example_workflow.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -121,10 +126,10 @@ email, or any other method with the owners of this repository before making a ch
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="CODE_OF_CONDUCT.html" title="Code of Conduct"
+          <a href="reference.html" title="Reference to all functions in marxanconpy"
              >next</a> |</li>
         <li class="right" >
-          <a href="reference.html" title="Reference to all functions in marxanconpy"
+          <a href="marcon.html" title="MarCon Projects"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">marxanconpy v0.1.2 documentation</a> &#187;</li> 
       </ul>

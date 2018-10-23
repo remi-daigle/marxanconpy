@@ -1,13 +1,13 @@
 
 New Projects
-============
+------------
 
 The first step is to import the package and create a MarCon dictionary.
 This is one giant dictionary that contains all required options,
 filepaths, etc. These can also be produced using the GUI `Marxan
-Connect <marxanconnect.ca>`__
+Connect <http://marxanconnect.ca>`__
 
-.. code:: ipython2
+.. code:: ipython3
 
     import marxanconpy
     import os
@@ -20,7 +20,7 @@ Load Projects
 
 We can also load pre-existing ``.MarCon`` files
 
-.. code:: ipython2
+.. code:: ipython3
 
     path = os.path.dirname(marxanconpy.__file__)
     project = marxanconpy.marcon.load_project(os.path.join(path,'data','CF_demographic','tutorial.MarCon'))
@@ -36,19 +36,9 @@ We can also load pre-existing ``.MarCon`` files
 Editing Projects
 ----------------
 
-.. code:: ipython2
+.. code:: ipython3
 
     project['filepaths']['aa_filepath'] = "path\to\file.shp"
 
 Saving Projects
 ---------------
-
-.. code:: ipython2
-
-    ## Preparing Connectivity Data
-    
-    ## Calculating Metrics
-    
-    ## Running Marxan
-    
-    ## Posthoc

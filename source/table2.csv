@@ -1,0 +1,17 @@
+Key,Definition
+aa_donors,`Avoidance Area Donors <http://marxanconnect.ca/glossary.html#avoidance_area_donors>`_
+aa_recipients,`Avoidance Area Recipients <http://marxanconnect.ca/glossary.html#avoidance_area_recipients>`_
+between_cent,`Betweenness Centrality <http://marxanconnect.ca/glossary.html#betweenness_centrality>`_
+conn_boundary,`Connectivity as Spatial Dependency <http://marxanconnect.ca/glossary.html#spatial_dependency>`_
+eig_vect_cent,`Eigenvector Centrality <http://marxanconnect.ca/glossary.html#eigenvector_centrality>`_
+fa_donors,`Focus Area Donors <http://marxanconnect.ca/glossary.html#focus_area_donors>`_
+fa_recipients,`Focus Area Recipients <http://marxanconnect.ca/glossary.html#focus_area_recipients>`_
+google,`Google PageRank <http://marxanconnect.ca/glossary.html#google_pagerank>`_
+in_degree,`In-Degree <http://marxanconnect.ca/glossary.html#in-degree>`_
+inflow,`In-flow <http://marxanconnect.ca/glossary.html#in-flow>`_
+local_retention,`Local Retention <http://marxanconnect.ca/glossary.html#local_retention>`_
+min_plan_graph,Minimum Planar Graph (deprecated)
+out_degree,`Out-Degree <http://marxanconnect.ca/glossary.html#out-degree>`_
+outflow,`Out-flow <http://marxanconnect.ca/glossary.html#out-flow>`_
+self_recruit,`Self-Recruitment <http://marxanconnect.ca/glossary.html#self-recruitment>`_
+stochasticity,`Temporal Connectivity Covariance <http://marxanconnect.ca/glossary.html#temporal_connectivity_covariance>`_

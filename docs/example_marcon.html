@@ -1,0 +1,128 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>New Projects &#8212; marxanconpy v0.1.2 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/example_gallery_styles.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">marxanconpy v0.1.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="new-projects">
+<h1>New Projects<a class="headerlink" href="#new-projects" title="Permalink to this headline">¶</a></h1>
+<p>The first step is to import the package and create a MarCon dictionary.
+This is one giant dictionary that contains all required options,
+filepaths, etc. These can also be produced using the GUI <a class="reference external" href="http://marxanconnect.ca">Marxan
+Connect</a></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">marxanconpy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">project</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">marcon</span><span class="o">.</span><span class="n">new_project</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="load-projects">
+<h1>Load Projects<a class="headerlink" href="#load-projects" title="Permalink to this headline">¶</a></h1>
+<p>We can also load pre-existing <code class="docutils literal notranslate"><span class="pre">.MarCon</span></code> files</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">marxanconpy</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">marcon</span><span class="o">.</span><span class="n">load_project</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;data&#39;</span><span class="p">,</span><span class="s1">&#39;CF_demographic&#39;</span><span class="p">,</span><span class="s1">&#39;tutorial.MarCon&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">Warning</span><span class="p">:</span> <span class="n">This</span> <span class="n">project</span> <span class="n">file</span> <span class="n">was</span> <span class="n">created</span> <span class="k">with</span> <span class="n">a</span> <span class="n">different</span> <span class="n">version</span> <span class="n">of</span> <span class="n">Marxan</span> <span class="n">Connect</span><span class="o">.</span> <span class="n">Attempting</span> <span class="n">to</span> <span class="n">update</span> <span class="k">for</span> <span class="n">compatibility</span>
+<span class="ne">Warning</span><span class="p">:</span> <span class="n">This</span> <span class="n">project</span> <span class="n">file</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">contain</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">required</span> <span class="n">fields</span> <span class="p">(</span><span class="n">marxan</span><span class="p">)</span><span class="o">.</span> <span class="n">Attempting</span> <span class="n">to</span> <span class="n">update</span> <span class="k">for</span> <span class="n">compatibility</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="editing-projects">
+<h1>Editing Projects<a class="headerlink" href="#editing-projects" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;aa_filepath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;path</span><span class="se">\t</span><span class="s2">o</span><span class="se">\f</span><span class="s2">ile.shp&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="saving-projects">
+<h1>Saving Projects<a class="headerlink" href="#saving-projects" title="Permalink to this headline">¶</a></h1>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">New Projects</a></li>
+<li><a class="reference internal" href="#load-projects">Load Projects</a></li>
+<li><a class="reference internal" href="#editing-projects">Editing Projects</a></li>
+<li><a class="reference internal" href="#saving-projects">Saving Projects</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/example_marcon.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">marxanconpy v0.1.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Remi Daigle.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>

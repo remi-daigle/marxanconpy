@@ -9,8 +9,7 @@ def calc_postHoc(filename,format,IDs,selectionIDs):
     Calculate PostHoc Metrics for a given Marxan solution
 
     :param filename: filename of the connectivity data
-    :param format: The format of the connectivity file (i.e. "Matrix", "Edge List", "Edge List with Type",
-    "Edge List with Time"). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats
+    :param format: The format of the connectivity file (i.e. "Matrix", "Edge List", "Edge List with Type", "Edge List with Time"). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats
     :param IDs: Planning unit IDs
     :param selectionIDs: Planning unit IDs for those included in the Marxan solution
     :return:

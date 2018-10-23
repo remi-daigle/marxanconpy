@@ -6,9 +6,11 @@ The python package **marxanconpy** is the workhorse behind the Graphical User In
 Installation
 ------------
 
-::
+.. code-block:: bash
+   :linenos:
+   
+   pip install marxanconpy
 
- pip install marxanconpy
 
 .. toctree::
   :maxdepth: 1
@@ -20,7 +22,8 @@ Installation
   :maxdepth: 1
   :caption: User Guide
 
-  Examples <example>
+  MarCon projects <marcon>
+  Workflow <example_workflow>
 
 
 .. toctree::
@@ -34,12 +37,7 @@ Installation
   :maxdepth: 1
   :caption: Contributing
 
-  Contributing <CONTRIBUTING>
-
-.. toctree::
-  :maxdepth: 1
-  :caption: Code of Conduct
-
+  Contribution Guide <CONTRIBUTING>
   Code of Conduct <CODE_OF_CONDUCT>
 
 Indices and tables

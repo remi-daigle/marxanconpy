@@ -102,12 +102,10 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
     Calculates connectivity metrics to be used as conservation features and prepares the connectivity to be used as
     spatial dependencies
 
-    :param project: Project dictionary created by'marxanconpy.marcon.new_project()' or
-    'marxanconpy.marcon.load_file()'. The later reads the .MarCon JSON project file
+    :param project: Project dictionary created by'marxanconpy.marcon.new_project()' or 'marxanconpy.marcon.load_file()'. The later reads the .MarCon JSON project file
     :param progressbar: Logical. True if you want to see a progressbar
     :param calc_metrics_pu: Logical. True if you want to calculate metrics for planning units.
-    :param calc_metrics_cu: Logical. True if you want to calculate metrics for connectivity units if such data is
-    supplied. For exploration purposes only as these will not be used in any Marxan analyses.
+    :param calc_metrics_cu: Logical. True if you want to calculate metrics for connectivity units if such data is supplied. For exploration purposes only as these will not be used in any Marxan analyses.
     :return:
     """
     try:
@@ -550,8 +548,7 @@ def check_matrix_list_format(format, filepath):
 
     Quality control function to assure that the file format is 'as advertised'
 
-    :param format: The expected format of the connectivity file (i.e. "Matrix", "Edge List", "Edge List with Type",
-    "Edge List with Time"). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats
+    :param format: The expected format of the connectivity file (i.e. "Matrix", "Edge List", "Edge List with Type", "Edge List with Time"). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats
     :param filepath: The filepath to the connectivity data
     :return:
     """
@@ -599,8 +596,7 @@ def connectivity2graph(connectivity,format,IDs):
     """ Convert Connectivity data to graph format
 
     :param connectivity: The connectivity data as a pandas data frame (in any format)
-    :param format: The format of the connectivity file (i.e. "Matrix", "Edge List", "Edge List with Type",
-    "Edge List with Time"). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats
+    :param format: The format of the connectivity file (i.e. "Matrix", "Edge List", "Edge List with Type", "Edge List with Time"). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats
     :param IDs: Planning unit IDs
     :return:
     """

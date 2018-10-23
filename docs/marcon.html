@@ -1,0 +1,496 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>MarCon Projects &#8212; marxanconpy v0.1.2 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/example_gallery_styles.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Workflow" href="example_workflow.html" />
+    <link rel="prev" title="marxanconpy" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="example_workflow.html" title="Workflow"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="marxanconpy"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">marxanconpy v0.1.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="marcon-projects">
+<h1>MarCon Projects<a class="headerlink" href="#marcon-projects" title="Permalink to this headline">¶</a></h1>
+<p>Reference table for MarCon project primary and secondary dictionary keys. Tertiary keys are found in a separate <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></p>
+<div class="section" id="new-projects">
+<h2>New Projects<a class="headerlink" href="#new-projects" title="Permalink to this headline">¶</a></h2>
+<p>The first step is to import the package and create a MarCon dictionary.
+This is one giant dictionary that contains all required options,
+filepaths, etc. These can also be produced using the GUI <a class="reference external" href="http://marxanconnect.ca">Marxan
+Connect</a></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">marxanconpy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">project</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">marcon</span><span class="o">.</span><span class="n">new_project</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="load-projects">
+<h2>Load Projects<a class="headerlink" href="#load-projects" title="Permalink to this headline">¶</a></h2>
+<p>We can also load pre-existing <code class="docutils literal notranslate"><span class="pre">.MarCon</span></code> files</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">marxanconpy</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
+<span class="n">project</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">marcon</span><span class="o">.</span><span class="n">load_project</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;data&#39;</span><span class="p">,</span><span class="s1">&#39;CF_demographic&#39;</span><span class="p">,</span><span class="s1">&#39;tutorial.MarCon&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">Warning</span><span class="p">:</span> <span class="n">This</span> <span class="n">project</span> <span class="n">file</span> <span class="n">was</span> <span class="n">created</span> <span class="k">with</span> <span class="n">a</span> <span class="n">different</span> <span class="n">version</span> <span class="n">of</span> <span class="n">Marxan</span> <span class="n">Connect</span><span class="o">.</span> <span class="n">Attempting</span> <span class="n">to</span> <span class="n">update</span> <span class="k">for</span> <span class="n">compatibility</span>
+<span class="ne">Warning</span><span class="p">:</span> <span class="n">This</span> <span class="n">project</span> <span class="n">file</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">contain</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">required</span> <span class="n">fields</span> <span class="p">(</span><span class="n">marxan</span><span class="p">)</span><span class="o">.</span> <span class="n">Attempting</span> <span class="n">to</span> <span class="n">update</span> <span class="k">for</span> <span class="n">compatibility</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="editing-projects">
+<h2>Editing Projects<a class="headerlink" href="#editing-projects" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="s1">&#39;aa_filepath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;path</span><span class="se">\t</span><span class="s2">o</span><span class="se">\f</span><span class="s2">ile.shp&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="saving-projects">
+<h2>Saving Projects<a class="headerlink" href="#saving-projects" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="understanding-projects">
+<h1>Understanding Projects<a class="headerlink" href="#understanding-projects" title="Permalink to this headline">¶</a></h1>
+<p>MarCon project are a python dictionary with a key strucuture as defined below. You can use the functions in <a href="#id9"><span class="problematic" id="id10">marxanconpy.marcon_</span></a> to create, load, and save MarCon projects to file. With those functions the python dictionary can be written to file as a JSON.</p>
+<div class="section" id="primary-and-secondary-keys">
+<h2>Primary and Secondary Keys<a class="headerlink" href="#primary-and-secondary-keys" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils" id="id7">
+<caption><span class="caption-text">Table 1: Reference table for MarCon project primary and secondary dictionary keys</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Primary Key</th>
+<th class="head">Secondary Key</th>
+<th class="head">Definition</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>version</td>
+<td>marxanconpy</td>
+<td>The version number for marxanconpy</td>
+</tr>
+<tr class="row-odd"><td>version</td>
+<td>MarxanConnect</td>
+<td>The version number for Marxan Connect</td>
+</tr>
+<tr class="row-even"><td>spec_dat</td>
+<td>&#160;</td>
+<td>Contains a JSON version of the spec.dat file contents</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>aa_filepath</td>
+<td>Filepath for the Avoidance Area shapefile</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>bd_filepath</td>
+<td>Filepath for the spatial dependencies file (<em>e.g.</em> <cite>boundary.dat</cite>)</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>cf_filepath</td>
+<td>Filepath for the planning unit vs conservation features file (<em>e.g.</em> <cite>puvspr.dat</cite>)</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>demo_cu_cm_filepath</td>
+<td>Filepath for the demographic connectivity data file scaled to the connectivity units (<em>i.e.</em> not the planning units)</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>demo_cu_file_pu_id</td>
+<td>String that represents the column name which corresponds to the planning unit IDs in the demographic connectivity units file</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>demo_cu_filepath</td>
+<td>Filepath for the demographic connectivity units (<em>i.e.</em> not the planning units)</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>demo_pu_cm_filepath</td>
+<td>Filepath for the demographic connectivity file scaled to the plannings units</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>fa_filepath</td>
+<td>Filepath for the focus area shapefile</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>land_cu_file_hab_id</td>
+<td>String that represents the column name which corresponds to the planning unit IDs in the landscape connectivity units file</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>land_cu_filepath</td>
+<td>Filepath for the landscape connectivity units (<em>i.e.</em> not the planning units)</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>land_pu_cm_filepath</td>
+<td>Filepath for the landscape connectivity data file scaled to the planning units</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>land_res_file_hab_id</td>
+<td>String that represents the column name which corresponds to the planning unit IDs in the landscape resistance file</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>land_res_filepath</td>
+<td>Filepath for the landscape resistance surface file (not yet implemented)</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>land_res_mat_filepath</td>
+<td>Filepath for the landscape resistance matrix</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>lp_filepath</td>
+<td>Filepath for the local production</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>map</td>
+<td>Filepath for the map output</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>marxan_dir</td>
+<td>Filepath for the Marxan executable</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>marxan_input</td>
+<td>Filepath for the marxan input file (<em>i.e.</em> <cite>input.dat</cite>)</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>projfile</td>
+<td>Filepath for the <cite>.MarCon</cite> project file</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>projfilename</td>
+<td>Filename for the <cite>.MarCon</cite> project file</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>pu_file_pu_id</td>
+<td>String that represents the column name which corresponds to the planning unit IDs in the planning unit file</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>pu_filepath</td>
+<td>Filepath for the planning unit shapefile</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>pucsv</td>
+<td>Filepath to save a <cite>.csv</cite> version of all the planning unit specific output</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>pudat_filepath</td>
+<td>Filepath for the marxan formated planning unit file (<em>i.e.</em> <cite>pu.dat</cite>)</td>
+</tr>
+<tr class="row-odd"><td>filepaths</td>
+<td>pushp</td>
+<td>Filepath to save a shapefile version of all the planning unit specific output</td>
+</tr>
+<tr class="row-even"><td>filepaths</td>
+<td>spec_filepath</td>
+<td>Filepath for the marxan formated conservation feature file (<em>i.e.</em> <cite>spec.dat</cite>)</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>aa_status</td>
+<td>The status of the avoidance areas (<em>i.e.</em> <cite>Locked in</cite>, <cite>Locked out</cite>, or <cite>Status-quo</cite>)</td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>bd_filecheck</td>
+<td>Logical, <cite>True</cite> if you want to export the spatial dependencies file (i.e. <cite>boundary.dat</cite>)</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>calc_metrics_cu</td>
+<td>Logical, <cite>True</cite> if you want to calculate connectivity metrics scaled to the connectivity units</td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>calc_metrics_pu</td>
+<td>Logical, <cite>True</cite> if you want to calculate connectivity metrics scaled to the planning units</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>cf_export</td>
+<td>“Export” if you want to export only the connectivity outputs the selected Marxan formated files to the filepaths indicated, or “Append” if you want append the connectivity outputs the selected Marxan formated files to the filepaths indicated without overwritting the original files (the new filenames will have the <cite>*_appended.*</cite> format)</td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>demo_conmat_format</td>
+<td>The format of the demographic connectivity data (<em>i.e.</em> <cite>Matrix</cite>, <cite>Edge List</cite>, <cite>Edge List with Time</cite>, <cite>Edge List with Type</cite>)</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>demo_conmat_rescale</td>
+<td><cite>Identical Grids</cite> if no rescaling is necessary, <cite>Rescale Connectivity Matrix</cite> if the connectivity data needs to be rescaled to the planning units. Use rescaling with caution</td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>demo_conmat_rescale_edge</td>
+<td>If rescaling, how to handle the edges (<em>i.e.</em> <cite>Proportional to overlap</cite> or <cite>Assume homogeneous connectivity</cite>)</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>demo_conmat_type</td>
+<td>The format of the demographic connectivity data (<em>i.e.</em> <cite>Probability</cite>, <cite>Migration</cite>, <cite>Flow</cite>)</td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>demo_metrics</td>
+<td>Third level keys with logicals. <cite>True</cite> if you want to calculate that specific metric. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>demo_pu_cm_progress</td>
+<td>Logical, <cite>True</cite> if you want to see a progress bar as demographic connectivity data is rescaled</td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>fa_status</td>
+<td>The status of the avoidance areas (<em>i.e.</em> <cite>Locked in</cite>, <cite>Locked out</cite>, or <cite>Status-quo</cite>)</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>inputdat_boundary</td>
+<td>Nature (<em>i.e.</em> “Asymmetric” “Symmetric”) of the spatial dependencies</td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>land_conmat_type</td>
+<td>The format of the demographic connectivity data (<em>i.e.</em> <cite>Habitat Type + Resistance</cite>, <cite>Resistance Surface</cite>, <cite>Connectivity Matrix</cite>)</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>land_hab_buff</td>
+<td>Buffer distance (m) under which planning units will be considered connected neighbours in the distance calculations. All distance calculations assume travel in straight lines between the centers of neighbouring planning units.</td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>land_hab_thresh</td>
+<td>Threshold under which habitat connectivity values is considered null. Ranges from 0 to 1. Without a threshold, values for in/out degrees, and betweenness centrality will be homogeneous throughout each habitat type.</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>land_metrics</td>
+<td>Third level keys with logicals. <cite>True</cite> if you want to calculate that specific metric. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>land_pu_cm_progress</td>
+<td>Logical, <cite>True</cite> if you want to see a progress bar as landscape connectivity data is generated</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>land_res_matrixType</td>
+<td><cite>Least-Cost Path</cite> if you want to estimate connectivity using resistance values and the spatial arrangement of habitats or <cite>Euclidean Distance</cite> if you want to estimate connectivity using only the spatial arrangement of habitats</td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>map_filecheck</td>
+<td>Logical, <cite>True</cite> if you want to export the map as an image file.</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>marxan</td>
+<td><cite>Marxan</cite> if you want to use Marxan, or <cite>Marxan with Zones</cite> if you want to use the Marxan with Zones (experimental)</td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>marxan_bit</td>
+<td><cite>64-bit</cite> if you want to use the 64-bit version of Marxan which is faster, or <cite>32-bit</cite> if you want to use the 32-bit version of Marxan</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>metricsCalculated</td>
+<td>Logical, <cite>True</cite> if connectivity metrics have been calculated at least once</td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>pucsv_filecheck</td>
+<td>Logical, <cite>True</cite> if you want to export the <cite>.csv</cite> version of all the planning unit specific output</td>
+</tr>
+<tr class="row-odd"><td>options</td>
+<td>pudat_filecheck</td>
+<td>Logical, <cite>True</cite> if you want to export the marxan formated planning unit file (<em>i.e.</em> <cite>pu.dat</cite>)</td>
+</tr>
+<tr class="row-even"><td>options</td>
+<td>pushp_filecheck</td>
+<td>Logical, <cite>True</cite> if you want to export the shapefile version of all the planning unit specific output</td>
+</tr>
+<tr class="row-odd"><td>connectivityMetrics</td>
+<td>best_solution</td>
+<td>The <cite>best solution</cite> from the Marxan output</td>
+</tr>
+<tr class="row-even"><td>connectivityMetrics</td>
+<td>boundary</td>
+<td>The spatial dependencies (<em>i.e.</em> <cite>boundary.dat</cite>)</td>
+</tr>
+<tr class="row-odd"><td>connectivityMetrics</td>
+<td>select_freq</td>
+<td>The <cite>selection frequency</cite> from the Marxan output</td>
+</tr>
+<tr class="row-even"><td>connectivityMetrics</td>
+<td>spec_demo_pu</td>
+<td>The connectivity metrics calculated from the demographic connectivity data scaled to the planning units. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></td>
+</tr>
+<tr class="row-odd"><td>connectivityMetrics</td>
+<td>spec_land_pu</td>
+<td>The connectivity metrics calculated from the landscape connectivity data scaled to the planning units. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></td>
+</tr>
+<tr class="row-even"><td>connectivityMetrics</td>
+<td>spec_demo_cu</td>
+<td>The connectivity metrics calculated from the demographic connectivity data scaled to the connectivity units. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></td>
+</tr>
+<tr class="row-odd"><td>connectivityMetrics</td>
+<td>spec_land_cu</td>
+<td>The connectivity metrics calculated from the landscape connectivity data scaled to the connectivity units. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="tertiary-keys">
+<h2>Tertiary Keys<a class="headerlink" href="#tertiary-keys" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils" id="id8">
+<caption><span class="caption-text">Table 2: Reference table for MarCon project tertiary dictionary keys</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Definition</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>aa_donors</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#avoidance_area_donors">Avoidance Area Donors</a></td>
+</tr>
+<tr class="row-odd"><td>aa_recipients</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#avoidance_area_recipients">Avoidance Area Recipients</a></td>
+</tr>
+<tr class="row-even"><td>between_cent</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#betweenness_centrality">Betweenness Centrality</a></td>
+</tr>
+<tr class="row-odd"><td>conn_boundary</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#spatial_dependency">Connectivity as Spatial Dependency</a></td>
+</tr>
+<tr class="row-even"><td>eig_vect_cent</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#eigenvector_centrality">Eigenvector Centrality</a></td>
+</tr>
+<tr class="row-odd"><td>fa_donors</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#focus_area_donors">Focus Area Donors</a></td>
+</tr>
+<tr class="row-even"><td>fa_recipients</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#focus_area_recipients">Focus Area Recipients</a></td>
+</tr>
+<tr class="row-odd"><td>google</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#google_pagerank">Google PageRank</a></td>
+</tr>
+<tr class="row-even"><td>in_degree</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#in-degree">In-Degree</a></td>
+</tr>
+<tr class="row-odd"><td>inflow</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#in-flow">In-flow</a></td>
+</tr>
+<tr class="row-even"><td>local_retention</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#local_retention">Local Retention</a></td>
+</tr>
+<tr class="row-odd"><td>min_plan_graph</td>
+<td>Minimum Planar Graph (deprecated)</td>
+</tr>
+<tr class="row-even"><td>out_degree</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#out-degree">Out-Degree</a></td>
+</tr>
+<tr class="row-odd"><td>outflow</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#out-flow">Out-flow</a></td>
+</tr>
+<tr class="row-even"><td>self_recruit</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#self-recruitment">Self-Recruitment</a></td>
+</tr>
+<tr class="row-odd"><td>stochasticity</td>
+<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#temporal_connectivity_covariance">Temporal Connectivity Covariance</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">MarCon Projects</a><ul>
+<li><a class="reference internal" href="#new-projects">New Projects</a></li>
+<li><a class="reference internal" href="#load-projects">Load Projects</a></li>
+<li><a class="reference internal" href="#editing-projects">Editing Projects</a></li>
+<li><a class="reference internal" href="#saving-projects">Saving Projects</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#understanding-projects">Understanding Projects</a><ul>
+<li><a class="reference internal" href="#primary-and-secondary-keys">Primary and Secondary Keys</a></li>
+<li><a class="reference internal" href="#tertiary-keys">Tertiary Keys</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">marxanconpy</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="example_workflow.html"
+                        title="next chapter">Workflow</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/marcon.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="example_workflow.html" title="Workflow"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="marxanconpy"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">marxanconpy v0.1.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Remi Daigle.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>
