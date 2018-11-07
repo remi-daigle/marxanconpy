@@ -165,6 +165,7 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                         temp['format'] = "Edge List with Habitat"
 
                 # load correct matrix and transform if necessary
+                print("loading matrix")
                 if os.path.isfile(project['filepaths'][type + '_cm_filepath']):
                     if temp['format'] == "Matrix":
                         temp[type + '_connectivity'] = {}
@@ -173,10 +174,12 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                     elif temp['format'] == "Edge List":
                         temp[type + '_connectivity'] = {}
                         temp[type + '_connectivity']['default_type_replace'] = pandas.read_csv(
-                            project['filepaths'][type + '_cm_filepath'])
+                            project['filepaths'][type + '_cm_filepath'],
+                            dtype = {'id1': str, 'id1': str})
                     elif temp['format'] == "Edge List with Time":
                         temp[type + '_conmat_time'] = pandas.read_csv(
-                            project['filepaths'][type + '_cm_filepath'])
+                            project['filepaths'][type + '_cm_filepath'],
+                            dtype = {'id1': str, 'id1': str})
                         temp[type + '_connectivity'] = {}
                         temp[type + '_connectivity']['default_type_replace'] = temp[type + '_conmat_time'][
                             ['id1', 'id2', 'value']].groupby(['id1', 'id2']).mean()
@@ -187,7 +190,8 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                                     "mean of connectivity")
                     elif temp['format'] == "Edge List with Type":
                         temp[type + '_conmat'] = pandas.read_csv(
-                            project['filepaths'][type + '_cm_filepath'])
+                            project['filepaths'][type + '_cm_filepath'],
+                            dtype = {'id1': str, 'id1': str})
 
                         temp[type + '_connectivity'] = {}
                         for t in temp[type + '_conmat']['type'].unique():
@@ -200,7 +204,8 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
 
                     elif temp['format'] == "Edge List with Habitat":
                         temp[type + '_conmat'] = pandas.read_csv(
-                            project['filepaths'][type + '_cm_filepath'])
+                            project['filepaths'][type + '_cm_filepath'],
+                            dtype = {'id1': str, 'id1': str})
                         temp[type + '_conmat'].loc[temp[type + '_conmat']['value'] < float(
                             project['options']['land_hab_thresh']), 'value'] = 0
 
@@ -217,6 +222,7 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                     marxanconpy.warn_dialog(message="File not found: " + project['filepaths'][type + '_cm_filepath'])
 
                 # load correct shapefile path
+                print("loading shapefile")
                 if type[-2:] == 'pu':
                     temp['shp_filepath'] = project['filepaths']['pu_filepath']
                     temp['shp_file_pu_id'] = project['filepaths']['pu_file_pu_id']
@@ -225,6 +231,11 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                     temp['shp_file_pu_id'] = project['filepaths'][type + '_file_pu_id']
 
                 temp['shp'] = gpd.GeoDataFrame.from_file(temp['shp_filepath'])
+                try:
+                    temp['shp'][temp['shp_file_pu_id']] = temp['shp'][temp['shp_file_pu_id']].astype('int').astype('str')
+                except:
+                    temp['shp'][temp['shp_file_pu_id']] = temp['shp'][temp['shp_file_pu_id']].astype('str')
+
 
                 # create dict entries for spec
                 project['connectivityMetrics']['spec_' + type] = {}
@@ -249,6 +260,7 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                 # calculate demographic metrics
                 if type[:4] == 'demo':
                     for t in temp[type + '_connectivity'].keys():
+                        print("calculating demographic connectivity metrics for "+t)
                         if not keepGoing: break
                         if t == 'default_type_replace':
                             typesuffix = ''
@@ -602,9 +614,10 @@ def connectivity2graph(connectivity,format,IDs):
     :param IDs: Planning unit IDs
     :return:
     """
+    print("Converting connectivity data to graph")
     if format == "Matrix":
-        g = igraph.Graph.Weighted_Adjacency(connectivity.as_matrix().tolist())
-        g.vs["name"] = IDs
+        g = igraph.Graph.Weighted_Adjacency(connectivity.values().tolist())
+        g.vs["name"] = str(IDs)
     else:
         g = igraph.Graph(directed=True)
         g.add_vertices([str(i) for i in IDs])

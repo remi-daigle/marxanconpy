@@ -15,4 +15,4 @@ pypi: build setup.py
 
 install: build setup.py
 	pip uninstall marxanconpy -y;\
-	pip install dist/marxanconpy-0.1.2b4.tar.gz
+	pip install dist/marxanconpy-*.tar.gz
