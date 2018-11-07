@@ -538,9 +538,11 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                                                                                           "mean of connectivity matrices supplied")
                                 bd_land_conn_boundary_done = True
                                 marxanconpy.progress_bar_update(count, dlg, keepGoing, n, progressbar)
-        dlg.Destroy()
+        if progressbar:
+            dlg.Destroy()
     except:
-        dlg.Destroy()
+        if progressbar:
+            dlg.Destroy()
         raise
 
 def check_matrix_list_format(format, filepath):

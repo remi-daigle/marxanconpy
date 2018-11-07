@@ -32,16 +32,24 @@ def rescale_matrix(pu_filepath,pu_id,cu_filepath,cu_id,cm_filepath,matrixformat,
         # load cu connectivity matrix
         # load correct demographic matrix and transform if necessary
         time=False
+        type=False
         if os.path.isfile(cm_filepath):
             if matrixformat == "Matrix":
-                grid_conmat = pandas.read_csv(cm_filepath,index_col=0).as_matrix()
-            elif matrixformat == "List":
+                grid_conmat = pandas.read_csv(cm_filepath,index_col=0).values
+            elif matrixformat == "Edge List":
                 grid_conmat = pandas.read_csv(cm_filepath)
-                grid_conmat = grid_conmat.pivot_table(values='value', index='id1',columns='id2').as_matrix()
-            elif matrixformat == "List with Time":
+                grid_conmat = grid_conmat.pivot_table(values='value', index='id1',columns='id2').values
+            elif matrixformat == "Edge List with Type":
+                grid_conmat_type = pandas.read_csv(cm_filepath)
+                type=True
+                grid_conmat = {}
+                for t in grid_conmat_type['type'].unique():
+                    grid_conmat[t] = grid_conmat_type.copy()[grid_conmat_type['type'] == t]
+                    grid_conmat[t] = grid_conmat[t].pivot_table(values='value', index='id1',columns='id2').values
+            elif matrixformat == "Edge List with Time":
                 grid_conmat_time = pandas.read_csv(cm_filepath)
                 grid_conmat = grid_conmat_time[['id1', 'id2', 'value']].groupby(['id1', 'id2']).mean()
-                grid_conmat = grid_conmat.pivot_table(values='value', index='id1',columns='id2').as_matrix()
+                grid_conmat = grid_conmat.pivot_table(values='value', index='id1',columns='id2').values
                 time=True
 
 
@@ -49,6 +57,8 @@ def rescale_matrix(pu_filepath,pu_id,cu_filepath,cu_id,cm_filepath,matrixformat,
         if progressbar:
             if time:
                 max = pu.shape[0] * 10 * len( grid_conmat_time['time'].unique())
+            elif type:
+                max = pu.shape[0] * 10 * len(grid_conmat_type['type'].unique())
             else:
                 max = pu.shape[0] * 10
             dlg = wx.ProgressDialog("Rescale Connectivity Matrix",
@@ -80,34 +90,34 @@ def rescale_matrix(pu_filepath,pu_id,cu_filepath,cu_id,cm_filepath,matrixformat,
             # make intersection GeoDataFrame
             df = gpd.GeoDataFrame(con_mat_pu,columns=['geometry', 'puID', 'connID', 'puIndex', 'connIndex', 'int_area', 'conn_area', 'pu_area'])
 
-
-            # populate rescaled pu connectivity matrix
-            pu_conmat = numpy.zeros((len(pu),len(pu)))
-            for source in pu[pu_id]:
-                if progressbar:
-                    count += 9
-                    (keepGoing, skip) = dlg.Update(count)
-                for sink in pu[pu_id]:
-                    if not keepGoing: break
-                    sources=df.puID==source
-                    sinks=df.puID==sink
-                    if any(sinks) and any(sources):
-                        if edge == "Proportional to overlap":
-                            temp_conn=grid_conmat[df.connIndex[sources],:][:,df.connIndex[sinks]]
-                            cov_source=df.int_area[sources]/sum(df.int_area[sources])
-                            cov_sink=df.int_area[sinks]/sum(df.int_area[sinks])
-                            pu_conmat[numpy.array(pu[pu_id] == source), numpy.array(pu[pu_id] == sink)] = sum(
-                                sum(((temp_conn * numpy.array(cov_sink)).T * numpy.array(cov_source))))
+            if not type:
+                # populate rescaled pu connectivity matrix
+                pu_conmat = numpy.zeros((len(pu),len(pu)))
+                for source in pu[pu_id]:
+                    if progressbar:
+                        count += 9
+                        (keepGoing, skip) = dlg.Update(count)
+                    for sink in pu[pu_id]:
+                        if not keepGoing: break
+                        sources=df.puID==source
+                        sinks=df.puID==sink
+                        if any(sinks) and any(sources):
+                            if edge == "Proportional to overlap":
+                                temp_conn=grid_conmat[df.connIndex[sources],:][:,df.connIndex[sinks]]
+                                cov_source=df.int_area[sources]/sum(df.int_area[sources])
+                                cov_sink=df.int_area[sinks]/sum(df.int_area[sinks])
+                                pu_conmat[numpy.array(pu[pu_id] == source), numpy.array(pu[pu_id] == sink)] = sum(
+                                    sum(((temp_conn * numpy.array(cov_sink)).T * numpy.array(cov_source))))
+                            else:
+                                temp_conn = grid_conmat[df.connIndex[sources], :][:, df.connIndex[sinks]]
+                                cov_source = df.int_area[sources] / df.pu_area[sources]
+                                cov_sink = df.int_area[sinks] / df.pu_area[sinks]
+                                pu_conmat[numpy.array(pu[pu_id] == source), numpy.array(pu[pu_id] == sink)] = sum(
+                                    sum(((temp_conn * numpy.array(cov_sink)).T * numpy.array(cov_source))))
                         else:
-                            temp_conn = grid_conmat[df.connIndex[sources], :][:, df.connIndex[sinks]]
-                            cov_source = df.int_area[sources] / df.pu_area[sources]
-                            cov_sink = df.int_area[sinks] / df.pu_area[sinks]
-                            pu_conmat[numpy.array(pu[pu_id] == source), numpy.array(pu[pu_id] == sink)] = sum(
-                                sum(((temp_conn * numpy.array(cov_sink)).T * numpy.array(cov_source))))
-                    else:
-                        pu_conmat[numpy.array(pu[pu_id]==source),numpy.array(pu[pu_id]==sink)]=0
-            pu_conmat = pandas.DataFrame(pu_conmat, index=pu[pu_id], columns=pu[pu_id])
-            pu_conmat.index.name = "puID"
+                            pu_conmat[numpy.array(pu[pu_id]==source),numpy.array(pu[pu_id]==sink)]=0
+                pu_conmat = pandas.DataFrame(pu_conmat, index=pu[pu_id], columns=pu[pu_id])
+                pu_conmat.index.name = "puID"
 
             if time:
                 # populate rescaled pu connectivity matrix
@@ -122,7 +132,7 @@ def rescale_matrix(pu_filepath,pu_id,cu_filepath,cu_id,cm_filepath,matrixformat,
                             if not keepGoing: break
                             sources = df.puID == source
                             sinks = df.puID == sink
-                            if any(sinks) and any(source):
+                            if any(sinks) and any(sources):
                                 if edge == "Proportional to overlap":
                                     temp_conn = grid_conmat[df.connIndex[sources], :][:, df.connIndex[sinks]]
                                     cov_source = df.int_area[sources] / sum(df.int_area[sources])
@@ -147,14 +157,53 @@ def rescale_matrix(pu_filepath,pu_id,cu_filepath,cu_id,cm_filepath,matrixformat,
                     pu_conmat = pu_conmat.append(pu_conmat_t)
                 # pu_conmat_time = pu_conmat.melt(id_vars=['time','id1'], var_name='id2', value_name='value')
 
+
+            if type:
+                # populate rescaled pu connectivity matrix
+                for t in grid_conmat_type['type'].unique():
+                    if not keepGoing: break
+                    pu_conmat_t = numpy.zeros((len(pu), len(pu)))
+                    for source in pu[pu_id]:
+                        if progressbar:
+                            count += 9
+                            (keepGoing, skip) = dlg.Update(count)
+                        for sink in pu[pu_id]:
+                            if not keepGoing: break
+                            sources = df.puID == source
+                            sinks = df.puID == sink
+                            if any(sinks) and any(sources):
+                                if edge == "Proportional to overlap":
+                                    temp_conn = grid_conmat[df.connIndex[sources], :][:, df.connIndex[sinks]]
+                                    cov_source = df.int_area[sources] / sum(df.int_area[sources])
+                                    cov_sink = df.int_area[sinks] / sum(df.int_area[sinks])
+                                    pu_conmat_t[numpy.array(pu[pu_id] == source), numpy.array(pu[pu_id] == sink)] = sum(
+                                        sum(((temp_conn * numpy.array(cov_sink)).T * numpy.array(cov_source))))
+                                else:
+                                    temp_conn = grid_conmat[df.connIndex[sources], :][:, df.connIndex[sinks]]
+                                    cov_source = df.int_area[sources] / df.pu_area[sources]
+                                    cov_sink = df.int_area[sinks] / df.pu_area[sinks]
+                                    pu_conmat_t[numpy.array(pu[pu_id] == source), numpy.array(pu[pu_id] == sink)] = sum(
+                                        sum(((temp_conn * numpy.array(cov_sink)).T * numpy.array(cov_source))))
+                            else:
+                                pu_conmat_t[numpy.array(pu[pu_id] == source), numpy.array(pu[pu_id] == sink)] = 0
+
+                    pu_conmat_t = pandas.DataFrame(pu_conmat_t, index=pu[pu_id], columns=pu[pu_id])
+                    pu_conmat_t['id1'] = pu_conmat_t.index
+                    pu_conmat_t['type'] = t
+                    if t==grid_conmat_type['type'].unique()[0]:
+                        pu_conmat['id1'] = pu_conmat.index
+                        pu_conmat['type'] = 'mean'
+                    pu_conmat = pu_conmat.append(pu_conmat_t)
+                # pu_conmat_type = pu_conmat.melt(id_vars=['type','id1'], var_name='id2', value_name='value')
+
             if progressbar:
                 dlg.Destroy()
             return pu_conmat
             keepgoing = False
     except:
         print("Warning: Error in matrix rescaling")
-        self.log.Show()
-        dlg.Destroy()
+        if progressbar:
+            dlg.Destroy()
         raise
 
 def buffer_shp_corners(gdf_list, bufferwidth = 0):
@@ -327,6 +376,6 @@ def habitatresistance2conmats(buff, hab_filepath, hab_id, res_mat_filepath, pu_f
             keepGoing = False
     except:
         print("Warning: Error in habitatresistance2conmats")
-        self.log.Show()
-        dlg.Destroy()
+        if progressbar:
+            dlg.Destroy()
         raise
