@@ -63,7 +63,7 @@ def convert_graph_type(current,desired,graph,localProd):
         from_list = numpy.array([x[0] for x in g.get_edgelist()])
         to_list = numpy.array([x[1] for x in g.get_edgelist()])
         new = numpy.array(g.es["weight"])
-        IDs = numpy.unique([numpy.unique(from_list), numpy.unique(to_list)])
+        IDs = numpy.unique(numpy.concatenate((numpy.unique(from_list), numpy.unique(to_list))))
         if desired == "Migration":
             for i in range(len(IDs)):
                 new[from_list == i] = new[from_list == i] * localProd["production"][i]
@@ -81,7 +81,7 @@ def convert_graph_type(current,desired,graph,localProd):
         from_list = numpy.array([x[0] for x in g.get_edgelist()])
         to_list = numpy.array([x[1] for x in g.get_edgelist()])
         new = numpy.array(g.es["weight"])
-        IDs = numpy.unique([numpy.unique(from_list), numpy.unique(to_list)])
+        IDs = numpy.unique(numpy.concatenate((numpy.unique(from_list), numpy.unique(to_list))))
 
         if desired == "Migration":
             for i in range(len(IDs)):

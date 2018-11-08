@@ -66,7 +66,7 @@ def graph2diagonal(graph):
     from_list = numpy.array([x[0] for x in graph.get_edgelist()])
     to_list = numpy.array([x[1] for x in graph.get_edgelist()])
     loops = from_list == to_list
-    IDs = numpy.unique([numpy.unique(from_list), numpy.unique(to_list)])
+    IDs = numpy.unique(numpy.concatenate((numpy.unique(from_list), numpy.unique(to_list))))
     diag = numpy.repeat(0., len(IDs))
     for i in from_list[loops]:
         diag[IDs == i] = numpy.array(graph.es["weight"])[(from_list == i) & (to_list == i)]
