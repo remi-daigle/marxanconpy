@@ -106,6 +106,9 @@ def new_project():
     project['filepaths']['marxan_input'] = os.path.join("~", "input.dat")
     project['filepaths']['marxan_dir'] = os.path.join("~", "Marxan243")
 
+    # Post-Hoc Evaluation
+    project['filepaths']['posthoc'] = os.path.join("~", "posthoc.csv")
+
     # Export plot data
     project['filepaths']['pushp'] = os.path.join("~", "pu.shp")
     project['filepaths']['pucsv'] = os.path.join("~", "pu.csv")

@@ -642,6 +642,9 @@ def get_marxan_output(input_file,type='Best Solution'):
         elif line.startswith('OUTPUTDIR'):
             OUTPUTDIR = line.replace('OUTPUTDIR ', '').replace('\n', '')
 
+    if not os.path.isdir(OUTPUTDIR):
+        OUTPUTDIR = os.path.join(os.path.dirname(input_file),OUTPUTDIR)
+
     if type == 'Best Solution':
         fn = os.path.join(OUTPUTDIR, SCENNAME + "_best")
     elif type == 'Selection Frequency':

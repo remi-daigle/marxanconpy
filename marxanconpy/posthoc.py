@@ -18,9 +18,11 @@ def calc_postHoc(filename,format,IDs,selectionIDs):
         if format == "Matrix":
             connectivity = pandas.read_csv(filename, index_col=0)
         elif format == "Edge List with Time":
-            connectivity = pandas.read_csv(filename)[['id1', 'id2', 'value']].groupby(['id1', 'id2']).mean()
+            connectivity = pandas.read_csv(filename,
+                            dtype = {'id1': str, 'id1': str})[['id1', 'id2', 'value']].groupby(['id1', 'id2']).mean()
         else:
-            connectivity = pandas.read_csv(filename)
+            connectivity = pandas.read_csv(filename,
+                            dtype = {'id1': str, 'id1': str})
 
         if connectivity.shape[1]==3 or format == "Matrix":
             all_type=['default_type_replace']
@@ -34,19 +36,19 @@ def calc_postHoc(filename,format,IDs,selectionIDs):
             else:
                 graph = marxanconpy.manipulation.connectivity2graph(connectivity[(connectivity.drop(['id1', 'id2', 'value'], axis=1)==type).values], format, IDs)
 
-            sub = graph.subgraph(selectionIDs)
+            sub = graph.subgraph([str(i) for i in selectionIDs])
 
-            postHoc = postHoc.append(pandas.DataFrame({"Metric":("Planning Units",
-                                                                 "Connections",
-                                                                 "Graph Density",
-                                                                 "Eigenvalue"),
-                                                       "Type":(type,type,type,type),
-                                                       "Planning Area":(graph.vcount(),
-                                                             graph.ecount(),
-                                                             graph.density(),
-                                                             graph.evcent(weights=graph.es["weight"],
-                                                                          return_eigenvalue=True)[1]),
-                                                       "Solution":(
+            postHoc = postHoc.append(pandas.DataFrame({"Metric": ("Planning Units",
+                                                                  "Connections",
+                                                                  "Graph Density",
+                                                                  "Eigenvalue"),
+                                                       "Type": (type, type, type, type),
+                                                       "Planning Area": (graph.vcount(),
+                                                                         graph.ecount(),
+                                                                         graph.density(),
+                                                                         graph.evcent(weights=graph.es["weight"],
+                                                                                      return_eigenvalue=True)[1]),
+                                                       "Solution": (
                                                            sub.vcount(),
                                                            sub.ecount(),
                                                            sub.density(),
