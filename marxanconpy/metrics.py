@@ -70,7 +70,6 @@ def graph2diagonal(graph):
     diag = numpy.repeat(0., len(IDs))
     for i in from_list[loops]:
         diag[IDs == i] = numpy.array(graph.es["weight"])[(from_list == i) & (to_list == i)]
-    diag[IDs == i] = 1
     return diag
 
 def get_intersect_id(area_filepath, pu_filepath,pu_id='ID'):
