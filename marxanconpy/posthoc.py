@@ -19,10 +19,10 @@ def calc_postHoc(filename,format,IDs,selectionIDs):
             connectivity = pandas.read_csv(filename, index_col=0)
         elif format == "Edge List with Time":
             connectivity = pandas.read_csv(filename,
-                            dtype = {'id1': str, 'id1': str})[['id1', 'id2', 'value']].groupby(['id1', 'id2']).mean()
+                            dtype = {'id1': str, 'id2': str})[['id1', 'id2', 'value']].groupby(['id1', 'id2']).mean()
         else:
             connectivity = pandas.read_csv(filename,
-                            dtype = {'id1': str, 'id1': str})
+                            dtype = {'id1': str, 'id2': str})
 
         if connectivity.shape[1]==3 or format == "Matrix":
             all_type=['default_type_replace']

@@ -175,11 +175,11 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                         temp[type + '_connectivity'] = {}
                         temp[type + '_connectivity']['default_type_replace'] = pandas.read_csv(
                             project['filepaths'][type + '_cm_filepath'],
-                            dtype = {'id1': str, 'id1': str})
+                            dtype = {'id1': str, 'id2': str})
                     elif temp['format'] == "Edge List with Time":
                         temp[type + '_conmat_time'] = pandas.read_csv(
                             project['filepaths'][type + '_cm_filepath'],
-                            dtype = {'id1': str, 'id1': str})
+                            dtype = {'id1': str, 'id2': str})
                         temp[type + '_connectivity'] = {}
                         temp[type + '_connectivity']['default_type_replace'] = temp[type + '_conmat_time'][
                             ['id1', 'id2', 'value']].groupby(['id1', 'id2']).mean()
@@ -191,7 +191,7 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                     elif temp['format'] == "Edge List with Type":
                         temp[type + '_conmat'] = pandas.read_csv(
                             project['filepaths'][type + '_cm_filepath'],
-                            dtype = {'id1': str, 'id1': str})
+                            dtype = {'id1': str, 'id2': str})
 
                         temp[type + '_connectivity'] = {}
                         for t in temp[type + '_conmat']['type'].unique():
@@ -205,7 +205,7 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                     elif temp['format'] == "Edge List with Habitat":
                         temp[type + '_conmat'] = pandas.read_csv(
                             project['filepaths'][type + '_cm_filepath'],
-                            dtype = {'id1': str, 'id1': str})
+                            dtype = {'id1': str, 'id2': str})
                         temp[type + '_conmat'].loc[temp[type + '_conmat']['value'] < float(
                             project['options']['land_hab_thresh']), 'value'] = 0
 
@@ -621,8 +621,8 @@ def connectivity2graph(connectivity,format,IDs):
     else:
         g = igraph.Graph(directed=True)
         g.add_vertices([str(i) for i in IDs])
-        for i, row in connectivity.sort_values(by=['id1','id2']).astype(str).iterrows():
-            g.add_edge(row.id1, row.id2, weight=float(row.value))
+        g.add_edges(list(zip(connectivity['id1'].astype(str), connectivity['id2'].astype(str))))
+        g.es['weight'] = connectivity['value'].values
     return g
 
 def get_marxan_output(input_file,type='Best Solution'):
