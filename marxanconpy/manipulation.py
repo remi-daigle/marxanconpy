@@ -616,8 +616,8 @@ def connectivity2graph(connectivity,format,IDs):
     """
     print("Converting connectivity data to graph")
     if format == "Matrix":
-        g = igraph.Graph.Weighted_Adjacency(connectivity.values().tolist())
-        g.vs["name"] = str(IDs)
+        g = igraph.Graph.Weighted_Adjacency(connectivity.values.tolist())
+        g.vs["name"] = IDs
     else:
         g = igraph.Graph(directed=True)
         g.add_vertices([str(i) for i in IDs])
@@ -658,5 +658,12 @@ def get_marxan_output(input_file,type='Best Solution'):
         file = marxanconpy.read_csv_tsv(fn + '.txt')
     else:
         print('WARNING: ' + fn + ' not found')
+
+    print(file["planning_unit"])
+    try:
+        file["planning_unit"] = file["planning_unit"].values.astype('int').astype('str')
+    except:
+        file["planning_unit"] = file["planning_unit"].values.astype('str')
+    print(file["planning_unit"])
 
     return file

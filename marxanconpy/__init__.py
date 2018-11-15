@@ -40,7 +40,7 @@ def warn_dialog(message, caption="Warning!"):
 def read_csv_tsv(filepath):
     """ Marxan file reader
 
-    Reads comma or tab seperated Marxan input or output files. Reads as csv first, if there is only 1 column (i.e. wrong
+    Reads comma or tab separated Marxan input or output files. Reads as csv first, if there is only 1 column (i.e. wrong
     delimiters), then the file is read as a tsv.
 
     :param filepath: Filepath for file in question
