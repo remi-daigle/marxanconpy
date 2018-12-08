@@ -166,6 +166,7 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
 
                 # load correct matrix and transform if necessary
                 print("loading matrix")
+                print(project['filepaths'][type + '_cm_filepath'])
                 if os.path.isfile(project['filepaths'][type + '_cm_filepath']):
                     if temp['format'] == "Matrix":
                         temp[type + '_connectivity'] = {}
@@ -216,7 +217,7 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                             if not temp[type + '_connectivity'][h].value.sum() > 0:
                                 del temp[type + '_connectivity'][h]
                                 marxanconpy.warn_dialog("All connectivity values for type '" + str(
-                                    t) + "' are below or equal to zero, excluding from further analyses")
+                                    h) + "' are below or equal to zero, excluding from further analyses")
 
                 else:
                     marxanconpy.warn_dialog(message="File not found: " + project['filepaths'][type + '_cm_filepath'])
