@@ -14,7 +14,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
   </head><body>
@@ -207,6 +207,7 @@
 
                 <span class="c1"># load correct matrix and transform if necessary</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loading matrix&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_cm_filepath&#39;</span><span class="p">])</span>
                 <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_cm_filepath&#39;</span><span class="p">]):</span>
                     <span class="k">if</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
                         <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -257,7 +258,7 @@
                             <span class="k">if</span> <span class="ow">not</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="n">h</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                                 <span class="k">del</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="n">h</span><span class="p">]</span>
                                 <span class="n">marxanconpy</span><span class="o">.</span><span class="n">warn_dialog</span><span class="p">(</span><span class="s2">&quot;All connectivity values for type &#39;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
-                                    <span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39; are below or equal to zero, excluding from further analyses&quot;</span><span class="p">)</span>
+                                    <span class="n">h</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39; are below or equal to zero, excluding from further analyses&quot;</span><span class="p">)</span>
 
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">marxanconpy</span><span class="o">.</span><span class="n">warn_dialog</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;File not found: &quot;</span> <span class="o">+</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_cm_filepath&#39;</span><span class="p">])</span>
@@ -657,8 +658,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converting connectivity data to graph&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;Matrix&quot;</span><span class="p">:</span>
-        <span class="n">g</span> <span class="o">=</span> <span class="n">igraph</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">Weighted_Adjacency</span><span class="p">(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">values</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-        <span class="n">g</span><span class="o">.</span><span class="n">vs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">IDs</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">igraph</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">Weighted_Adjacency</span><span class="p">(</span><span class="n">connectivity</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">vs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">IDs</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">g</span> <span class="o">=</span> <span class="n">igraph</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">g</span><span class="o">.</span><span class="n">add_vertices</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">IDs</span><span class="p">])</span>
@@ -700,6 +701,13 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: &#39;</span> <span class="o">+</span> <span class="n">fn</span> <span class="o">+</span> <span class="s1">&#39; not found&#39;</span><span class="p">)</span>
 
+    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="p">[</span><span class="s2">&quot;planning_unit&quot;</span><span class="p">])</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">file</span><span class="p">[</span><span class="s2">&quot;planning_unit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;planning_unit&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">file</span><span class="p">[</span><span class="s2">&quot;planning_unit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;planning_unit&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="p">[</span><span class="s2">&quot;planning_unit&quot;</span><span class="p">])</span>
+
     <span class="k">return</span> <span class="n">file</span></div>
 </pre></div>
 
@@ -740,7 +748,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, Remi Daigle.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.3.
     </div>
   </body>
 </html>

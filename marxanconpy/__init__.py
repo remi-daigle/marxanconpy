@@ -8,7 +8,7 @@ import wx
 import pandas
 
 name = "marxanconpy"
-__version__ = 'v0.1.2b5'
+__version__ = 'v0.1.2rc1'
 
 def progress_bar_update(count, dlg, keepGoing, n, progressbar=True):
     """ Progress Bar Update

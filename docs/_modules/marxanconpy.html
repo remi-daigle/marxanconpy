@@ -14,7 +14,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
   </head><body>
@@ -48,7 +48,7 @@
 <span class="kn">import</span> <span class="nn">pandas</span>
 
 <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;marxanconpy&quot;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;v0.1.2b5&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;v0.1.2rc1&#39;</span>
 
 <div class="viewcode-block" id="progress_bar_update"><a class="viewcode-back" href="../reference.html#marxanconpy.progress_bar_update">[docs]</a><span class="k">def</span> <span class="nf">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Progress Bar Update</span>
@@ -80,7 +80,7 @@
 <div class="viewcode-block" id="read_csv_tsv"><a class="viewcode-back" href="../reference.html#marxanconpy.read_csv_tsv">[docs]</a><span class="k">def</span> <span class="nf">read_csv_tsv</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Marxan file reader</span>
 
-<span class="sd">    Reads comma or tab seperated Marxan input or output files. Reads as csv first, if there is only 1 column (i.e. wrong</span>
+<span class="sd">    Reads comma or tab separated Marxan input or output files. Reads as csv first, if there is only 1 column (i.e. wrong</span>
 <span class="sd">    delimiters), then the file is read as a tsv.</span>
 
 <span class="sd">    :param filepath: Filepath for file in question</span>
@@ -128,7 +128,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, Remi Daigle.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.3.
     </div>
   </body>
 </html>

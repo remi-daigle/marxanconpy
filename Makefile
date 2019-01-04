@@ -6,7 +6,14 @@ html: Makefile
     rm -rf docs;\
     cp -r build/html docs;
 
-build: setup.py
+marxanconpy: marxanconpy/__init__.py \
+    marxanconpy/manipulation.py \
+    marxanconpy/marcon.py \
+    marxanconpy/metrics.py \
+    marxanconpy/posthoc.py \
+    marxanconpy/spatial.py
+
+build: setup.py marxanconpy
 	rm -rf dist/*
 	python setup.py sdist
 

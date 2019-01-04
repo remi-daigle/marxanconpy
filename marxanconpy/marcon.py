@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 import marxanconpy
 
 def new_project():
@@ -8,6 +9,11 @@ def new_project():
     :return: dict
     """
     # create project list to store project specific data
+    if sys.path[0].endswith('.zip'):
+        rootpath = os.path.dirname(sys.path[0])
+    else:
+        rootpath = sys.path[0]
+
     project = {}
     project['version'] = {}
     project['version']['marxanconpy'] = marxanconpy.__version__
@@ -64,13 +70,21 @@ def new_project():
     project['options']['land_metrics']['conn_boundary'] = False
 
     project['options']['cf_export'] = "Append"
+    project['options']['spec_set'] = "Proportion"
+    project['options']['targets'] = "0.5"
 
     project['options']['bd_filecheck'] = True
     project['options']['pudat_filecheck'] = True
 
+    project['options']['NUMREPS'] = "100"
+    project['options']['SCENNAME'] = "connect"
+    project['options']['marxan_CF'] = "New"
+    project['options']['marxan_bound'] = "New"
+    project['options']['inputdat_boundary'] = "Symmetric"
+    project['options']['CSM'] = "10"
+    project['options']['marxan_PU'] = "New"
     project['options']['marxan_bit'] = "64-bit"
     project['options']['marxan'] = "Marxan"
-    project['options']['inputdat_boundary'] = "Asymmetric"
 
     project['options']['pushp_filecheck'] = True
     project['options']['pucsv_filecheck'] = True
@@ -97,14 +111,19 @@ def new_project():
     project['filepaths']['lp_filepath'] = ""
 
     # Marxan metrics files
-    project['filepaths']['cf_filepath'] = os.path.join("~", "input", "puvspr2.dat")
-    project['filepaths']['spec_filepath'] = os.path.join("~", "input", "spec.dat")
-    project['filepaths']['bd_filepath'] = os.path.join("~", "input", "boundary.dat")
-    project['filepaths']['pudat_filepath'] = os.path.join("~", "input", "pu.dat")
+    project['filepaths']['cf_filepath'] = os.path.join("~", "input", "puvspr_connect.dat")
+    project['filepaths']['orig_cf_filepath'] = os.path.join("~", "input", "puvspr.dat")
+    project['filepaths']['spec_filepath'] = os.path.join("~", "input", "spec_connect.dat")
+    project['filepaths']['orig_spec_filepath'] = os.path.join("~", "input", "spec.dat")
+    project['filepaths']['bd_filepath'] = os.path.join("~", "input", "boundary_connect.dat")
+    project['filepaths']['orig_bd_filepath'] = os.path.join("~", "input", "boundary.dat")
+    project['filepaths']['pudat_filepath'] = os.path.join("~", "input", "pu_connect.dat")
+    project['filepaths']['orig_pudat_filepath'] = os.path.join("~", "input", "pu.dat")
 
     # Marxan analysis
+    project['filepaths']['marxan_template_input'] = os.path.join(rootpath, "Marxan243" , "input_template.dat")
     project['filepaths']['marxan_input'] = os.path.join("~", "input.dat")
-    project['filepaths']['marxan_dir'] = os.path.join("~", "Marxan243")
+    project['filepaths']['marxan_dir'] = os.path.join(rootpath, "Marxan243")
 
     # Post-Hoc Evaluation
     project['filepaths']['posthoc'] = os.path.join("~", "posthoc.csv")
