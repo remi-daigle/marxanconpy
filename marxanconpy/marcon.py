@@ -9,10 +9,12 @@ def new_project():
     :return: dict
     """
     # create project list to store project specific data
-    if sys.path[0].endswith('.zip'):
-        rootpath = os.path.dirname(sys.path[0])
+    if getattr(sys, 'frozen', False):
+        print('frozen')
+        rootpath = os.path.dirname(sys.executable)
     else:
-        rootpath = sys.path[0]
+        print('not frozen')
+        rootpath = os.path.dirname(sys.path[0])
 
     project = {}
     project['version'] = {}
@@ -111,27 +113,26 @@ def new_project():
     project['filepaths']['lp_filepath'] = ""
 
     # Marxan metrics files
-    project['filepaths']['cf_filepath'] = os.path.join("~", "input", "puvspr_connect.dat")
-    project['filepaths']['orig_cf_filepath'] = os.path.join("~", "input", "puvspr.dat")
-    project['filepaths']['spec_filepath'] = os.path.join("~", "input", "spec_connect.dat")
-    project['filepaths']['orig_spec_filepath'] = os.path.join("~", "input", "spec.dat")
-    project['filepaths']['bd_filepath'] = os.path.join("~", "input", "boundary_connect.dat")
-    project['filepaths']['orig_bd_filepath'] = os.path.join("~", "input", "boundary.dat")
-    project['filepaths']['pudat_filepath'] = os.path.join("~", "input", "pu_connect.dat")
-    project['filepaths']['orig_pudat_filepath'] = os.path.join("~", "input", "pu.dat")
+    project['filepaths']['cf_filepath'] = os.path.join(rootpath,  "input", "puvspr_connect.dat")
+    project['filepaths']['orig_cf_filepath'] = os.path.join(rootpath,  "input", "puvspr.dat")
+    project['filepaths']['spec_filepath'] = os.path.join(rootpath,  "input", "spec_connect.dat")
+    project['filepaths']['orig_spec_filepath'] = os.path.join(rootpath,  "input", "spec.dat")
+    project['filepaths']['bd_filepath'] = os.path.join(rootpath,  "input", "boundary_connect.dat")
+    project['filepaths']['orig_bd_filepath'] = os.path.join(rootpath,  "input", "boundary.dat")
+    project['filepaths']['pudat_filepath'] = os.path.join(rootpath,  "input", "pu_connect.dat")
+    project['filepaths']['orig_pudat_filepath'] = os.path.join(rootpath,  "input", "pu.dat")
 
     # Marxan analysis
-    project['filepaths']['marxan_template_input'] = os.path.join(rootpath, "Marxan243" , "input_template.dat")
-    project['filepaths']['marxan_input'] = os.path.join("~", "input.dat")
-    project['filepaths']['marxan_dir'] = os.path.join(rootpath, "Marxan243")
+    project['filepaths']['marxan_template_input'] = "Default"
+    project['filepaths']['marxan_input'] = os.path.join(rootpath, "input.dat")
 
     # Post-Hoc Evaluation
-    project['filepaths']['posthoc'] = os.path.join("~", "posthoc.csv")
+    project['filepaths']['posthoc'] = os.path.join(rootpath,  "output", "posthoc.csv")
 
     # Export plot data
-    project['filepaths']['pushp'] = os.path.join("~", "pu.shp")
-    project['filepaths']['pucsv'] = os.path.join("~", "pu.csv")
-    project['filepaths']['map'] = os.path.join("~", "map.png")
+    project['filepaths']['pushp'] = os.path.join(rootpath,  "output", "pu.shp")
+    project['filepaths']['pucsv'] = os.path.join(rootpath,  "output", "pu.csv")
+    project['filepaths']['map'] = os.path.join(rootpath,  "output", "map.png")
 
     return project
 
@@ -158,11 +159,11 @@ def edit_working_directory(project,wd,type="relative"):
     if type == "relative":
         for p in project['filepaths']:
             if p != "working_directory":
-                project['filepaths'][p] = project['filepaths'][p].replace(wd + "\\", "~\\")
+                project['filepaths'][p] = project['filepaths'][p].replace(wd + "\\", ".\\")
     elif type == "absolute":
         for p in project['filepaths']:
             if p != "working_directory":
-                project['filepaths'][p] = project['filepaths'][p].replace("~\\", wd + "\\")
+                project['filepaths'][p] = project['filepaths'][p].replace(".\\", wd + "\\")
     return project
 
 def save_project(project,projfile=False):
