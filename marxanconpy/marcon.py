@@ -3,18 +3,11 @@ import json
 import sys
 import marxanconpy
 
-def new_project():
+def new_project(rootpath='.'):
     """ New Project
     Create a new project dictionary
     :return: dict
     """
-    # create project list to store project specific data
-    if getattr(sys, 'frozen', False):
-        print('frozen')
-        rootpath = os.path.dirname(sys.executable)
-    else:
-        print('not frozen')
-        rootpath = os.path.dirname(sys.path[0])
 
     project = {}
     project['version'] = {}
