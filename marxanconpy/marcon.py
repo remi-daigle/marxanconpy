@@ -152,11 +152,13 @@ def edit_working_directory(project,wd,type="relative"):
     if type == "relative":
         for p in project['filepaths']:
             if p != "working_directory":
-                project['filepaths'][p] = project['filepaths'][p].replace(wd + "\\", ".\\")
+                if project['filepaths'][p].startswith(wd):
+                    project['filepaths'][p] = os.path.join('.',os.path.relpath(project['filepaths'][p],wd))
     elif type == "absolute":
         for p in project['filepaths']:
             if p != "working_directory":
-                project['filepaths'][p] = project['filepaths'][p].replace(".\\", wd + "\\")
+                if project['filepaths'][p].startswith('.'):
+                    project['filepaths'][p] = os.path.abspath(project['filepaths'][p])
     return project
 
 def save_project(project,projfile=False):
