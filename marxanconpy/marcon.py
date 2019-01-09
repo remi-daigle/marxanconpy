@@ -2,6 +2,8 @@ import os
 import json
 import sys
 import marxanconpy
+import pathlib
+import platform
 
 def new_project(rootpath='.'):
     """ New Project
@@ -13,6 +15,7 @@ def new_project(rootpath='.'):
     project['version'] = {}
     project['version']['marxanconpy'] = marxanconpy.__version__
     project['version']['MarxanConnect'] = 'NA'
+    project['operating_system'] = platform.system()
     project['filepaths'] = {}
     project['options'] = {}
 
@@ -158,7 +161,7 @@ def edit_working_directory(project,wd,type="relative"):
         for p in project['filepaths']:
             if p != "working_directory":
                 if project['filepaths'][p].startswith('.'):
-                    project['filepaths'][p] = os.path.abspath(project['filepaths'][p])
+                    project['filepaths'][p] = os.path.abspath(pathlib.Path(project['filepaths'][p]))
     return project
 
 def save_project(project,projfile=False):
@@ -183,6 +186,24 @@ def validate_project(project):
     :param project: the project dictionary
     :return: dict
     """
+    if not 'operating_system' in project:
+        project['operating_system'] = 'Windows'
+
+    if project['operating_system'] == 'Windows' and platform.system() == 'Darwin':
+        print("Warning: This project file was created with a different operating system. Attempting to "
+              "update for compatibility")
+        for p in project['filepaths']:
+            project['filepaths'][p] = project['filepaths'][p].replace('\\','/')
+
+
+    if project['operating_system'] == 'Darwin' and platform.system() == 'Windows':
+        print("Warning: This project file was created with a different operating system. Attempting to "
+              "update for compatibility")
+        for p in project['filepaths']:
+            project['filepaths'][p] = project['filepaths'][p].replace('/','\\')
+
+
+
     if 'marxanconpy' in project['version']:
         if project['version']['marxanconpy'] != marxanconpy.__version__:
             print("Warning: This project file was created with a different version of marxanconpy. Attempting to "
