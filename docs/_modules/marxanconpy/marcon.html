@@ -43,24 +43,20 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">marxanconpy</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">platform</span>
 
-<div class="viewcode-block" id="new_project"><a class="viewcode-back" href="../../reference.html#marxanconpy.marcon.new_project">[docs]</a><span class="k">def</span> <span class="nf">new_project</span><span class="p">():</span>
+<div class="viewcode-block" id="new_project"><a class="viewcode-back" href="../../reference.html#marxanconpy.marcon.new_project">[docs]</a><span class="k">def</span> <span class="nf">new_project</span><span class="p">(</span><span class="n">rootpath</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; New Project</span>
 <span class="sd">    Create a new project dictionary</span>
 <span class="sd">    :return: dict</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># create project list to store project specific data</span>
-    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s1">&#39;frozen&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;frozen&#39;</span><span class="p">)</span>
-        <span class="n">rootpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;not frozen&#39;</span><span class="p">)</span>
-        <span class="n">rootpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="n">project</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">project</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">project</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">][</span><span class="s1">&#39;marxanconpy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">__version__</span>
     <span class="n">project</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">][</span><span class="s1">&#39;MarxanConnect&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;NA&#39;</span>
+    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;operating_system&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
     <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">project</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -200,11 +196,13 @@
     <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;relative&quot;</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="s2">&quot;working_directory&quot;</span><span class="p">:</span>
-                <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">wd</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;.</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">wd</span><span class="p">):</span>
+                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">],</span><span class="n">wd</span><span class="p">))</span>
     <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;absolute&quot;</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="s2">&quot;working_directory&quot;</span><span class="p">:</span>
-                <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">wd</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+                    <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]))</span>
     <span class="k">return</span> <span class="n">project</span></div>
 
 <div class="viewcode-block" id="save_project"><a class="viewcode-back" href="../../reference.html#marxanconpy.marcon.save_project">[docs]</a><span class="k">def</span> <span class="nf">save_project</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="n">projfile</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -229,6 +227,24 @@
 <span class="sd">    :param project: the project dictionary</span>
 <span class="sd">    :return: dict</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;operating_system&#39;</span> <span class="ow">in</span> <span class="n">project</span><span class="p">:</span>
+        <span class="n">project</span><span class="p">[</span><span class="s1">&#39;operating_system&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Windows&#39;</span>
+
+    <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;operating_system&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Windows&#39;</span> <span class="ow">and</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Darwin&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: This project file was created with a different operating system. Attempting to &quot;</span>
+              <span class="s2">&quot;update for compatibility&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">]:</span>
+            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;operating_system&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Darwin&#39;</span> <span class="ow">and</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Windows&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: This project file was created with a different operating system. Attempting to &quot;</span>
+              <span class="s2">&quot;update for compatibility&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">]:</span>
+            <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;filepaths&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+
     <span class="k">if</span> <span class="s1">&#39;marxanconpy&#39;</span> <span class="ow">in</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">project</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">][</span><span class="s1">&#39;marxanconpy&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">marxanconpy</span><span class="o">.</span><span class="n">__version__</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: This project file was created with a different version of marxanconpy. Attempting to &quot;</span>
