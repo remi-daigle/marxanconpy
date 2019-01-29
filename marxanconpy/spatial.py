@@ -244,11 +244,15 @@ def get_appropriate_projection(shapefile,equal='area'):
             proj = '+proj=laea +lat_0='+str(lat)+' +lon_0='+str(lon)
         else:
             proj = '+proj=laea +lon_0=' + str(lon)
+        print("Warning: Spatial files will be transformed to an equal-area projection (" +
+              proj + ") for most spatial analyses")
     elif equal == 'distance':
         if lat > 30:
             proj = '+proj=eqdc +lat_1='+str(latmin)+' +lat_2='+str(latmax)+' +lon_0='+str(lon)
         else:
             proj = '+proj=eqc +lon_0=' + str(lon)
+        print("Warning: Spatial files will be transformed to an equal-distance projection (" +
+              proj + ") for this spatial analyses")
     return proj
 
 def habitatresistance2conmats(buff, hab_filepath, hab_id, res_mat_filepath, pu_filepath, pu_id, res_type, progressbar = False):
