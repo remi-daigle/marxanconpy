@@ -261,8 +261,13 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                 # calculate demographic metrics
                 if type[:4] == 'demo':
                     for t in temp[type + '_connectivity'].keys():
-                        print("calculating demographic connectivity metrics for "+t)
+                        if t == 'default_type_replace':
+                            print('calculating demographic connectivity metrics')
+                        else:
+                            print("calculating demographic connectivity metrics for "+t)
+
                         if not keepGoing: break
+
                         if t == 'default_type_replace':
                             typesuffix = ''
                         else:
@@ -450,6 +455,10 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                 # calculate landscape metrics ############################################################################
                 if type[-7:] == 'land_pu':
                     for h in temp[type + '_connectivity'].keys():
+                        if h == 'default_type_replace':
+                            print('calculating landscape connectivity metrics')
+                        else:
+                            print("calculating landscape connectivity metrics for "+h)
 
                         graph = connectivity2graph(connectivity=temp[type + '_connectivity'][h],
                                                    format=temp['format'],
