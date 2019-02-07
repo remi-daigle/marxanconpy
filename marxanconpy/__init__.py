@@ -9,8 +9,8 @@ import pandas
 from datetime import datetime
 
 name = "marxanconpy"
-__version__ = 'v0.1.2rc'+ datetime.now().strftime('%Y%m%d%H')
-# __version__ = 'v0.1.2'
+# __version__ = 'v0.1.3rc'+ datetime.now().strftime('%Y%m%d%H')
+__version__ = 'v0.1.3'
 
 def progress_bar_update(count, dlg, keepGoing, n, progressbar=True):
     """ Progress Bar Update
