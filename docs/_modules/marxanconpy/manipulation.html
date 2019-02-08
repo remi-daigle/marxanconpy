@@ -302,8 +302,13 @@
                 <span class="c1"># calculate demographic metrics</span>
                 <span class="k">if</span> <span class="nb">type</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;demo&#39;</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;calculating demographic connectivity metrics for &quot;</span><span class="o">+</span><span class="n">t</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s1">&#39;default_type_replace&#39;</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;calculating demographic connectivity metrics&#39;</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;calculating demographic connectivity metrics for &quot;</span><span class="o">+</span><span class="n">t</span><span class="p">)</span>
+
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">keepGoing</span><span class="p">:</span> <span class="k">break</span>
+
                         <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s1">&#39;default_type_replace&#39;</span><span class="p">:</span>
                             <span class="n">typesuffix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
                         <span class="k">else</span><span class="p">:</span>
@@ -491,6 +496,10 @@
                 <span class="c1"># calculate landscape metrics ############################################################################</span>
                 <span class="k">if</span> <span class="nb">type</span><span class="p">[</span><span class="o">-</span><span class="mi">7</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;land_pu&#39;</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">h</span> <span class="o">==</span> <span class="s1">&#39;default_type_replace&#39;</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;calculating landscape connectivity metrics&#39;</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;calculating landscape connectivity metrics for &quot;</span><span class="o">+</span><span class="n">h</span><span class="p">)</span>
 
                         <span class="n">graph</span> <span class="o">=</span> <span class="n">connectivity2graph</span><span class="p">(</span><span class="n">connectivity</span><span class="o">=</span><span class="n">temp</span><span class="p">[</span><span class="nb">type</span> <span class="o">+</span> <span class="s1">&#39;_connectivity&#39;</span><span class="p">][</span><span class="n">h</span><span class="p">],</span>
                                                    <span class="nb">format</span><span class="o">=</span><span class="n">temp</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">],</span>
