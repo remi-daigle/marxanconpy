@@ -192,7 +192,7 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                     elif temp['format'] == "Edge List with Type":
                         temp[type + '_conmat'] = pandas.read_csv(
                             project['filepaths'][type + '_cm_filepath'],
-                            dtype = {'id1': str, 'id2': str})
+                            dtype = {'type': str, 'id1': str, 'id2': str})
 
                         temp[type + '_connectivity'] = {}
                         for t in temp[type + '_conmat']['type'].unique():
