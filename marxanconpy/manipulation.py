@@ -434,16 +434,9 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                                     project['connectivityMetrics']['boundary']['conn_boundary_' + type] = \
                                         marxanconpy.metrics.graph2connboundary(graph)
                                 else:
-                                    temp[type + '_conmat_mean'] = temp[type + '_conmat'][
-                                        ['id1', 'id2', 'value']].groupby(['id1', 'id2']).mean()
-                                    temp[type + '_conmat_mean'] = temp[
-                                        type + '_conmat_mean'].pivot_table(
-                                        values='value',
-                                        index='id1',
-                                        columns='id2',
-                                        fill_value=0)
                                     project['connectivityMetrics']['boundary']['conn_boundary_' + type] = \
-                                        marxanconpy.metrics.graph2connboundary(graph)
+                                        temp[type + '_conmat'][['id1', 'id2', 'value']].groupby(
+                                            ['id1', 'id2']).mean().reset_index().to_json(orient='split')
 
                                     marxanconpy.warn_dialog(
                                         message="A connectivity " + temp['format'] + " was provided. The Ecological "
@@ -543,16 +536,10 @@ def calc_metrics(project,progressbar,calc_metrics_pu=True,calc_metrics_cu=False)
                                     project['connectivityMetrics']['boundary']['conn_boundary_' + type] = \
                                         marxanconpy.metrics.graph2connboundary(graph)
                                 else:
-                                    temp[type + '_conmat_mean'] = temp[type + '_conmat'][
-                                        ['id1', 'id2', 'value']].groupby(['id1', 'id2']).mean()
-                                    temp[type + '_conmat_mean'] = temp[
-                                        type + '_conmat_mean'].pivot_table(
-                                        values='value',
-                                        index='id1',
-                                        columns='id2',
-                                        fill_value=0)
                                     project['connectivityMetrics']['boundary']['conn_boundary_' + type] = \
-                                        marxanconpy.metrics.graph2connboundary(graph)
+                                        temp[type + '_conmat'][
+                                            ['id1', 'id2', 'value']].groupby(
+                                            ['id1', 'id2']).mean().reset_index().to_json(orient='split')
 
                                     marxanconpy.warn_dialog(
                                         message="A connectivity " + temp['format'] + " was provided. The Ecological "
