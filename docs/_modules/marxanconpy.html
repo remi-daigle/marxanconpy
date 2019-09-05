@@ -49,8 +49,8 @@
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
 
 <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;marxanconpy&quot;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;v0.1.5rc&#39;</span><span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">%H&#39;</span><span class="p">)</span>
-<span class="c1">#__version__ = &#39;v0.1.5&#39;</span>
+<span class="c1">#__version__ = &#39;v0.1.5rc&#39;+ datetime.now().strftime(&#39;%Y%m%d%H&#39;)</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;v0.1.5&#39;</span>
 
 <div class="viewcode-block" id="progress_bar_update"><a class="viewcode-back" href="../reference.html#marxanconpy.progress_bar_update">[docs]</a><span class="k">def</span> <span class="nf">progress_bar_update</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">keepGoing</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">progressbar</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Progress Bar Update</span>
