@@ -76,6 +76,7 @@ def new_project(rootpath='.'):
 
     project['options']['NUMREPS'] = "100"
     project['options']['SCENNAME'] = "connect"
+    project['options']['NUMITNS'] = "1000000"
     project['options']['marxan_CF'] = "New"
     project['options']['marxan_bound'] = "New"
     project['options']['inputdat_boundary'] = "Symmetric"
