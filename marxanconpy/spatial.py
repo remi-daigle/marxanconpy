@@ -240,11 +240,11 @@ def get_appropriate_projection(shapefile,equal='area'):
     lon = (lonmin + lonmax) / 2
     lat = (latmin+latmax)/2
     if equal == 'area':
-        proj = '+proj=laea +lat_0='+str(lat)+' +lon_0='+str(lon)
+        proj = '+proj=laea +lat_0='+str(lat)+' +lon_0='+str(lon)+' +ellps=WGS84'
         print("Warning: Spatial files will be transformed to an equal-area projection (" +
               proj + ") for most spatial analyses")
     elif equal == 'distance':
-        proj = '+proj=eqdc +lat_1='+str(latmin)+' +lat_2='+str(latmax)+' +lon_0='+str(lon)
+        proj = '+proj=eqdc +lat_1='+str(latmin)+' +lat_2='+str(latmax)+' +lon_0='+str(lon)+' +ellps=WGS84'
         print("Warning: Spatial files will be transformed to an equal-distance projection (" +
               proj + ") for this spatial analyses")
     return proj
