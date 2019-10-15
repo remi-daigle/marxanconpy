@@ -648,7 +648,7 @@ def get_marxan_output(input_file,type='Best Solution'):
         fn = os.path.join(OUTPUTDIR, SCENNAME + "_ssoln")
     else:
         fn = os.path.join(OUTPUTDIR, SCENNAME + "_" + type)
-
+        
     if os.path.isfile(fn + '.csv'):
         file = marxanconpy.read_csv_tsv(fn + '.csv')
     elif os.path.isfile(fn + '.txt'):
@@ -656,11 +656,9 @@ def get_marxan_output(input_file,type='Best Solution'):
     else:
         print('WARNING: ' + fn + ' not found')
 
-    print(file["planning_unit"])
     try:
         file["planning_unit"] = file["planning_unit"].values.astype('int').astype('str')
     except:
         file["planning_unit"] = file["planning_unit"].values.astype('str')
-    print(file["planning_unit"])
 
     return file
