@@ -655,10 +655,16 @@ def get_marxan_output(input_file,type='Best Solution'):
         file = marxanconpy.read_csv_tsv(fn + '.txt')
     else:
         print('WARNING: ' + fn + ' not found')
-
-    try:
-        file["planning_unit"] = file["planning_unit"].values.astype('int').astype('str')
-    except:
-        file["planning_unit"] = file["planning_unit"].values.astype('str')
+    
+    if 'planning_unit' in list(file.columns.values):
+        try:
+            file["planning_unit"] = file["planning_unit"].values.astype('int').astype('str')
+        except:
+            file["planning_unit"] = file["planning_unit"].values.astype('str')
+    elif 'PUID' in list(file.columns.values):
+        try:
+            file["PUID"] = file["PUID"].values.astype('int').astype('str')
+        except:
+            file["PUID"] = file["PUID"].values.astype('str')
 
     return file
