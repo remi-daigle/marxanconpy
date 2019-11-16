@@ -18,7 +18,7 @@ build: setup.py marxanconpy
 	python setup.py sdist
 
 pypi: build setup.py
-	python setup.py sdist upload
+	twine upload --repository pypi dist/*
 
 install: build setup.py
 	pip uninstall marxanconpy -y;\

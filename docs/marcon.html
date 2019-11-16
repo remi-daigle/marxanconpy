@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>MarCon Projects &#8212; marxanconpy v0.1.2 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,6 +13,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Workflow" href="example_workflow.html" />
@@ -87,332 +86,332 @@ Connect</a></p>
 <p>MarCon project are a python dictionary with a key strucuture as defined below. You can use the functions in <a href="#id9"><span class="problematic" id="id10">marxanconpy.marcon_</span></a> to create, load, and save MarCon projects to file. With those functions the python dictionary can be written to file as a JSON.</p>
 <div class="section" id="primary-and-secondary-keys">
 <h2>Primary and Secondary Keys<a class="headerlink" href="#primary-and-secondary-keys" title="Permalink to this headline">¶</a></h2>
-<table border="1" class="docutils" id="id7">
+<table class="docutils align-default" id="id7">
 <caption><span class="caption-text">Table 1: Reference table for MarCon project primary and secondary dictionary keys</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
 <colgroup>
-<col width="33%" />
-<col width="33%" />
-<col width="33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Primary Key</th>
-<th class="head">Secondary Key</th>
-<th class="head">Definition</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Primary Key</p></th>
+<th class="head"><p>Secondary Key</p></th>
+<th class="head"><p>Definition</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>version</td>
-<td>marxanconpy</td>
-<td>The version number for marxanconpy</td>
+<tbody>
+<tr class="row-even"><td><p>version</p></td>
+<td><p>marxanconpy</p></td>
+<td><p>The version number for marxanconpy</p></td>
 </tr>
-<tr class="row-odd"><td>version</td>
-<td>MarxanConnect</td>
-<td>The version number for Marxan Connect</td>
+<tr class="row-odd"><td><p>version</p></td>
+<td><p>MarxanConnect</p></td>
+<td><p>The version number for Marxan Connect</p></td>
 </tr>
-<tr class="row-even"><td>spec_dat</td>
-<td>&#160;</td>
-<td>Contains a JSON version of the spec.dat file contents</td>
+<tr class="row-even"><td><p>spec_dat</p></td>
+<td></td>
+<td><p>Contains a JSON version of the spec.dat file contents</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>aa_filepath</td>
-<td>Filepath for the Avoidance Area shapefile</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>aa_filepath</p></td>
+<td><p>Filepath for the Avoidance Area shapefile</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>bd_filepath</td>
-<td>Filepath for the spatial dependencies file (<em>e.g.</em> <cite>boundary.dat</cite>)</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>bd_filepath</p></td>
+<td><p>Filepath for the spatial dependencies file (<em>e.g.</em> <cite>boundary.dat</cite>)</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>cf_filepath</td>
-<td>Filepath for the planning unit vs conservation features file (<em>e.g.</em> <cite>puvspr.dat</cite>)</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>cf_filepath</p></td>
+<td><p>Filepath for the planning unit vs conservation features file (<em>e.g.</em> <cite>puvspr.dat</cite>)</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>demo_cu_cm_filepath</td>
-<td>Filepath for the demographic connectivity data file scaled to the connectivity units (<em>i.e.</em> not the planning units)</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>demo_cu_cm_filepath</p></td>
+<td><p>Filepath for the demographic connectivity data file scaled to the connectivity units (<em>i.e.</em> not the planning units)</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>demo_cu_file_pu_id</td>
-<td>String that represents the column name which corresponds to the planning unit IDs in the demographic connectivity units file</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>demo_cu_file_pu_id</p></td>
+<td><p>String that represents the column name which corresponds to the planning unit IDs in the demographic connectivity units file</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>demo_cu_filepath</td>
-<td>Filepath for the demographic connectivity units (<em>i.e.</em> not the planning units)</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>demo_cu_filepath</p></td>
+<td><p>Filepath for the demographic connectivity units (<em>i.e.</em> not the planning units)</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>demo_pu_cm_filepath</td>
-<td>Filepath for the demographic connectivity file scaled to the plannings units</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>demo_pu_cm_filepath</p></td>
+<td><p>Filepath for the demographic connectivity file scaled to the plannings units</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>fa_filepath</td>
-<td>Filepath for the focus area shapefile</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>fa_filepath</p></td>
+<td><p>Filepath for the focus area shapefile</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>land_cu_file_hab_id</td>
-<td>String that represents the column name which corresponds to the planning unit IDs in the landscape connectivity units file</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>land_cu_file_hab_id</p></td>
+<td><p>String that represents the column name which corresponds to the planning unit IDs in the landscape connectivity units file</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>land_cu_filepath</td>
-<td>Filepath for the landscape connectivity units (<em>i.e.</em> not the planning units)</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>land_cu_filepath</p></td>
+<td><p>Filepath for the landscape connectivity units (<em>i.e.</em> not the planning units)</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>land_pu_cm_filepath</td>
-<td>Filepath for the landscape connectivity data file scaled to the planning units</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>land_pu_cm_filepath</p></td>
+<td><p>Filepath for the landscape connectivity data file scaled to the planning units</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>land_res_file_hab_id</td>
-<td>String that represents the column name which corresponds to the planning unit IDs in the landscape resistance file</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>land_res_file_hab_id</p></td>
+<td><p>String that represents the column name which corresponds to the planning unit IDs in the landscape resistance file</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>land_res_filepath</td>
-<td>Filepath for the landscape resistance surface file (not yet implemented)</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>land_res_filepath</p></td>
+<td><p>Filepath for the landscape resistance surface file (not yet implemented)</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>land_res_mat_filepath</td>
-<td>Filepath for the landscape resistance matrix</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>land_res_mat_filepath</p></td>
+<td><p>Filepath for the landscape resistance matrix</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>lp_filepath</td>
-<td>Filepath for the local production</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>lp_filepath</p></td>
+<td><p>Filepath for the local production</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>map</td>
-<td>Filepath for the map output</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>map</p></td>
+<td><p>Filepath for the map output</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>marxan_dir</td>
-<td>Filepath for the Marxan executable</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>marxan_dir</p></td>
+<td><p>Filepath for the Marxan executable</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>marxan_input</td>
-<td>Filepath for the marxan input file (<em>i.e.</em> <cite>input.dat</cite>)</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>marxan_input</p></td>
+<td><p>Filepath for the marxan input file (<em>i.e.</em> <cite>input.dat</cite>)</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>projfile</td>
-<td>Filepath for the <cite>.MarCon</cite> project file</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>projfile</p></td>
+<td><p>Filepath for the <cite>.MarCon</cite> project file</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>projfilename</td>
-<td>Filename for the <cite>.MarCon</cite> project file</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>projfilename</p></td>
+<td><p>Filename for the <cite>.MarCon</cite> project file</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>pu_file_pu_id</td>
-<td>String that represents the column name which corresponds to the planning unit IDs in the planning unit file</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>pu_file_pu_id</p></td>
+<td><p>String that represents the column name which corresponds to the planning unit IDs in the planning unit file</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>pu_filepath</td>
-<td>Filepath for the planning unit shapefile</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>pu_filepath</p></td>
+<td><p>Filepath for the planning unit shapefile</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>pucsv</td>
-<td>Filepath to save a <cite>.csv</cite> version of all the planning unit specific output</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>pucsv</p></td>
+<td><p>Filepath to save a <cite>.csv</cite> version of all the planning unit specific output</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>pudat_filepath</td>
-<td>Filepath for the marxan formated planning unit file (<em>i.e.</em> <cite>pu.dat</cite>)</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>pudat_filepath</p></td>
+<td><p>Filepath for the marxan formated planning unit file (<em>i.e.</em> <cite>pu.dat</cite>)</p></td>
 </tr>
-<tr class="row-odd"><td>filepaths</td>
-<td>pushp</td>
-<td>Filepath to save a shapefile version of all the planning unit specific output</td>
+<tr class="row-odd"><td><p>filepaths</p></td>
+<td><p>pushp</p></td>
+<td><p>Filepath to save a shapefile version of all the planning unit specific output</p></td>
 </tr>
-<tr class="row-even"><td>filepaths</td>
-<td>spec_filepath</td>
-<td>Filepath for the marxan formated conservation feature file (<em>i.e.</em> <cite>spec.dat</cite>)</td>
+<tr class="row-even"><td><p>filepaths</p></td>
+<td><p>spec_filepath</p></td>
+<td><p>Filepath for the marxan formated conservation feature file (<em>i.e.</em> <cite>spec.dat</cite>)</p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>aa_status</td>
-<td>The status of the avoidance areas (<em>i.e.</em> <cite>Locked in</cite>, <cite>Locked out</cite>, or <cite>Status-quo</cite>)</td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>aa_status</p></td>
+<td><p>The status of the avoidance areas (<em>i.e.</em> <cite>Locked in</cite>, <cite>Locked out</cite>, or <cite>Status-quo</cite>)</p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>bd_filecheck</td>
-<td>Logical, <cite>True</cite> if you want to export the spatial dependencies file (i.e. <cite>boundary.dat</cite>)</td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>bd_filecheck</p></td>
+<td><p>Logical, <cite>True</cite> if you want to export the spatial dependencies file (i.e. <cite>boundary.dat</cite>)</p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>calc_metrics_cu</td>
-<td>Logical, <cite>True</cite> if you want to calculate connectivity metrics scaled to the connectivity units</td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>calc_metrics_cu</p></td>
+<td><p>Logical, <cite>True</cite> if you want to calculate connectivity metrics scaled to the connectivity units</p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>calc_metrics_pu</td>
-<td>Logical, <cite>True</cite> if you want to calculate connectivity metrics scaled to the planning units</td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>calc_metrics_pu</p></td>
+<td><p>Logical, <cite>True</cite> if you want to calculate connectivity metrics scaled to the planning units</p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>cf_export</td>
-<td>“Export” if you want to export only the connectivity outputs the selected Marxan formated files to the filepaths indicated, or “Append” if you want append the connectivity outputs the selected Marxan formated files to the filepaths indicated without overwritting the original files (the new filenames will have the <cite>*_appended.*</cite> format)</td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>cf_export</p></td>
+<td><p>“Export” if you want to export only the connectivity outputs the selected Marxan formated files to the filepaths indicated, or “Append” if you want append the connectivity outputs the selected Marxan formated files to the filepaths indicated without overwritting the original files (the new filenames will have the <cite>*_appended.*</cite> format)</p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>demo_conmat_format</td>
-<td>The format of the demographic connectivity data (<em>i.e.</em> <cite>Matrix</cite>, <cite>Edge List</cite>, <cite>Edge List with Time</cite>, <cite>Edge List with Type</cite>)</td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>demo_conmat_format</p></td>
+<td><p>The format of the demographic connectivity data (<em>i.e.</em> <cite>Matrix</cite>, <cite>Edge List</cite>, <cite>Edge List with Time</cite>, <cite>Edge List with Type</cite>)</p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>demo_conmat_rescale</td>
-<td><cite>Identical Grids</cite> if no rescaling is necessary, <cite>Rescale Connectivity Matrix</cite> if the connectivity data needs to be rescaled to the planning units. Use rescaling with caution</td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>demo_conmat_rescale</p></td>
+<td><p><cite>Identical Grids</cite> if no rescaling is necessary, <cite>Rescale Connectivity Matrix</cite> if the connectivity data needs to be rescaled to the planning units. Use rescaling with caution</p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>demo_conmat_rescale_edge</td>
-<td>If rescaling, how to handle the edges (<em>i.e.</em> <cite>Proportional to overlap</cite> or <cite>Assume homogeneous connectivity</cite>)</td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>demo_conmat_rescale_edge</p></td>
+<td><p>If rescaling, how to handle the edges (<em>i.e.</em> <cite>Proportional to overlap</cite> or <cite>Assume homogeneous connectivity</cite>)</p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>demo_conmat_type</td>
-<td>The format of the demographic connectivity data (<em>i.e.</em> <cite>Probability</cite>, <cite>Migration</cite>, <cite>Flow</cite>)</td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>demo_conmat_type</p></td>
+<td><p>The format of the demographic connectivity data (<em>i.e.</em> <cite>Probability</cite>, <cite>Migration</cite>, <cite>Flow</cite>)</p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>demo_metrics</td>
-<td>Third level keys with logicals. <cite>True</cite> if you want to calculate that specific metric. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>demo_metrics</p></td>
+<td><p>Third level keys with logicals. <cite>True</cite> if you want to calculate that specific metric. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>demo_pu_cm_progress</td>
-<td>Logical, <cite>True</cite> if you want to see a progress bar as demographic connectivity data is rescaled</td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>demo_pu_cm_progress</p></td>
+<td><p>Logical, <cite>True</cite> if you want to see a progress bar as demographic connectivity data is rescaled</p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>fa_status</td>
-<td>The status of the avoidance areas (<em>i.e.</em> <cite>Locked in</cite>, <cite>Locked out</cite>, or <cite>Status-quo</cite>)</td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>fa_status</p></td>
+<td><p>The status of the avoidance areas (<em>i.e.</em> <cite>Locked in</cite>, <cite>Locked out</cite>, or <cite>Status-quo</cite>)</p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>inputdat_boundary</td>
-<td>Nature (<em>i.e.</em> “Asymmetric” “Symmetric”) of the spatial dependencies</td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>inputdat_boundary</p></td>
+<td><p>Nature (<em>i.e.</em> “Asymmetric” “Symmetric”) of the spatial dependencies</p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>land_conmat_type</td>
-<td>The format of the demographic connectivity data (<em>i.e.</em> <cite>Habitat Type + Resistance</cite>, <cite>Resistance Surface</cite>, <cite>Connectivity Matrix</cite>)</td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>land_conmat_type</p></td>
+<td><p>The format of the demographic connectivity data (<em>i.e.</em> <cite>Habitat Type + Resistance</cite>, <cite>Resistance Surface</cite>, <cite>Connectivity Matrix</cite>)</p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>land_hab_buff</td>
-<td>Buffer distance (m) under which planning units will be considered connected neighbours in the distance calculations. All distance calculations assume travel in straight lines between the centers of neighbouring planning units.</td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>land_hab_buff</p></td>
+<td><p>Buffer distance (m) under which planning units will be considered connected neighbours in the distance calculations. All distance calculations assume travel in straight lines between the centers of neighbouring planning units.</p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>land_hab_thresh</td>
-<td>Threshold under which habitat connectivity values is considered null. Ranges from 0 to 1. Without a threshold, values for in/out degrees, and betweenness centrality will be homogeneous throughout each habitat type.</td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>land_hab_thresh</p></td>
+<td><p>Threshold under which habitat connectivity values is considered null. Ranges from 0 to 1. Without a threshold, values for in/out degrees, and betweenness centrality will be homogeneous throughout each habitat type.</p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>land_metrics</td>
-<td>Third level keys with logicals. <cite>True</cite> if you want to calculate that specific metric. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>land_metrics</p></td>
+<td><p>Third level keys with logicals. <cite>True</cite> if you want to calculate that specific metric. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>land_pu_cm_progress</td>
-<td>Logical, <cite>True</cite> if you want to see a progress bar as landscape connectivity data is generated</td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>land_pu_cm_progress</p></td>
+<td><p>Logical, <cite>True</cite> if you want to see a progress bar as landscape connectivity data is generated</p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>land_res_matrixType</td>
-<td><cite>Least-Cost Path</cite> if you want to estimate connectivity using resistance values and the spatial arrangement of habitats or <cite>Euclidean Distance</cite> if you want to estimate connectivity using only the spatial arrangement of habitats</td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>land_res_matrixType</p></td>
+<td><p><cite>Least-Cost Path</cite> if you want to estimate connectivity using resistance values and the spatial arrangement of habitats or <cite>Euclidean Distance</cite> if you want to estimate connectivity using only the spatial arrangement of habitats</p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>map_filecheck</td>
-<td>Logical, <cite>True</cite> if you want to export the map as an image file.</td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>map_filecheck</p></td>
+<td><p>Logical, <cite>True</cite> if you want to export the map as an image file.</p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>marxan</td>
-<td><cite>Marxan</cite> if you want to use Marxan, or <cite>Marxan with Zones</cite> if you want to use the Marxan with Zones (experimental)</td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>marxan</p></td>
+<td><p><cite>Marxan</cite> if you want to use Marxan, or <cite>Marxan with Zones</cite> if you want to use the Marxan with Zones (experimental)</p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>marxan_bit</td>
-<td><cite>64-bit</cite> if you want to use the 64-bit version of Marxan which is faster, or <cite>32-bit</cite> if you want to use the 32-bit version of Marxan</td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>marxan_bit</p></td>
+<td><p><cite>64-bit</cite> if you want to use the 64-bit version of Marxan which is faster, or <cite>32-bit</cite> if you want to use the 32-bit version of Marxan</p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>metricsCalculated</td>
-<td>Logical, <cite>True</cite> if connectivity metrics have been calculated at least once</td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>metricsCalculated</p></td>
+<td><p>Logical, <cite>True</cite> if connectivity metrics have been calculated at least once</p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>pucsv_filecheck</td>
-<td>Logical, <cite>True</cite> if you want to export the <cite>.csv</cite> version of all the planning unit specific output</td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>pucsv_filecheck</p></td>
+<td><p>Logical, <cite>True</cite> if you want to export the <cite>.csv</cite> version of all the planning unit specific output</p></td>
 </tr>
-<tr class="row-odd"><td>options</td>
-<td>pudat_filecheck</td>
-<td>Logical, <cite>True</cite> if you want to export the marxan formated planning unit file (<em>i.e.</em> <cite>pu.dat</cite>)</td>
+<tr class="row-odd"><td><p>options</p></td>
+<td><p>pudat_filecheck</p></td>
+<td><p>Logical, <cite>True</cite> if you want to export the marxan formated planning unit file (<em>i.e.</em> <cite>pu.dat</cite>)</p></td>
 </tr>
-<tr class="row-even"><td>options</td>
-<td>pushp_filecheck</td>
-<td>Logical, <cite>True</cite> if you want to export the shapefile version of all the planning unit specific output</td>
+<tr class="row-even"><td><p>options</p></td>
+<td><p>pushp_filecheck</p></td>
+<td><p>Logical, <cite>True</cite> if you want to export the shapefile version of all the planning unit specific output</p></td>
 </tr>
-<tr class="row-odd"><td>connectivityMetrics</td>
-<td>best_solution</td>
-<td>The <cite>best solution</cite> from the Marxan output</td>
+<tr class="row-odd"><td><p>connectivityMetrics</p></td>
+<td><p>best_solution</p></td>
+<td><p>The <cite>best solution</cite> from the Marxan output</p></td>
 </tr>
-<tr class="row-even"><td>connectivityMetrics</td>
-<td>boundary</td>
-<td>The spatial dependencies (<em>i.e.</em> <cite>boundary.dat</cite>)</td>
+<tr class="row-even"><td><p>connectivityMetrics</p></td>
+<td><p>boundary</p></td>
+<td><p>The spatial dependencies (<em>i.e.</em> <cite>boundary.dat</cite>)</p></td>
 </tr>
-<tr class="row-odd"><td>connectivityMetrics</td>
-<td>select_freq</td>
-<td>The <cite>selection frequency</cite> from the Marxan output</td>
+<tr class="row-odd"><td><p>connectivityMetrics</p></td>
+<td><p>select_freq</p></td>
+<td><p>The <cite>selection frequency</cite> from the Marxan output</p></td>
 </tr>
-<tr class="row-even"><td>connectivityMetrics</td>
-<td>spec_demo_pu</td>
-<td>The connectivity metrics calculated from the demographic connectivity data scaled to the planning units. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></td>
+<tr class="row-even"><td><p>connectivityMetrics</p></td>
+<td><p>spec_demo_pu</p></td>
+<td><p>The connectivity metrics calculated from the demographic connectivity data scaled to the planning units. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></p></td>
 </tr>
-<tr class="row-odd"><td>connectivityMetrics</td>
-<td>spec_land_pu</td>
-<td>The connectivity metrics calculated from the landscape connectivity data scaled to the planning units. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></td>
+<tr class="row-odd"><td><p>connectivityMetrics</p></td>
+<td><p>spec_land_pu</p></td>
+<td><p>The connectivity metrics calculated from the landscape connectivity data scaled to the planning units. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></p></td>
 </tr>
-<tr class="row-even"><td>connectivityMetrics</td>
-<td>spec_demo_cu</td>
-<td>The connectivity metrics calculated from the demographic connectivity data scaled to the connectivity units. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></td>
+<tr class="row-even"><td><p>connectivityMetrics</p></td>
+<td><p>spec_demo_cu</p></td>
+<td><p>The connectivity metrics calculated from the demographic connectivity data scaled to the connectivity units. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></p></td>
 </tr>
-<tr class="row-odd"><td>connectivityMetrics</td>
-<td>spec_land_cu</td>
-<td>The connectivity metrics calculated from the landscape connectivity data scaled to the connectivity units. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></td>
+<tr class="row-odd"><td><p>connectivityMetrics</p></td>
+<td><p>spec_land_cu</p></td>
+<td><p>The connectivity metrics calculated from the landscape connectivity data scaled to the connectivity units. Tertiary level keys are available in <a class="reference external" href="marcon.html#tertiary-keys">Table 2</a></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="tertiary-keys">
 <h2>Tertiary Keys<a class="headerlink" href="#tertiary-keys" title="Permalink to this headline">¶</a></h2>
-<table border="1" class="docutils" id="id8">
+<table class="docutils align-default" id="id8">
 <caption><span class="caption-text">Table 2: Reference table for MarCon project tertiary dictionary keys</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
 <colgroup>
-<col width="50%" />
-<col width="50%" />
+<col style="width: 50%" />
+<col style="width: 50%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Key</th>
-<th class="head">Definition</th>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Definition</p></th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr class="row-even"><td>aa_donors</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#avoidance_area_donors">Avoidance Area Donors</a></td>
+<tbody>
+<tr class="row-even"><td><p>aa_donors</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#avoidance_area_donors">Avoidance Area Donors</a></p></td>
 </tr>
-<tr class="row-odd"><td>aa_recipients</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#avoidance_area_recipients">Avoidance Area Recipients</a></td>
+<tr class="row-odd"><td><p>aa_recipients</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#avoidance_area_recipients">Avoidance Area Recipients</a></p></td>
 </tr>
-<tr class="row-even"><td>between_cent</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#betweenness_centrality">Betweenness Centrality</a></td>
+<tr class="row-even"><td><p>between_cent</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#betweenness_centrality">Betweenness Centrality</a></p></td>
 </tr>
-<tr class="row-odd"><td>conn_boundary</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#spatial_dependency">Connectivity as Spatial Dependency</a></td>
+<tr class="row-odd"><td><p>conn_boundary</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#spatial_dependency">Connectivity as Spatial Dependency</a></p></td>
 </tr>
-<tr class="row-even"><td>eig_vect_cent</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#eigenvector_centrality">Eigenvector Centrality</a></td>
+<tr class="row-even"><td><p>eig_vect_cent</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#eigenvector_centrality">Eigenvector Centrality</a></p></td>
 </tr>
-<tr class="row-odd"><td>fa_donors</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#focus_area_donors">Focus Area Donors</a></td>
+<tr class="row-odd"><td><p>fa_donors</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#focus_area_donors">Focus Area Donors</a></p></td>
 </tr>
-<tr class="row-even"><td>fa_recipients</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#focus_area_recipients">Focus Area Recipients</a></td>
+<tr class="row-even"><td><p>fa_recipients</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#focus_area_recipients">Focus Area Recipients</a></p></td>
 </tr>
-<tr class="row-odd"><td>google</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#google_pagerank">Google PageRank</a></td>
+<tr class="row-odd"><td><p>google</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#google_pagerank">Google PageRank</a></p></td>
 </tr>
-<tr class="row-even"><td>in_degree</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#in-degree">In-Degree</a></td>
+<tr class="row-even"><td><p>in_degree</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#in-degree">In-Degree</a></p></td>
 </tr>
-<tr class="row-odd"><td>inflow</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#in-flow">In-flow</a></td>
+<tr class="row-odd"><td><p>inflow</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#in-flow">In-flow</a></p></td>
 </tr>
-<tr class="row-even"><td>local_retention</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#local_retention">Local Retention</a></td>
+<tr class="row-even"><td><p>local_retention</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#local_retention">Local Retention</a></p></td>
 </tr>
-<tr class="row-odd"><td>min_plan_graph</td>
-<td>Minimum Planar Graph (deprecated)</td>
+<tr class="row-odd"><td><p>min_plan_graph</p></td>
+<td><p>Minimum Planar Graph (deprecated)</p></td>
 </tr>
-<tr class="row-even"><td>out_degree</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#out-degree">Out-Degree</a></td>
+<tr class="row-even"><td><p>out_degree</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#out-degree">Out-Degree</a></p></td>
 </tr>
-<tr class="row-odd"><td>outflow</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#out-flow">Out-flow</a></td>
+<tr class="row-odd"><td><p>outflow</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#out-flow">Out-flow</a></p></td>
 </tr>
-<tr class="row-even"><td>self_recruit</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#self-recruitment">Self-Recruitment</a></td>
+<tr class="row-even"><td><p>self_recruit</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#self-recruitment">Self-Recruitment</a></p></td>
 </tr>
-<tr class="row-odd"><td>stochasticity</td>
-<td><a class="reference external" href="http://marxanconnect.ca/glossary.html#temporal_connectivity_covariance">Temporal Connectivity Covariance</a></td>
+<tr class="row-odd"><td><p>stochasticity</p></td>
+<td><p><a class="reference external" href="http://marxanconnect.ca/glossary.html#temporal_connectivity_covariance">Temporal Connectivity Covariance</a></p></td>
 </tr>
 </tbody>
 </table>
@@ -455,13 +454,11 @@ Connect</a></p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -490,7 +487,7 @@ Connect</a></p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, Remi Daigle.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

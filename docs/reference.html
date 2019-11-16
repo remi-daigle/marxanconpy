@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Reference to all functions in marxanconpy &#8212; marxanconpy v0.1.2 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,6 +13,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Contributing" href="CONTRIBUTING.html" />
@@ -53,67 +52,57 @@
 <p>The base module, marxanconpy, contains only the most basic utility functions.</p>
 <span class="target" id="module-marxanconpy"></span><dl class="function">
 <dt id="marxanconpy.progress_bar_update">
-<code class="descclassname">marxanconpy.</code><code class="descname">progress_bar_update</code><span class="sig-paren">(</span><em>count</em>, <em>dlg</em>, <em>keepGoing</em>, <em>n</em>, <em>progressbar=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy.html#progress_bar_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.progress_bar_update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.</code><code class="sig-name descname">progress_bar_update</code><span class="sig-paren">(</span><em class="sig-param">count</em>, <em class="sig-param">dlg</em>, <em class="sig-param">keepGoing</em>, <em class="sig-param">n</em>, <em class="sig-param">progressbar=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy.html#progress_bar_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.progress_bar_update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Progress Bar Update</p>
 <p>Function that manages the updates for progress bar dialogs</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>count</strong> – The total number of steps for the progress bar</li>
-<li><strong>dlg</strong> – The progressbar dialog (wx.ProgressDialog).</li>
-<li><strong>keepGoing</strong> – </li>
-<li><strong>n</strong> – The number of steps to move forward</li>
-<li><strong>progressbar</strong> – Logical. True if you want to see a progressbar</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>count</strong> – The total number of steps for the progress bar</p></li>
+<li><p><strong>dlg</strong> – The progressbar dialog (wx.ProgressDialog).</p></li>
+<li><p><strong>keepGoing</strong> – </p></li>
+<li><p><strong>n</strong> – The number of steps to move forward</p></li>
+<li><p><strong>progressbar</strong> – Logical. True if you want to see a progressbar</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.read_csv_tsv">
-<code class="descclassname">marxanconpy.</code><code class="descname">read_csv_tsv</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy.html#read_csv_tsv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.read_csv_tsv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.</code><code class="sig-name descname">read_csv_tsv</code><span class="sig-paren">(</span><em class="sig-param">filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy.html#read_csv_tsv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.read_csv_tsv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Marxan file reader</p>
 <p>Reads comma or tab separated Marxan input or output files. Reads as csv first, if there is only 1 column (i.e. wrong
 delimiters), then the file is read as a tsv.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> – Filepath for file in question</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filepath</strong> – Filepath for file in question</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.warn_dialog">
-<code class="descclassname">marxanconpy.</code><code class="descname">warn_dialog</code><span class="sig-paren">(</span><em>message</em>, <em>caption='Warning!'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy.html#warn_dialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.warn_dialog" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.</code><code class="sig-name descname">warn_dialog</code><span class="sig-paren">(</span><em class="sig-param">message</em>, <em class="sig-param">caption='Warning!'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy.html#warn_dialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.warn_dialog" title="Permalink to this definition">¶</a></dt>
 <dd><p>Warning Dialog</p>
 <p>Creates a warning pop-up (a wx.MessageBox)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>message</strong> – A string containing the contents of the warning</li>
-<li><strong>caption</strong> – The heading caption</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> – A string containing the contents of the warning</p></li>
+<li><p><strong>caption</strong> – The heading caption</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -122,143 +111,119 @@ delimiters), then the file is read as a tsv.</p>
 <p>This module contains all the functions which manipulate data.</p>
 <span class="target" id="module-marxanconpy.manipulation"></span><dl class="function">
 <dt id="marxanconpy.manipulation.calc_metrics">
-<code class="descclassname">marxanconpy.manipulation.</code><code class="descname">calc_metrics</code><span class="sig-paren">(</span><em>project</em>, <em>progressbar</em>, <em>calc_metrics_pu=True</em>, <em>calc_metrics_cu=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#calc_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.calc_metrics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.manipulation.</code><code class="sig-name descname">calc_metrics</code><span class="sig-paren">(</span><em class="sig-param">project</em>, <em class="sig-param">progressbar</em>, <em class="sig-param">calc_metrics_pu=True</em>, <em class="sig-param">calc_metrics_cu=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#calc_metrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.calc_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate connectivity metrics</p>
 <p>Calculates connectivity metrics to be used as conservation features and prepares the connectivity to be used as
 spatial dependencies</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>project</strong> – Project dictionary created by’marxanconpy.marcon.new_project()’ or ‘marxanconpy.marcon.load_file()’. The later reads the .MarCon JSON project file</li>
-<li><strong>progressbar</strong> – Logical. True if you want to see a progressbar</li>
-<li><strong>calc_metrics_pu</strong> – Logical. True if you want to calculate metrics for planning units.</li>
-<li><strong>calc_metrics_cu</strong> – Logical. True if you want to calculate metrics for connectivity units if such data is supplied. For exploration purposes only as these will not be used in any Marxan analyses.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project</strong> – Project dictionary created by’marxanconpy.marcon.new_project()’ or ‘marxanconpy.marcon.load_file()’. The later reads the .MarCon JSON project file</p></li>
+<li><p><strong>progressbar</strong> – Logical. True if you want to see a progressbar</p></li>
+<li><p><strong>calc_metrics_pu</strong> – Logical. True if you want to calculate metrics for planning units.</p></li>
+<li><p><strong>calc_metrics_cu</strong> – Logical. True if you want to calculate metrics for connectivity units if such data is supplied. For exploration purposes only as these will not be used in any Marxan analyses.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.manipulation.check_matrix_list_format">
-<code class="descclassname">marxanconpy.manipulation.</code><code class="descname">check_matrix_list_format</code><span class="sig-paren">(</span><em>format</em>, <em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#check_matrix_list_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.check_matrix_list_format" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.manipulation.</code><code class="sig-name descname">check_matrix_list_format</code><span class="sig-paren">(</span><em class="sig-param">format</em>, <em class="sig-param">filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#check_matrix_list_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.check_matrix_list_format" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check format</p>
 <p>Quality control function to assure that the file format is ‘as advertised’</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>format</strong> – The expected format of the connectivity file (i.e. “Matrix”, “Edge List”, “Edge List with Type”, “Edge List with Time”). See <a class="reference external" href="http://marxanconnect.ca/glossary.html#data_formats">http://marxanconnect.ca/glossary.html#data_formats</a> for a detailed description of formats</li>
-<li><strong>filepath</strong> – The filepath to the connectivity data</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>format</strong> – The expected format of the connectivity file (i.e. “Matrix”, “Edge List”, “Edge List with Type”, “Edge List with Time”). See <a class="reference external" href="http://marxanconnect.ca/glossary.html#data_formats">http://marxanconnect.ca/glossary.html#data_formats</a> for a detailed description of formats</p></li>
+<li><p><strong>filepath</strong> – The filepath to the connectivity data</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.manipulation.connectivity2graph">
-<code class="descclassname">marxanconpy.manipulation.</code><code class="descname">connectivity2graph</code><span class="sig-paren">(</span><em>connectivity</em>, <em>format</em>, <em>IDs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#connectivity2graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.connectivity2graph" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.manipulation.</code><code class="sig-name descname">connectivity2graph</code><span class="sig-paren">(</span><em class="sig-param">connectivity</em>, <em class="sig-param">format</em>, <em class="sig-param">IDs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#connectivity2graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.connectivity2graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert Connectivity data to graph format</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>connectivity</strong> – The connectivity data as a pandas data frame (in any format)</li>
-<li><strong>format</strong> – The format of the connectivity file (i.e. “Matrix”, “Edge List”, “Edge List with Type”, “Edge List with Time”). See <a class="reference external" href="http://marxanconnect.ca/glossary.html#data_formats">http://marxanconnect.ca/glossary.html#data_formats</a> for a detailed description of formats</li>
-<li><strong>IDs</strong> – Planning unit IDs</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>connectivity</strong> – The connectivity data as a pandas data frame (in any format)</p></li>
+<li><p><strong>format</strong> – The format of the connectivity file (i.e. “Matrix”, “Edge List”, “Edge List with Type”, “Edge List with Time”). See <a class="reference external" href="http://marxanconnect.ca/glossary.html#data_formats">http://marxanconnect.ca/glossary.html#data_formats</a> for a detailed description of formats</p></li>
+<li><p><strong>IDs</strong> – Planning unit IDs</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.manipulation.convert_graph_type">
-<code class="descclassname">marxanconpy.manipulation.</code><code class="descname">convert_graph_type</code><span class="sig-paren">(</span><em>current</em>, <em>desired</em>, <em>graph</em>, <em>localProd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#convert_graph_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.convert_graph_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.manipulation.</code><code class="sig-name descname">convert_graph_type</code><span class="sig-paren">(</span><em class="sig-param">current</em>, <em class="sig-param">desired</em>, <em class="sig-param">graph</em>, <em class="sig-param">localProd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#convert_graph_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.convert_graph_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert Graph Types</p>
 <p>Converts connectivity data in graph (igraph) format to/from various types (e.g. “Probability”, “Migration”, “Flow”). See
 <a class="reference external" href="http://marxanconnect.ca/glossary.html#data_types">http://marxanconnect.ca/glossary.html#data_types</a> for detailed description</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>current</strong> – Current connectivity data type (e.g. “Probability”, “Migration”, “Flow”)</li>
-<li><strong>desired</strong> – Current connectivity data type (e.g. “Probability”, “Migration”, “Flow”)</li>
-<li><strong>graph</strong> – Connectivity Graph</li>
-<li><strong>localProd</strong> – Local Production at each site in the connectivity matrix</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>current</strong> – Current connectivity data type (e.g. “Probability”, “Migration”, “Flow”)</p></li>
+<li><p><strong>desired</strong> – Current connectivity data type (e.g. “Probability”, “Migration”, “Flow”)</p></li>
+<li><p><strong>graph</strong> – Connectivity Graph</p></li>
+<li><p><strong>localProd</strong> – Local Production at each site in the connectivity matrix</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.manipulation.convert_matrix_type">
-<code class="descclassname">marxanconpy.manipulation.</code><code class="descname">convert_matrix_type</code><span class="sig-paren">(</span><em>current</em>, <em>desired</em>, <em>matrix</em>, <em>localProd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#convert_matrix_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.convert_matrix_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.manipulation.</code><code class="sig-name descname">convert_matrix_type</code><span class="sig-paren">(</span><em class="sig-param">current</em>, <em class="sig-param">desired</em>, <em class="sig-param">matrix</em>, <em class="sig-param">localProd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#convert_matrix_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.convert_matrix_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert Matrix Types</p>
 <p>Converts connectivity data in matrix format to/from various types (e.g. “Probability”, “Migration”, “Flow”). See
 <a class="reference external" href="http://marxanconnect.ca/glossary.html#data_types">http://marxanconnect.ca/glossary.html#data_types</a> for detailed description</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>current</strong> – Current connectivity data type (e.g. “Probability”, “Migration”, “Flow”)</li>
-<li><strong>desired</strong> – Current connectivity data type (e.g. “Probability”, “Migration”, “Flow”)</li>
-<li><strong>matrix</strong> – Connectivity Matrix</li>
-<li><strong>localProd</strong> – Local Production at each site in the connectivity matrix</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>current</strong> – Current connectivity data type (e.g. “Probability”, “Migration”, “Flow”)</p></li>
+<li><p><strong>desired</strong> – Current connectivity data type (e.g. “Probability”, “Migration”, “Flow”)</p></li>
+<li><p><strong>matrix</strong> – Connectivity Matrix</p></li>
+<li><p><strong>localProd</strong> – Local Production at each site in the connectivity matrix</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.manipulation.get_marxan_output">
-<code class="descclassname">marxanconpy.manipulation.</code><code class="descname">get_marxan_output</code><span class="sig-paren">(</span><em>input_file</em>, <em>type='Best Solution'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#get_marxan_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.get_marxan_output" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.manipulation.</code><code class="sig-name descname">get_marxan_output</code><span class="sig-paren">(</span><em class="sig-param">input_file</em>, <em class="sig-param">type='Best Solution'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/manipulation.html#get_marxan_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.manipulation.get_marxan_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get Marxan Output</p>
 <p>Extract Marxan output from a file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>input_file</strong> – filename of Marxan file to read</li>
-<li><strong>type</strong> – Marxan file type (i.e. ‘Best Solution’, ‘Selection Frequency’,</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_file</strong> – filename of Marxan file to read</p></li>
+<li><p><strong>type</strong> – Marxan file type (i.e. ‘Best Solution’, ‘Selection Frequency’,</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -267,7 +232,7 @@ spatial dependencies</p>
 <p>This module contains all the functions that deal with the project dictionary and .MarCon files.</p>
 <span class="target" id="module-marxanconpy.marcon"></span><dl class="function">
 <dt id="marxanconpy.marcon.edit_working_directory">
-<code class="descclassname">marxanconpy.marcon.</code><code class="descname">edit_working_directory</code><span class="sig-paren">(</span><em>project</em>, <em>wd</em>, <em>type='relative'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/marcon.html#edit_working_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.marcon.edit_working_directory" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.marcon.</code><code class="sig-name descname">edit_working_directory</code><span class="sig-paren">(</span><em class="sig-param">project</em>, <em class="sig-param">wd</em>, <em class="sig-param">type='relative'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/marcon.html#edit_working_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.marcon.edit_working_directory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Edit the working directory
 Edits the filepath in the project dictionary. If type = ‘relative’, the absolute paths that contain the working
 directory are changed to relative paths and vice versa for type = ‘absolute’
@@ -279,7 +244,7 @@ directory are changed to relative paths and vice versa for type = ‘absolute’
 
 <dl class="function">
 <dt id="marxanconpy.marcon.load_project">
-<code class="descclassname">marxanconpy.marcon.</code><code class="descname">load_project</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/marcon.html#load_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.marcon.load_project" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.marcon.</code><code class="sig-name descname">load_project</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/marcon.html#load_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.marcon.load_project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load Project
 Loads the project dictionary from a .MarCon file.
 :param filename:
@@ -288,7 +253,7 @@ Loads the project dictionary from a .MarCon file.
 
 <dl class="function">
 <dt id="marxanconpy.marcon.new_project">
-<code class="descclassname">marxanconpy.marcon.</code><code class="descname">new_project</code><span class="sig-paren">(</span><em>rootpath='.'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/marcon.html#new_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.marcon.new_project" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.marcon.</code><code class="sig-name descname">new_project</code><span class="sig-paren">(</span><em class="sig-param">rootpath='.'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/marcon.html#new_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.marcon.new_project" title="Permalink to this definition">¶</a></dt>
 <dd><p>New Project
 Create a new project dictionary
 :return: dict</p>
@@ -296,7 +261,7 @@ Create a new project dictionary
 
 <dl class="function">
 <dt id="marxanconpy.marcon.save_project">
-<code class="descclassname">marxanconpy.marcon.</code><code class="descname">save_project</code><span class="sig-paren">(</span><em>project</em>, <em>projfile=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/marcon.html#save_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.marcon.save_project" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.marcon.</code><code class="sig-name descname">save_project</code><span class="sig-paren">(</span><em class="sig-param">project</em>, <em class="sig-param">projfile=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/marcon.html#save_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.marcon.save_project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save Project</p>
 <p>Saves the project dictionary to a .MarCon file.
 :param project: the project dictionary
@@ -307,7 +272,7 @@ dictionary.
 
 <dl class="function">
 <dt id="marxanconpy.marcon.validate_project">
-<code class="descclassname">marxanconpy.marcon.</code><code class="descname">validate_project</code><span class="sig-paren">(</span><em>project</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/marcon.html#validate_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.marcon.validate_project" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.marcon.</code><code class="sig-name descname">validate_project</code><span class="sig-paren">(</span><em class="sig-param">project</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/marcon.html#validate_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.marcon.validate_project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validate Project</p>
 <p>A function to validate project dictionaries to ensure that they contains all necessary fields (i.e. keys).
 Different versions of marxanconpy may require slightly different fields.
@@ -321,226 +286,192 @@ Different versions of marxanconpy may require slightly different fields.
 <p>This module provides all the functions required to calculate the connectivity metrics.</p>
 <span class="target" id="module-marxanconpy.metrics"></span><dl class="function">
 <dt id="marxanconpy.metrics.get_intersect_id">
-<code class="descclassname">marxanconpy.metrics.</code><code class="descname">get_intersect_id</code><span class="sig-paren">(</span><em>area_filepath</em>, <em>pu_filepath</em>, <em>pu_id='ID'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#get_intersect_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.get_intersect_id" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>area_filepath</strong> – </li>
-<li><strong>pu_filepath</strong> – </li>
-<li><strong>pu_id</strong> – </li>
+<code class="sig-prename descclassname">marxanconpy.metrics.</code><code class="sig-name descname">get_intersect_id</code><span class="sig-paren">(</span><em class="sig-param">area_filepath</em>, <em class="sig-param">pu_filepath</em>, <em class="sig-param">pu_id='ID'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#get_intersect_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.get_intersect_id" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area_filepath</strong> – </p></li>
+<li><p><strong>pu_filepath</strong> – </p></li>
+<li><p><strong>pu_id</strong> – </p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.metrics.graph2betweencent">
-<code class="descclassname">marxanconpy.metrics.</code><code class="descname">graph2betweencent</code><span class="sig-paren">(</span><em>graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2betweencent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2betweencent" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.metrics.</code><code class="sig-name descname">graph2betweencent</code><span class="sig-paren">(</span><em class="sig-param">graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2betweencent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2betweencent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connectivity graph to betweeness centrality</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>graph</strong> – igraph formatted graph</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>graph</strong> – igraph formatted graph</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.metrics.graph2connboundary">
-<code class="descclassname">marxanconpy.metrics.</code><code class="descname">graph2connboundary</code><span class="sig-paren">(</span><em>graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2connboundary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2connboundary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.metrics.</code><code class="sig-name descname">graph2connboundary</code><span class="sig-paren">(</span><em class="sig-param">graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2connboundary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2connboundary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connectivity graph to spatial dependency</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>graph</strong> – igraph formatted graph</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>graph</strong> – igraph formatted graph</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.metrics.graph2diagonal">
-<code class="descclassname">marxanconpy.metrics.</code><code class="descname">graph2diagonal</code><span class="sig-paren">(</span><em>graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2diagonal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.metrics.</code><code class="sig-name descname">graph2diagonal</code><span class="sig-paren">(</span><em class="sig-param">graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2diagonal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2diagonal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connectivity graph to diagonal</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>graph</strong> – igraph formatted graph</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>graph</strong> – igraph formatted graph</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.metrics.graph2donors">
-<code class="descclassname">marxanconpy.metrics.</code><code class="descname">graph2donors</code><span class="sig-paren">(</span><em>graph</em>, <em>area_filepath</em>, <em>pu_filepath</em>, <em>pu_id='ID'</em>, <em>inverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2donors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2donors" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.metrics.</code><code class="sig-name descname">graph2donors</code><span class="sig-paren">(</span><em class="sig-param">graph</em>, <em class="sig-param">area_filepath</em>, <em class="sig-param">pu_filepath</em>, <em class="sig-param">pu_id='ID'</em>, <em class="sig-param">inverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2donors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2donors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connectivity graph to donors</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>graph</strong> – igraph formatted graph</li>
-<li><strong>area_filepath</strong> – </li>
-<li><strong>pu_filepath</strong> – </li>
-<li><strong>pu_id</strong> – </li>
-<li><strong>inverse</strong> – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> – igraph formatted graph</p></li>
+<li><p><strong>area_filepath</strong> – </p></li>
+<li><p><strong>pu_filepath</strong> – </p></li>
+<li><p><strong>pu_id</strong> – </p></li>
+<li><p><strong>inverse</strong> – </p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.metrics.graph2eigvectcent">
-<code class="descclassname">marxanconpy.metrics.</code><code class="descname">graph2eigvectcent</code><span class="sig-paren">(</span><em>graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2eigvectcent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2eigvectcent" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.metrics.</code><code class="sig-name descname">graph2eigvectcent</code><span class="sig-paren">(</span><em class="sig-param">graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2eigvectcent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2eigvectcent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connectivity graph to eigenvector centrality</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>graph</strong> – igraph formatted graph</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>graph</strong> – igraph formatted graph</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.metrics.graph2google">
-<code class="descclassname">marxanconpy.metrics.</code><code class="descname">graph2google</code><span class="sig-paren">(</span><em>graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2google"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2google" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.metrics.</code><code class="sig-name descname">graph2google</code><span class="sig-paren">(</span><em class="sig-param">graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2google"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2google" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connectivity graph to Google Page Rank</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>graph</strong> – igraph formatted graph</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>graph</strong> – igraph formatted graph</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.metrics.graph2inflow">
-<code class="descclassname">marxanconpy.metrics.</code><code class="descname">graph2inflow</code><span class="sig-paren">(</span><em>graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2inflow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2inflow" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.metrics.</code><code class="sig-name descname">graph2inflow</code><span class="sig-paren">(</span><em class="sig-param">graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2inflow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2inflow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connectivity graph to inflow</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>graph</strong> – igraph formatted graph</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>graph</strong> – igraph formatted graph</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.metrics.graph2outflow">
-<code class="descclassname">marxanconpy.metrics.</code><code class="descname">graph2outflow</code><span class="sig-paren">(</span><em>graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2outflow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2outflow" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.metrics.</code><code class="sig-name descname">graph2outflow</code><span class="sig-paren">(</span><em class="sig-param">graph</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2outflow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2outflow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connectivity graph to outflow</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>graph</strong> – igraph formatted graph</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>graph</strong> – igraph formatted graph</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.metrics.graph2recipients">
-<code class="descclassname">marxanconpy.metrics.</code><code class="descname">graph2recipients</code><span class="sig-paren">(</span><em>graph</em>, <em>area_filepath</em>, <em>pu_filepath</em>, <em>pu_id='ID'</em>, <em>inverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2recipients"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2recipients" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.metrics.</code><code class="sig-name descname">graph2recipients</code><span class="sig-paren">(</span><em class="sig-param">graph</em>, <em class="sig-param">area_filepath</em>, <em class="sig-param">pu_filepath</em>, <em class="sig-param">pu_id='ID'</em>, <em class="sig-param">inverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2recipients"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2recipients" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connectivity graph to recipients</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>graph</strong> – igraph formatted graph</li>
-<li><strong>area_filepath</strong> – </li>
-<li><strong>pu_filepath</strong> – </li>
-<li><strong>pu_id</strong> – </li>
-<li><strong>inverse</strong> – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> – igraph formatted graph</p></li>
+<li><p><strong>area_filepath</strong> – </p></li>
+<li><p><strong>pu_filepath</strong> – </p></li>
+<li><p><strong>pu_id</strong> – </p></li>
+<li><p><strong>inverse</strong> – </p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.metrics.graph2vertexdegree">
-<code class="descclassname">marxanconpy.metrics.</code><code class="descname">graph2vertexdegree</code><span class="sig-paren">(</span><em>graph</em>, <em>mode='ALL'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2vertexdegree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2vertexdegree" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.metrics.</code><code class="sig-name descname">graph2vertexdegree</code><span class="sig-paren">(</span><em class="sig-param">graph</em>, <em class="sig-param">mode='ALL'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graph2vertexdegree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graph2vertexdegree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connectivity graph</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>graph</strong> – igraph formatted graph</li>
-<li><strong>mode</strong> – String describing mode (i.e. ‘ALL’, ‘IN’, ‘OUT”)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> – igraph formatted graph</p></li>
+<li><p><strong>mode</strong> – String describing mode (i.e. ‘ALL’, ‘IN’, ‘OUT”)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.metrics.graphtime2temp_conn_cov">
-<code class="descclassname">marxanconpy.metrics.</code><code class="descname">graphtime2temp_conn_cov</code><span class="sig-paren">(</span><em>graph_time</em>, <em>fa_filepath</em>, <em>pu_filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graphtime2temp_conn_cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graphtime2temp_conn_cov" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.metrics.</code><code class="sig-name descname">graphtime2temp_conn_cov</code><span class="sig-paren">(</span><em class="sig-param">graph_time</em>, <em class="sig-param">fa_filepath</em>, <em class="sig-param">pu_filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/metrics.html#graphtime2temp_conn_cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.metrics.graphtime2temp_conn_cov" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connectivity graph with time to temporal connectivity covariance</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>graph_time</strong> – </li>
-<li><strong>fa_filepath</strong> – </li>
-<li><strong>pu_filepath</strong> – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph_time</strong> – </p></li>
+<li><p><strong>fa_filepath</strong> – </p></li>
+<li><p><strong>pu_filepath</strong> – </p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -549,26 +480,22 @@ Different versions of marxanconpy may require slightly different fields.
 <p>This module contains the functions that relate to the post-hoc analysis of Marxan results.</p>
 <span class="target" id="module-marxanconpy.posthoc"></span><dl class="function">
 <dt id="marxanconpy.posthoc.calc_postHoc">
-<code class="descclassname">marxanconpy.posthoc.</code><code class="descname">calc_postHoc</code><span class="sig-paren">(</span><em>filename</em>, <em>format</em>, <em>IDs</em>, <em>selectionIDs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/posthoc.html#calc_postHoc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.posthoc.calc_postHoc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.posthoc.</code><code class="sig-name descname">calc_postHoc</code><span class="sig-paren">(</span><em class="sig-param">pu</em>, <em class="sig-param">filename</em>, <em class="sig-param">format</em>, <em class="sig-param">IDs</em>, <em class="sig-param">selectionIDs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/posthoc.html#calc_postHoc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.posthoc.calc_postHoc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate PostHoc Metrics</p>
 <p>Calculate PostHoc Metrics for a given Marxan solution</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>filename</strong> – filename of the connectivity data</li>
-<li><strong>format</strong> – The format of the connectivity file (i.e. “Matrix”, “Edge List”, “Edge List with Type”, “Edge List with Time”). See <a class="reference external" href="http://marxanconnect.ca/glossary.html#data_formats">http://marxanconnect.ca/glossary.html#data_formats</a> for a detailed description of formats</li>
-<li><strong>IDs</strong> – Planning unit IDs</li>
-<li><strong>selectionIDs</strong> – Planning unit IDs for those included in the Marxan solution</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – filename of the connectivity data</p></li>
+<li><p><strong>format</strong> – The format of the connectivity file (i.e. “Matrix”, “Edge List”, “Edge List with Type”, “Edge List with Time”). See <a class="reference external" href="http://marxanconnect.ca/glossary.html#data_formats">http://marxanconnect.ca/glossary.html#data_formats</a> for a detailed description of formats</p></li>
+<li><p><strong>IDs</strong> – Planning unit IDs</p></li>
+<li><p><strong>selectionIDs</strong> – Planning unit IDs for those included in the Marxan solution</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -577,7 +504,7 @@ Different versions of marxanconpy may require slightly different fields.
 <p>This module contains spatially intensive functions.</p>
 <span class="target" id="module-marxanconpy.spatial"></span><dl class="function">
 <dt id="marxanconpy.spatial.buffer_shp_corners">
-<code class="descclassname">marxanconpy.spatial.</code><code class="descname">buffer_shp_corners</code><span class="sig-paren">(</span><em>gdf_list</em>, <em>bufferwidth=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/spatial.html#buffer_shp_corners"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.spatial.buffer_shp_corners" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.spatial.</code><code class="sig-name descname">buffer_shp_corners</code><span class="sig-paren">(</span><em class="sig-param">gdf_list</em>, <em class="sig-param">bufferwidth=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/spatial.html#buffer_shp_corners"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.spatial.buffer_shp_corners" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finds the lower left and upper right corners of a list of geopandas.GeoDataFrame objects. Optionally define a buffer (in degrees) around the list GeoDataFrames
 :param gdf_list:
 :param bufferwidth:
@@ -586,53 +513,45 @@ Different versions of marxanconpy may require slightly different fields.
 
 <dl class="function">
 <dt id="marxanconpy.spatial.get_appropriate_projection">
-<code class="descclassname">marxanconpy.spatial.</code><code class="descname">get_appropriate_projection</code><span class="sig-paren">(</span><em>shapefile</em>, <em>equal='area'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/spatial.html#get_appropriate_projection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.spatial.get_appropriate_projection" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>shapefile</strong> – </li>
-<li><strong>equal</strong> – </li>
+<code class="sig-prename descclassname">marxanconpy.spatial.</code><code class="sig-name descname">get_appropriate_projection</code><span class="sig-paren">(</span><em class="sig-param">shapefile</em>, <em class="sig-param">equal='area'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/spatial.html#get_appropriate_projection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.spatial.get_appropriate_projection" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shapefile</strong> – </p></li>
+<li><p><strong>equal</strong> – </p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.spatial.habitatresistance2conmats">
-<code class="descclassname">marxanconpy.spatial.</code><code class="descname">habitatresistance2conmats</code><span class="sig-paren">(</span><em>buff</em>, <em>hab_filepath</em>, <em>hab_id</em>, <em>res_mat_filepath</em>, <em>pu_filepath</em>, <em>pu_id</em>, <em>res_type</em>, <em>progressbar=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/spatial.html#habitatresistance2conmats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.spatial.habitatresistance2conmats" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>buff</strong> – </li>
-<li><strong>hab_filepath</strong> – </li>
-<li><strong>hab_id</strong> – </li>
-<li><strong>res_mat_filepath</strong> – </li>
-<li><strong>pu_filepath</strong> – </li>
-<li><strong>pu_id</strong> – </li>
-<li><strong>res_type</strong> – </li>
-<li><strong>progressbar</strong> – </li>
+<code class="sig-prename descclassname">marxanconpy.spatial.</code><code class="sig-name descname">habitatresistance2conmats</code><span class="sig-paren">(</span><em class="sig-param">buff</em>, <em class="sig-param">hab_filepath</em>, <em class="sig-param">hab_id</em>, <em class="sig-param">res_mat_filepath</em>, <em class="sig-param">pu_filepath</em>, <em class="sig-param">pu_id</em>, <em class="sig-param">res_type</em>, <em class="sig-param">progressbar=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/spatial.html#habitatresistance2conmats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.spatial.habitatresistance2conmats" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>buff</strong> – </p></li>
+<li><p><strong>hab_filepath</strong> – </p></li>
+<li><p><strong>hab_id</strong> – </p></li>
+<li><p><strong>res_mat_filepath</strong> – </p></li>
+<li><p><strong>pu_filepath</strong> – </p></li>
+<li><p><strong>pu_id</strong> – </p></li>
+<li><p><strong>res_type</strong> – </p></li>
+<li><p><strong>progressbar</strong> – </p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="marxanconpy.spatial.rescale_matrix">
-<code class="descclassname">marxanconpy.spatial.</code><code class="descname">rescale_matrix</code><span class="sig-paren">(</span><em>pu_filepath</em>, <em>pu_id</em>, <em>cu_filepath</em>, <em>cu_id</em>, <em>cm_filepath</em>, <em>matrixformat</em>, <em>edge</em>, <em>progressbar=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/spatial.html#rescale_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.spatial.rescale_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">marxanconpy.spatial.</code><code class="sig-name descname">rescale_matrix</code><span class="sig-paren">(</span><em class="sig-param">pu_filepath</em>, <em class="sig-param">pu_id</em>, <em class="sig-param">cu_filepath</em>, <em class="sig-param">cu_id</em>, <em class="sig-param">cm_filepath</em>, <em class="sig-param">matrixformat</em>, <em class="sig-param">edge</em>, <em class="sig-param">progressbar=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/marxanconpy/spatial.html#rescale_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#marxanconpy.spatial.rescale_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>rescale the connectivity matrix to match the scale of the planning units
 :param pu_filepath:
 :param pu_id:
@@ -681,13 +600,11 @@ Different versions of marxanconpy may require slightly different fields.
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -716,7 +633,7 @@ Different versions of marxanconpy may require slightly different fields.
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, Remi Daigle.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

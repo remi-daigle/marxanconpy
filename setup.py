@@ -11,7 +11,7 @@ setuptools.setup(
     author_email='remi.daigle@dal.ca',
     description="The python package for Marxan Connect",
     long_description=long_description,
-    long_description_content_type="markdown",
+    long_description_content_type="text/markdown",
     url="https://remi-daigle.github.io/marxanconpy/",
     packages=setuptools.find_packages(),
     package_data={'marxanconpy': ['data/*',
