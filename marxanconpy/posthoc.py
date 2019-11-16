@@ -48,6 +48,26 @@ def calc_postHoc(pu,filename,format,IDs,selectionIDs):
         else:
             all_type=numpy.unique(connectivity.drop(['id1', 'id2', 'value'], axis=1))
 
+        postHoc = postHoc.append(pandas.DataFrame({"Metric": ("Planning Units",
+                                                                  "Mean Size (km^2)",
+                                                                  "Mean Min Spacing (km)",
+                                                                  "ProtConn (10 km)",
+                                                                  "ProtConn (50 km)",
+                                                                  "ProtConn (150 km)"),
+                                                       "Type": ("All", "All", "All", "All", "All", "All"),
+                                                       "Planning Area": (len(IDs),
+                                                                         0,
+                                                                         0,
+                                                                         0,
+                                                                         0,
+                                                                         0),
+                                                       "Solution": (
+                                                           len(selectionIDs),
+                                                           round(gpd.GeoDataFrame(geometry=list(select_pu_area.geometry.unary_union)).area.mean()/1000000,1),
+                                                           round(min_dist.min(axis=1).mean()/1000,1),
+                                                           (min_dist<10000).any(axis=1).mean(),
+                                                           (min_dist<50000).any(axis=1).mean(),
+                                                           (min_dist<150000).any(axis=1).mean())}), ignore_index=True)
         
         for type in all_type:
             if type=="default_type_replace":
@@ -57,33 +77,15 @@ def calc_postHoc(pu,filename,format,IDs,selectionIDs):
 
             sub = graph.subgraph([str(i) for i in selectionIDs])
 
-            postHoc = postHoc.append(pandas.DataFrame({"Metric": ("Planning Units",
-                                                                  "Mean Size (km^2)",
-                                                                  "Mean Min Spacing (km)",
-                                                                  "ProtConn (10 km)",
-                                                                  "ProtConn (50 km)",
-                                                                  "ProtConn (150 km)",
-                                                                  "Connections",
+            postHoc = postHoc.append(pandas.DataFrame({"Metric": ("Connections",
                                                                   "Graph Density",
                                                                   "Eigenvalue"),
-                                                       "Type": (type, type, type, type, type, type, type, type, type),
-                                                       "Planning Area": (len(IDs),
-                                                                         0,
-                                                                         0,
-                                                                         0,
-                                                                         0,
-                                                                         0,
-                                                                         graph.ecount(),
+                                                       "Type": (type, type, type),
+                                                       "Planning Area": (graph.ecount(),
                                                                          graph.density(),
                                                                          graph.evcent(weights=graph.es["weight"],
                                                                                       return_eigenvalue=True)[1]),
                                                        "Solution": (
-                                                           len(selectionIDs),
-                                                           round(gpd.GeoDataFrame(geometry=list(select_pu_area.geometry.unary_union)).area.mean()/1000000,1),
-                                                           round(min_dist.min(axis=1).mean()/1000,1),
-                                                           (min_dist<10000).any(axis=1).mean(),
-                                                           (min_dist<50000).any(axis=1).mean(),
-                                                           (min_dist<150000).any(axis=1).mean(),
                                                            sub.ecount(),
                                                            sub.density(),
                                                            sub.evcent(weights=sub.es["weight"],
