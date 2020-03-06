@@ -47,15 +47,22 @@ def calc_postHoc(pu,filename,format,IDs,selectionIDs):
             all_type=['default_type_replace']
         else:
             all_type=numpy.unique(connectivity.drop(['id1', 'id2', 'value'], axis=1))
+        
 
         postHoc = postHoc.append(pandas.DataFrame({"Metric": ("Planning Units",
-                                                                  "Mean Size (km^2)",
-                                                                  "Mean Min Spacing (km)",
-                                                                  "ProtConn (10 km)",
-                                                                  "ProtConn (50 km)",
-                                                                  "ProtConn (150 km)"),
-                                                       "Type": ("All", "All", "All", "All", "All", "All"),
+                                                              "Clusters",
+                                                              "Mean Size (km^2)",
+                                                              "Min Size (km^2)",
+                                                                "Mean Nearest (km)",
+                                                                "Max Nearest (km)",
+                                                                "ProtConn (10 km)",
+                                                                "ProtConn (50 km)",
+                                                                "ProtConn (150 km)"),
+                                                       "Type": ("All", "All", "All", "All", "All", "All", "All", "All", "All"),
                                                        "Planning Area": (len(IDs),
+                                                                         0,
+                                                                         0,
+                                                                         0,
                                                                          0,
                                                                          0,
                                                                          0,
@@ -63,8 +70,11 @@ def calc_postHoc(pu,filename,format,IDs,selectionIDs):
                                                                          0),
                                                        "Solution": (
                                                            len(selectionIDs),
+                                                           len(solutions_dist),
                                                            round(gpd.GeoDataFrame(geometry=list(select_pu_area.geometry.unary_union)).area.mean()/1000000,1),
+                                                           round(gpd.GeoDataFrame(geometry=list(select_pu_area.geometry.unary_union)).area.min()/1000000,1),
                                                            round(min_dist.min(axis=1).mean()/1000,1),
+                                                           round(min_dist.min(axis=1).max()/1000,1),
                                                            (min_dist<10000).any(axis=1).mean(),
                                                            (min_dist<50000).any(axis=1).mean(),
                                                            (min_dist<150000).any(axis=1).mean())}), ignore_index=True)
@@ -102,13 +112,19 @@ def calc_postHoc(pu,filename,format,IDs,selectionIDs):
         for type in all_type:
             
             postHoc = postHoc.append(pandas.DataFrame({"Metric": ("Planning Units",
+                                                                  "Clusters",
                                                                     "Mean Size (km^2)",
-                                                                    "Mean Min Spacing (km)",
+                                                                    "Min Size (km^2)",
+                                                                    "Mean Nearest (km)",
+                                                                    "Max Nearest (km)",
                                                                     "ProtConn (10 km)",
                                                                     "ProtConn (50 km)",
                                                                     "ProtConn (150 km)"),
-                                                        "Type": (type, type, type, type, type, type),
+                                                        "Type": (type, type, type, type, type, type, type, type, type),
                                                         "Planning Area": (len(IDs),
+                                                                          0,
+                                                                          0,
+                                                                          0,
                                                                             0,
                                                                             0,
                                                                             0,
@@ -116,8 +132,11 @@ def calc_postHoc(pu,filename,format,IDs,selectionIDs):
                                                                             0),
                                                         "Solution": (
                                                             len(selectionIDs),
+                                                            len(solutions_dist),
                                                             round(gpd.GeoDataFrame(geometry=list(select_pu_area.geometry.unary_union)).area.mean()/1000000,1),
+                                                            round(gpd.GeoDataFrame(geometry=list(select_pu_area.geometry.unary_union)).area.min()/1000000,1),
                                                             round(min_dist.min(axis=1).mean()/1000,1),
+                                                            round(min_dist.min(axis=1).max()/1000,1),
                                                             (min_dist<10000).any(axis=1).mean(),
                                                             (min_dist<50000).any(axis=1).mean(),
                                                             (min_dist<150000).any(axis=1).mean())}), ignore_index=True)

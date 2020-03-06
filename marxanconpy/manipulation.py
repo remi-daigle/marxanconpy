@@ -642,19 +642,33 @@ def get_marxan_output(input_file,type='Best Solution'):
     if not os.path.isdir(OUTPUTDIR):
         OUTPUTDIR = os.path.join(os.path.dirname(input_file),OUTPUTDIR)
 
-    if type == 'Best Solution':
-        fn = os.path.join(OUTPUTDIR, SCENNAME + "_best")
-    elif type == 'Selection Frequency':
-        fn = os.path.join(OUTPUTDIR, SCENNAME + "_ssoln")
+    if type == 'Selection Frequency':
+        for i in range(NUMREPS):
+            fn_prefix = os.path.join(OUTPUTDIR,
+                                           SCENNAME + "_r" + "%05d" % (i + 1) )
+            if os.path.isfile(fn_prefix + ".txt"): 
+                fn = fn_prefix + ".txt"
+            else:
+                fn = fn_prefix + ".csv"
+                
+            if i == 0:
+                file = marxanconpy.read_csv_tsv(fn)
+            else:
+                file.iloc[:,1] = file.iloc[:,1] + \
+                                                       marxanconpy.read_csv_tsv(fn).iloc[:,1]
+
     else:
-        fn = os.path.join(OUTPUTDIR, SCENNAME + "_" + type)
-        
-    if os.path.isfile(fn + '.csv'):
-        file = marxanconpy.read_csv_tsv(fn + '.csv')
-    elif os.path.isfile(fn + '.txt'):
-        file = marxanconpy.read_csv_tsv(fn + '.txt')
-    else:
-        print('WARNING: ' + fn + ' not found')
+        if type == 'Best Solution':
+            fn = os.path.join(OUTPUTDIR, SCENNAME + "_best")
+        else:
+            fn = os.path.join(OUTPUTDIR, SCENNAME + "_" + type)
+            
+        if os.path.isfile(fn + '.csv'):
+            file = marxanconpy.read_csv_tsv(fn + '.csv')
+        elif os.path.isfile(fn + '.txt'):
+            file = marxanconpy.read_csv_tsv(fn + '.txt')
+        else:
+            print('WARNING: ' + fn + ' not found')
     
     if 'planning_unit' in list(file.columns.values):
         try:
