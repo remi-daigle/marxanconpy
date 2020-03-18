@@ -659,7 +659,15 @@ def get_marxan_output(input_file,type='Best Solution'):
 
     else:
         if type == 'Best Solution':
-            fn = os.path.join(OUTPUTDIR, SCENNAME + "_best")
+            fn = os.path.join(OUTPUTDIR, SCENNAME + "_sum")
+            if os.path.isfile(fn + '.csv'):
+                file = marxanconpy.read_csv_tsv(fn + '.csv')
+            elif os.path.isfile(fn + '.txt'):
+                file = marxanconpy.read_csv_tsv(fn + '.txt')
+            else:
+                print('WARNING: ' + fn + ' not found')
+                
+            fn = os.path.join(OUTPUTDIR, SCENNAME + "_r" + "%05d" % file.at[int(file[["Score"]].idxmin()),'Run_Number'])
         else:
             fn = os.path.join(OUTPUTDIR, SCENNAME + "_" + type)
             
