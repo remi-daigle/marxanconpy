@@ -110,26 +110,28 @@ def new_project(rootpath='.'):
     project['filepaths']['lp_filepath'] = ""
 
     # Marxan metrics files
-    project['filepaths']['cf_filepath'] = os.path.join(rootpath,  "input", "puvspr_connect.dat")
-    project['filepaths']['orig_cf_filepath'] = os.path.join(rootpath,  "input", "puvspr.dat")
-    project['filepaths']['spec_filepath'] = os.path.join(rootpath,  "input", "spec_connect.dat")
-    project['filepaths']['orig_spec_filepath'] = os.path.join(rootpath,  "input", "spec.dat")
-    project['filepaths']['bd_filepath'] = os.path.join(rootpath,  "input", "boundary_connect.dat")
-    project['filepaths']['orig_bd_filepath'] = os.path.join(rootpath,  "input", "boundary.dat")
-    project['filepaths']['pudat_filepath'] = os.path.join(rootpath,  "input", "pu_connect.dat")
-    project['filepaths']['orig_pudat_filepath'] = os.path.join(rootpath,  "input", "pu.dat")
+    project['filepaths']['cf_filepath'] = os.path.join("input", "puvspr_connect.dat")
+    project['filepaths']['orig_cf_filepath'] = os.path.join("input", "puvspr.dat")
+    project['filepaths']['spec_filepath'] = os.path.join("input", "spec_connect.dat")
+    project['filepaths']['orig_spec_filepath'] = os.path.join("input", "spec.dat")
+    project['filepaths']['bd_filepath'] = os.path.join("input", "boundary_connect.dat")
+    project['filepaths']['orig_bd_filepath'] = os.path.join("input", "boundary.dat")
+    project['filepaths']['pudat_filepath'] = os.path.join("input", "pu_connect.dat")
+    project['filepaths']['orig_pudat_filepath'] = os.path.join("input", "pu.dat")
 
     # Marxan analysis
     project['filepaths']['marxan_template_input'] = "Default"
-    project['filepaths']['marxan_input'] = os.path.join(rootpath, "input.dat")
+    project['filepaths']['marxan_input'] = os.path.join("input.dat")
 
     # Post-Hoc Evaluation
-    project['filepaths']['posthoc'] = os.path.join(rootpath,  "output", "posthoc.csv")
+    project['filepaths']['posthoc'] = os.path.join("output", "posthoc.csv")
+    project['filepaths']['posthoc_shp'] = os.path.join("output", "posthoc.shp")
+
 
     # Export plot data
-    project['filepaths']['pushp'] = os.path.join(rootpath,  "output", "pu.shp")
-    project['filepaths']['pucsv'] = os.path.join(rootpath,  "output", "pu.csv")
-    project['filepaths']['map'] = os.path.join(rootpath,  "output", "map.png")
+    project['filepaths']['pushp'] = os.path.join("output", "pu.shp")
+    project['filepaths']['pucsv'] = os.path.join("output", "pu.csv")
+    project['filepaths']['map'] = os.path.join("output", "map.png")
 
     return project
 

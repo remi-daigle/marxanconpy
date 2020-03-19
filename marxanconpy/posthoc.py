@@ -4,10 +4,10 @@ import pandas
 import geopandas as gpd
 import marxanconpy
 
-def calc_postHoc(pu,filename,format,IDs,selectionIDs):
-    """ Calculate PostHoc Metrics
+def calc_postHoc_dist(pu,filename,format,IDs,selectionIDs):
+    """ Calculate PostHoc Distances
 
-    Calculate PostHoc Metrics for a given Marxan solution
+    Calculate PostHoc distances to nearest neighbour
 
     :param filename: filename of the connectivity data
     :param format: The format of the connectivity file (i.e. "Matrix", "Edge List", "Edge List with Type", "Edge List with Time"). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats
@@ -15,10 +15,8 @@ def calc_postHoc(pu,filename,format,IDs,selectionIDs):
     :param selectionIDs: Planning unit IDs for those included in the Marxan solution
     :return:
     """
-    area_proj = marxanconpy.spatial.get_appropriate_projection(pu, 'area')
     dist_proj = marxanconpy.spatial.get_appropriate_projection(pu, 'distance')
     
-    select_pu_area = pu[pandas.Series(IDs).isin(selectionIDs)].to_crs(area_proj)
     select_pu_dist = pu[pandas.Series(IDs).isin(selectionIDs)].to_crs(dist_proj)
     
     solutions_dist = gpd.GeoDataFrame(geometry=list(select_pu_dist.geometry.unary_union))
@@ -29,8 +27,59 @@ def calc_postHoc(pu,filename,format,IDs,selectionIDs):
             min_dist[i,j] = numpy.min([unit1.geometry.distance(unit2.geometry) ])
             
     min_dist[min_dist==0]=min_dist.max()
-        
+    
+    return min_dist
+
+
+
+def calc_postHoc_clusters(pu,filename,format,IDs,selectionIDs):
+    """ Calculate PostHoc clusters
+
+    Returns PostHoc clusters (i.e. union of adjacent planning units)
+
+    :param filename: filename of the connectivity data
+    :param format: The format of the connectivity file (i.e. "Matrix", "Edge List", "Edge List with Type", "Edge List with Time"). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats
+    :param IDs: Planning unit IDs
+    :param selectionIDs: Planning unit IDs for those included in the Marxan solution
+    :return:
+    """
+    area_proj = marxanconpy.spatial.get_appropriate_projection(pu, 'area')
+    
+    select_pu_area = pu[pandas.Series(IDs).isin(selectionIDs)].to_crs(area_proj)
+    
+    postHoc_clusters = gpd.GeoDataFrame(geometry=list(select_pu_area.geometry.unary_union))
+    
+    return postHoc_clusters
+
+def calc_postHoc_frag(clusters):
+    """ Calculate PostHoc Areas
+
+    Calculate PostHoc framgmentation of clusters (i.e. (Area/Perimeter^2)^1/2)
+
+    :param cluster: Clustered solution (i.e. union of adjacent planning units)
+    :return:
+    """
+     
+    postHoc_frag = ((clusters.length.sum()**2)/clusters.area.sum())**0.5
+    
+    return postHoc_frag
+
+    
+def calc_postHoc(pu,filename,format,IDs,selectionIDs,sum_data, min_dist,postHoc_areas,fragmentation):
+    """ Calculate PostHoc Distances
+
+    Calculate PostHoc distances to nearest neighbour
+
+    :param filename: filename of the connectivity data
+    :param format: The format of the connectivity file (i.e. "Matrix", "Edge List", "Edge List with Type", "Edge List with Time"). See http://marxanconnect.ca/glossary.html#data_formats for a detailed description of formats
+    :param IDs: Planning unit IDs
+    :param selectionIDs: Planning unit IDs for those included in the Marxan solution
+    :return:
+    """
+    
     postHoc = pandas.DataFrame()
+        
+    ## Connectivity data
     if os.path.isfile(filename):
         if format==None:
             connectivity = None
@@ -51,15 +100,19 @@ def calc_postHoc(pu,filename,format,IDs,selectionIDs):
 
         postHoc = postHoc.append(pandas.DataFrame({"Metric": ("Planning Units",
                                                               "Clusters",
+                                                              "Marxan Score",
                                                               "Mean Size (km^2)",
                                                               "Min Size (km^2)",
-                                                                "Mean Nearest (km)",
-                                                                "Max Nearest (km)",
-                                                                "ProtConn (10 km)",
-                                                                "ProtConn (50 km)",
-                                                                "ProtConn (150 km)"),
-                                                       "Type": ("All", "All", "All", "All", "All", "All", "All", "All", "All"),
+                                                              "Mean Nearest (km)",
+                                                              "Max Nearest (km)",
+                                                              "ProtConn (10 km)",
+                                                              "ProtConn (50 km)",
+                                                              "ProtConn (150 km)",
+                                                              "Fragmentation"),
+                                                       "Type": ("All", "All", "All", "All", "All", "All", "All", "All", "All", "All", "All"),
                                                        "Planning Area": (len(IDs),
+                                                                         0,
+                                                                         0,
                                                                          0,
                                                                          0,
                                                                          0,
@@ -70,14 +123,16 @@ def calc_postHoc(pu,filename,format,IDs,selectionIDs):
                                                                          0),
                                                        "Solution": (
                                                            len(selectionIDs),
-                                                           len(solutions_dist),
-                                                           round(gpd.GeoDataFrame(geometry=list(select_pu_area.geometry.unary_union)).area.mean()/1000000,1),
-                                                           round(gpd.GeoDataFrame(geometry=list(select_pu_area.geometry.unary_union)).area.min()/1000000,1),
-                                                           round(min_dist.min(axis=1).mean()/1000,1),
-                                                           round(min_dist.min(axis=1).max()/1000,1),
+                                                           min_dist.shape[0],
+                                                           sum_data["Score"],
+                                                           postHoc_areas.mean()/1000000,
+                                                           postHoc_areas.min()/1000000,
+                                                           min_dist.min(axis=1).mean()/1000,
+                                                           min_dist.min(axis=1).max()/1000,
                                                            (min_dist<10000).any(axis=1).mean(),
                                                            (min_dist<50000).any(axis=1).mean(),
-                                                           (min_dist<150000).any(axis=1).mean())}), ignore_index=True)
+                                                           (min_dist<150000).any(axis=1).mean(),
+                                                           fragmentation)}), ignore_index=True)
         
         for type in all_type:
             if type=="default_type_replace":
@@ -113,33 +168,39 @@ def calc_postHoc(pu,filename,format,IDs,selectionIDs):
             
             postHoc = postHoc.append(pandas.DataFrame({"Metric": ("Planning Units",
                                                                   "Clusters",
-                                                                    "Mean Size (km^2)",
-                                                                    "Min Size (km^2)",
-                                                                    "Mean Nearest (km)",
-                                                                    "Max Nearest (km)",
-                                                                    "ProtConn (10 km)",
-                                                                    "ProtConn (50 km)",
-                                                                    "ProtConn (150 km)"),
-                                                        "Type": (type, type, type, type, type, type, type, type, type),
+                                                                  "Marxan Score",
+                                                                  "Mean Size (km^2)",
+                                                                  "Min Size (km^2)",
+                                                                  "Mean Nearest (km)",
+                                                                  "Max Nearest (km)",
+                                                                  "ProtConn (10 km)",
+                                                                  "ProtConn (50 km)",
+                                                                  "ProtConn (150 km)",
+                                                                  "Fragmentation"),
+                                                        "Type": (type, type, type, type, type, type, type, type, type, type, type),
                                                         "Planning Area": (len(IDs),
                                                                           0,
                                                                           0,
                                                                           0,
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            0),
+                                                                          0,
+                                                                          0,
+                                                                          0,
+                                                                          0,
+                                                                          0,
+                                                                          0,
+                                                                          0),
                                                         "Solution": (
                                                             len(selectionIDs),
-                                                            len(solutions_dist),
-                                                            round(gpd.GeoDataFrame(geometry=list(select_pu_area.geometry.unary_union)).area.mean()/1000000,1),
-                                                            round(gpd.GeoDataFrame(geometry=list(select_pu_area.geometry.unary_union)).area.min()/1000000,1),
-                                                            round(min_dist.min(axis=1).mean()/1000,1),
-                                                            round(min_dist.min(axis=1).max()/1000,1),
+                                                            min_dist.shape[0],
+                                                            sum_data["Score"],
+                                                            postHoc_areas.mean()/1000000,
+                                                            postHoc_areas.min()/1000000,
+                                                            min_dist.min(axis=1).mean()/1000,
+                                                            min_dist.min(axis=1).max()/1000,
                                                             (min_dist<10000).any(axis=1).mean(),
                                                             (min_dist<50000).any(axis=1).mean(),
-                                                            (min_dist<150000).any(axis=1).mean())}), ignore_index=True)
+                                                            (min_dist<150000).any(axis=1).mean(),
+                                                            fragmentation)}), ignore_index=True)
             
         
         postHoc["Percent"] = postHoc["Solution"]/postHoc["Planning Area"]*100
