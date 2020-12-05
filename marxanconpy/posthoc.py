@@ -54,7 +54,7 @@ def calc_postHoc_clusters(pu,filename,format,IDs,selectionIDs):
 def calc_postHoc_frag(clusters):
     """ Calculate PostHoc Areas
 
-    Calculate PostHoc framgmentation of clusters (i.e. (Area/Perimeter^2)^1/2)
+    Calculate PostHoc framgmentation of clusters (i.e. (Perimeter^2/Area)^1/2)
 
     :param cluster: Clustered solution (i.e. union of adjacent planning units)
     :return:
